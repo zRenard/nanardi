@@ -2,21 +2,22 @@ on:
   push:
     branches:
     - main
-name: Deploy website on push
+name: 🚀 Deploy website on push
 jobs:
   web-deploy:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-    - name: Get latest code
-      uses: actions/checkout@v3
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v4
 
-    - name: Push files
+    - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.6
       with:
         server: ftp.cluster010.hosting.ovh.net
         username: zrenard
         password: ${{ secrets.ftp_password }}
+        server-dir: /home/zrenard/www/nanardi
         exclude: |
           **/.git*
           **/.git*/**
