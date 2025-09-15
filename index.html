@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les films du Nanardi</title>
+    <link rel="icon" href="fav.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.bootstrap5.css"
+        integrity="sha384-jL+8qa11q0sNp6WjCTNtQHQea/pJOmdt+2wumoR9vdEZs8FeP4+Ew9Q+FEI5Wp4z" crossorigin="anonymous">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <header>
+        <h1>Les films du <img src="nanardi.png" alt="Nanardi"></h1>
+    </header>
+    <main>
+        <div>
+            Afficher/cacher les colonnes:
+            <a class="toggle-vis icon-visible" data-column="1">Annee</a> -
+            <a class="toggle-vis icon-visible" data-column="2">Date</a> -
+            <a class="toggle-vis icon-visible" data-column="3">Replay</a> -
+            <a class="toggle-vis icon-visible" data-column="4">IMDB</a> -
+            <a class="toggle-vis icon-hidden" data-column="5">Ou le voir ?</a>
+            <a class="toggle-vis icon-hidden" data-column="6">Commentaires</a>
+        </div>
+        <table id="liste" class="table">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Annee</th>
+                    <th>Date</th>
+                    <th>Replay</th>
+                    <th>IMDB</th>
+                    <th>Ou le voir ?</th>
+                    <th>Commentaires</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td title>American Cyborg: Steel Warrior</td>
+                    <td date>1993</td>
+                    <td view>2024-03-12</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0109098</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/american-cyborg-steel-warrior</td>
+                    <td>American cyborg: le guerrier d'acier</td>
+                </tr>
+                <tr>
+                    <td title>Asteroid-a-Geddon</td>
+                    <td date>2020</td>
+                    <td view>2024-04-02</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt13298656</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/asteroid-a-geddon</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Pterodactyl</td>
+                    <td date>2004</td>
+                    <td view>2024-04-09</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0452668</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/pterodactyl</td>
+                    <td>Ptérodactyles</td>
+                </tr>
+                <tr>
+                    <td title>Bigfoot : Géant des forêts</td>
+                    <td date>2012</td>
+                    <td view>2024-04-17</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt1876261/</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/bigfoot</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Yeti</td>
+                    <td date>2008</td>
+                    <td view>2024-04-24</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0896585</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/yeti-curse-of-the-snow-demon</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Vampires 2 : Adieu vampires</td>
+                    <td date>2002</td>
+                    <td view>2024-04-30</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0272147</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/vampires-los-muertos</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Evolver</td>
+                    <td date>1995</td>
+                    <td view>2024-05-07</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0112993</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/evolver</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Alienator</td>
+                    <td date>1990</td>
+                    <td view>2024-05-15</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0096786</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/alienator</td>
+                    <td>Les aliens sortis de concert de glamrock</td>
+                </tr>
+                <tr>
+                    <td title>Le Retour du capitaine Nemo</td>
+                    <td date>1978</td>
+                    <td view>2024-05-29</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0077156</td>
+                    <td justwatch>https://www.justwatch.com/us/search?q=The%20Amazing%20Captain%20Nemo</td>
+                    <td>Le film de la série, c'était pas necessaire, non vraiment</td>
+                </tr>
+                <tr>
+                    <td title>Against the Dark</td>
+                    <td date>2009</td>
+                    <td view>2024-06-04</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt1194271</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/against-the-dark</td>
+                    <td>Un Steven Seagal oublié ... enfin on aurrait du</td>
+                </tr>
+                <tr>
+                    <td title>Les Mutants de la Saint-Sylvestre</td>
+                    <td date>1987</td>
+                    <td view>2024-06-11</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0092676</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/bloody-new-year</td>
+                    <td>aka Réveillon sanglant / Bloody New Year</td>
+                </tr>
+                <tr>
+                    <td title>Tha Eastsidaz, le Dogg se déchaine</td>
+                    <td date>2000</td>
+                    <td view>2024-06-18</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0229362</td>
+                    <td justwatch>https://www.justwatch.com/us/search?q=Tha%20Eastsidaz</td>
+                    <td>Tha Eastsidaz</td>
+                </tr>
+                <tr>
+                    <td title>Beowulf</td>
+                    <td date>1999</td>
+                    <td view>2024-06-25</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0120604</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/beowulf-1999</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Leprechaun : In The Hood</td>
+                    <td date>2000</td>
+                    <td view>2024-07-16</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0209095</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/leprechaun-in-the-hood</td>
+                    <td>Leprechaun 5 : La Malédiction.</td>
+                </tr>
+                <tr>
+                    <td title>The Octagon</td>
+                    <td date>1980</td>
+                    <td view>2024-07-24</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0081259</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/the-octagon</td>
+                    <td>La Fureur du juste</td>
+                </tr>
+                <tr>
+                    <td title>Leprechaun : Back 2 Tha Hood</td>
+                    <td date>2003</td>
+                    <td view>2024-07-30</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0339294</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/leprechaun-back-2-tha-hood</td>
+                    <td>Leprechaun 6 : Le Retour</td>
+                </tr>
+                <tr>
+                    <td title>Les Barbarians</td>
+                    <td date>1987</td>
+                    <td view>2024-08-06</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0092615</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/the-barbarians-1987</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Titanic 666</td>
+                    <td date>2022</td>
+                    <td view>2024-08-13</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt18394428</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/titanic-666</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Dragon Hunt</td>
+                    <td date>1990</td>
+                    <td view>2024-08-21</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0092926</td>
+                    <td justwatch>https://www.justwatch.com/us/search?q=Dragon%20Hunt</td>
+                    <td>Dragon Kickboxers</td>
+                </tr>
+                <tr>
+                    <td title>Bloody Mallory</td>
+                    <td date>2002</td>
+                    <td view>2024-08-27 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/title/tt0299556/</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/bloody-mallory</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Leprechaun 4 : Destination cosmos</td>
+                    <td date>1996</td>
+                    <td view>2024-09-03 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/title/tt0116861</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/leprechaun-4-in-space</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Tammy and the T-Rex</td>
+                    <td date>1994</td>
+                    <td view>2024-09-10 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/title/tt0111361</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/tammy-and-the-t-rex</td>
+                    <td>Crossover non officiel entre Fast and Furious et Starshiptrooper et puis Jurrasic Park 2 aussi
+                    </td>
+                </tr>
+                <tr>
+                    <td title>Arena, les gladiateurs du futur</td>
+                    <td date>1989</td>
+                    <td view>2024-09-18 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/title/tt0101366</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/arena-1989</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>American ninja 4</td>
+                    <td date>1990</td>
+                    <td view>2024-09-24 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/title/tt0101326</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/american-ninja-4-the-annihilation</td>
+                    <td>American warrior 4 en vf 🤔</td>
+                </tr>
+                <tr>
+                    <td title>Highlander 5 - Le gardien de l'immortalité</td>
+                    <td date>2007</td>
+                    <td view>2024-10-01 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/title/tt0299981/</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/highlander-the-source</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Aux portes de l'enfer</td>
+                    <td date>1989</td>
+                    <td view>2024-10-08 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/title/tt0102965</td>
+                    <td justwatch>https://www.justwatch.com/us/search?q=Speak%20of%20the%20Devil</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Space Mutiny: La Guerre du futur</td>
+                    <td date>1988</td>
+                    <td view>2024-11-05 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/title/tt0096149/</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/space-mutiny</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Hercule à New York</td>
+                    <td date>1970</td>
+                    <td view>2024-11-12 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/title/tt0065832/</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/hercules-goes-bananas</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Les casseurs</td>
+                    <td date>1977</td>
+                    <td view>2024-11-19 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/title/tt0075783/</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/breaker-breaker</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Syngenor</td>
+                    <td date>1990</td>
+                    <td view>2024-12-03 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0100728</td>
+                    <td justwatch>https://www.justwatch.com/us/search?q=Syngenor</td>
+                    <td>aka Soldat Cyborg</td>
+                </tr>
+                <tr>
+                    <td title>Supermen contre les amazones</td>
+                    <td date>1974</td>
+                    <td view>2024-12-10 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/title/tt0073804/</td>
+                    <td justwatch>https://www.justwatch.com/us/search?q=Superuomini,%20superdonne,%20superbotte</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Le père Noël contre les martiens</td>
+                    <td date>1964</td>
+                    <td view>2024-12-17 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/title/tt0058548/</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/santa-claus-conquers-the-martians</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Black Ninja</td>
+                    <td date>1987</td>
+                    <td view>2025-01-07 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/title/tt0199865</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/ninja-silent-assassin</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Robot Killer</td>
+                    <td date>1987</td>
+                    <td view>2025-01-14 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/title/tt0093586</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/mutant-hunt</td>
+                    <td>aka Mutant Hunt</td>
+                </tr>
+                <tr>
+                    <td title>Thor le guerrier</td>
+                    <td date>1983</td>
+                    <td view>2025-01-21 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/title/tt0200211/</td>
+                    <td justwatch>https://www.justwatch.com/us/movie/thor-the-conqueror</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Crocodile Fury</td>
+                    <td date>1988</td>
+                    <td view>2025-01-27 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt5823524/</td>
+                    <td justwatch></td>
+                    <td>Il est sur le podium celui là !</td>
+                </tr>
+                <tr>
+                    <td title>Samurai Cop</td>
+                    <td date>1991</td>
+                    <td view>2025-02-04 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0130236/</td>
+                    <td justwatch></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Ator l'invincible</td>
+                    <td date>1990</td>
+                    <td view>2025-02-12 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0100448</td>
+                    <td justwatch></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Le chevalier du monde perdu</td>
+                    <td date>1983</td>
+                    <td view>2025-02-18 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0088380</td>
+                    <td justwatch></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Galgameth: L'apprenti dragon</td>
+                    <td date>1996</td>
+                    <td view>2025-02-25 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0113141</td>
+                    <td justwatch></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>American Warrior 3</td>
+                    <td date>1989</td>
+                    <td view>2025-03-04 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0096804</td>
+                    <td justwatch></td>
+                    <td>American Ninja 3: Blood Hunt</td>
+                </tr>
+                <tr>
+                    <td title>Vivre pour survivre</td>
+                    <td date>1984</td>
+                    <td view>2025-03-11 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0088359</td>
+                    <td justwatch></td>
+                    <td>White Fire !!!!!</td>
+                </tr>
+                <tr>
+                    <td title>Piège mortel à Hawaï</td>
+                    <td date>1987</td>
+                    <td view>2025-03-18 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0093146</td>
+                    <td justwatch></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Unmasking the Idol</td>
+                    <td date>1986</td>
+                    <td view>2025-03-26 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0202046</td>
+                    <td justwatch></td>
+                    <td>Duncan Jax ; Les agents 007 1/2</td>
+                </tr>
+                <tr>
+                    <td title>L'ordre de l'Aigle Noir</td>
+                    <td date>1987</td>
+                    <td view>2025-04-02 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0199912</td>
+                    <td justwatch></td>
+                    <td>Moins de toutounes et plus de Baboon ! On continue les aventures de Boon dans Duncan Jax 2 -
+                        L'Ordre de l'Aigle Noir (ou Mission : Empêcher la résurrection d’Hitler ! - USA 1987) (c'est la
+                        suite du nanar de la semaine dernière)</td>
+                </tr>
+                <tr>
+                    <td title>Atomic Cyborg</td>
+                    <td date>1986</td>
+                    <td view>2025-04-16 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0091166</td>
+                    <td justwatch></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Shark Side of the Moon</td>
+                    <td date>2022</td>
+                    <td view>2025-04-22 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt21426434</td>
+                    <td justwatch></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Les Aventuriers de l'univers perdu</td>
+                    <td date>1983</td>
+                    <td view>2025-04-29 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0086141/</td>
+                    <td justwatch></td>
+                    <td>Et sinon vous avez compris ce qu'a dit le vaudour ? &#x1F602; </td>
+                </tr>
+                <tr>
+                    <td title>Le clandestin</td>
+                    <td date>1988</td>
+                    <td view>2025-05-06 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0096341</td>
+                    <td justwatch></td>
+                    <td>Une chatastrophe ce film</td>
+                </tr>
+                <tr>
+                    <td title>Les Guerriers du Bronx 2</td>
+                    <td date>1983</td>
+                    <td view>2025-05-13 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0089104</td>
+                    <td justwatch></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Challenge the Ninja</td>
+                    <td date>1986</td>
+                    <td view>2025-05-20 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0165138</td>
+                    <td justwatch></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>L'humanoïde</td>
+                    <td date>1979</td>
+                    <td view>2025-05-27 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0080058</td>
+                    <td justwatch></td>
+                    <td>A peu presque StarWar</td>
+                </tr>
+                <tr>
+                    <td title>Apocalypse Warriors</td>
+                    <td date>1987</td>
+                    <td view>2025-06-03 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0091012</td>
+                    <td justwatch></td>
+                    <td>Equalizer 2000</td>
+                </tr>
+                <tr>
+                    <td title>L'incroyable homme puma</td>
+                    <td date>1980</td>
+                    <td view>2025-06-10 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0081693</td>
+                    <td justwatch></td>
+                    <td>Sakom est libre (enfin je le connaît pas mais bon, ils l'ont dit 50 fois) :)</td>
+                </tr>
+                <tr>
+                    <td title>Kiss contre les fantômes</td>
+                    <td date>1978</td>
+                    <td view>2025-06-17 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0077788</td>
+                    <td justwatch></td>
+                    <td>Du rroooooccckkkkkk</td>
+                </tr>
+                <tr>
+                    <td title>Robowar</td>
+                    <td date>1988</td>
+                    <td view>2025-06-24 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0096000</td>
+                    <td justwatch></td>
+                    <td>Presquedator</td>
+                </tr>
+                <tr>
+                    <td title>American Ninja 5</td>
+                    <td date>1993</td>
+                    <td view>2025-07-01 </td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0106257</td>
+                    <td justwatch></td>
+                    <td>Niiiinjjjaaaa attaque PQ de feu!</td>
+                </tr>
+                <tr>
+                    <td title>Apex</td>
+                    <td date>1994</td>
+                    <td view>2025-07-08 </td>
+                    <td replay>https://youtu.be/yBqjvlgtGW0?si=vwuuzhE3Z2hqIP0L</td>
+                    <td link>https://www.imdb.com/fr/title/tt0109144</td>
+                    <td justwatch></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Devil Story : Il était une fois le diable</td>
+                    <td date>1986</td>
+                    <td view>2025-07-15</td>
+                    <td replay>https://youtu.be/d8HvM0_ukWk?si=PxkNPgyP6-95nbAG</td>
+                    <td link>https://www.imdb.com/fr/title/tt0233004</td>
+                    <td justwatch></td>
+                    <td>Pas mal non ? c'est français</td>
+                </tr>
+                <tr>
+                    <td title>Carnosaur 3: Primal Species</td>
+                    <td date>1996</td>
+                    <td view>2025-07-22</td>
+                    <td replay>https://youtu.be/ngMwtkTsYoQ?si=P5p5Gn3V5LRkNAmK</td>
+                    <td link>https://www.imdb.com/fr/title/tt0115834</td>
+                    <td justwatch></td>
+                    <td>Graouu graouuuu mais lowcost</td>
+                </tr>
+                <tr>
+                    <td title>Monsieur Nounou</td>
+                    <td date>1993</td>
+                    <td view>2025-07-29</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0107612</td>
+                    <td justwatch></td>
+                    <td>Avec Panda ! RIP Hulk Hogan</td>
+                </tr>
+                <tr>
+                    <td title>The Impossible Kid</td>
+                    <td date>1982</td>
+                    <td view>2025-08-05</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0430216/</td>
+                    <td justwatch></td>
+                    <td>007 1/2</td>
+                </tr>
+                <tr>
+                    <td title>Blood Hands</td>
+                    <td date>1990</td>
+                    <td view>2025-08-12</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0266338/</td>
+                    <td justwatch></td>
+                    <td>Moustaches club</td>
+                </tr>
+                <tr>
+                    <td title>Humains</td>
+                    <td date>2009</td>
+                    <td view>2025-08-19</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt1109478/</td>
+                    <td justwatch></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td title>Clash Commando</td>
+                    <td date>1986</td>
+                    <td view>2025-08-27</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0301110/</td>
+                    <td justwatch></td>
+                    <td>Clash of the ninjas. Vraiment dans le top 3 celui là !</td>
+                </tr>
+                <tr>
+                    <td title>La revanche de Samson</td>
+                    <td date>1987</td>
+                    <td view>2025-09-02</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0089308/</td>
+                    <td justwatch></td>
+                    <td>Samson dan Delilah (va savoir pourquoi)</td>
+                </tr>
+                <tr>
+                    <td title>R.O.T.O.R.</td>
+                    <td date>1987</td>
+                    <td view>2025-09-10</td>
+                    <td replay></td>
+                    <td link>https://www.imdb.com/fr/title/tt0098156/</td>
+                    <td justwatch></td>
+                    <td>ça veut dire quoi ROTOR déjà ? 😂</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <p>&copy; 2024-2025 SebJDG</p>
+        <p>
+            Dernière mise à jour : <span id="updateDate"></span>
+        </p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha384-wsqsSADZR1YRBEZ4/kKHNSmU+aX8ojbnKUMN4RyD3jDkxw5mHtoe2z/T/n4l56U/"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"
+        integrity="sha384-eRmUpRZRnkDcZtYUYjS2ypXXoF2Ue0KRfloEqXB5XnVvnp179lh3bd5O4SqrjJJu"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"
+        integrity="sha384-dWDeSUS/x3YBumNL+qrop/a/OA9OxCfrWrTx5Nfdho3Z+gQ6E+3uMrRCU602g8TL"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/2.2.1/js/dataTables.bootstrap5.js"
+        integrity="sha384-2IrcDZstSOMFTMxGhnJHQtNpSfUopdFXCOaDviGVHw/kuF34fSSaVqL20jnkJctu"
+        crossorigin="anonymous"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>

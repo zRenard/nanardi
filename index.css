@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e0d2d2;
+
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+} 
+
+footer {
+    background-color: #333;
+    color: #fff; 
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+a {
+    color: black;
+}
+
+.icon-visible::before {
+    content: '👁️';
+    margin-right: 5px;
+}
+
+.icon-hidden::before {
+    content: '🚫';
+    margin-right: 5px;
+}
