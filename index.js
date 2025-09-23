@@ -20,7 +20,7 @@ const table =
         columnDefs: [
             {
                 targets: 2,
-                render: DataTable.render.datetime('Do MMM YYYY')
+                render: DataTable.render.moment('YYYY-MM-DD', 'Do MMM YY', 'fr' )
             },
             {
                 target: 5,
