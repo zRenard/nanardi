@@ -8,9 +8,12 @@ jobs:
     name: Validate
     runs-on: ubuntu-latest
     steps:
-      - name: Validate HTML files
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v5
+      - name: ✅ Validate HTML files
         run: npx htmlhint '**/*.html'
   web-deploy:
+    needs: web-validate
     name: Deploy
     runs-on: ubuntu-latest
     steps:
