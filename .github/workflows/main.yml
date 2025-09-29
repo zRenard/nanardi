@@ -11,7 +11,7 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v5
       - name: ✅ Validate HTML files
-        run: npx htmlhint@1.1.4 '**/*.html'
+        run: npx htmlhint@1.7.1 '**/*.html'
   web-deploy:
     needs: web-validate
     name: Deploy
