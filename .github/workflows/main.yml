@@ -2,15 +2,20 @@ on:
   push:
     branches:
     - main
-name: 🚀 Deploy website on push
+name: 🚀 Validate and deploy website on push
 jobs:
+  web-validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate HTML files
+        run: npx htmlhint '**/*.html'
   web-deploy:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
     - name: 🚚 Get latest code
       uses: actions/checkout@v5
-
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.6
       with:
