@@ -8,7 +8,7 @@ $(document).ready(function() {
     table = new DataTable('#liste', {
         paging: false,
         scrollCollapse: true,
-        scrollY: '55vh',
+        scrollY: '50vh',
         order: [[2, 'desc']],
         language: {
             info: '_TOTAL_ films',
