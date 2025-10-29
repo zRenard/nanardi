@@ -19,20 +19,41 @@
         <h1>Les films du <img src="nanardi.png" alt="Nanardi"></h1>
     </header>
     <main>
-        <div>
-            Afficher/cacher les colonnes:
-            <a class="toggle-vis icon-visible" data-column="1">Année</a> -
-            <a class="toggle-vis icon-visible" data-column="2">Date</a> -
-            <a class="toggle-vis icon-visible" data-column="3">Replay</a> -
-            <a class="toggle-vis icon-visible" data-column="4">IMDB</a> -
-            <a class="toggle-vis icon-visible" data-column="5">Poster</a> -
-            <a class="toggle-vis icon-visible" data-column="6">Images</a> -
-            <a class="toggle-vis icon-hidden" data-column="7">Ou le voir ?</a>
-            <a class="toggle-vis icon-hidden" data-column="8">Commentaires</a>
+        <div class="controls-section">
+            <div class="column-controls">
+                Afficher/cacher les colonnes:
+                <a class="toggle-vis icon-visible" data-column="0">Note</a> -
+                <a class="toggle-vis icon-visible" data-column="2">Année</a> -
+                <a class="toggle-vis icon-visible" data-column="3">Date</a> -
+                <a class="toggle-vis icon-visible" data-column="4">Replay</a> -
+                <a class="toggle-vis icon-visible" data-column="5">IMDB</a> -
+                <a class="toggle-vis icon-visible" data-column="6">Poster</a> -
+                <a class="toggle-vis icon-visible" data-column="7">Images</a> -
+                <a class="toggle-vis icon-hidden" data-column="8">Ou le voir ?</a>
+                <a class="toggle-vis icon-hidden" data-column="9">Commentaires</a>
+            </div>
+            <div class="rating-controls">
+                <div class="rating-actions">
+                    <button id="exportRatings" class="btn btn-success">
+                        <span class="export-icon">📤</span>
+                        Exporter les notes
+                    </button>
+                    <button id="importRatings" class="btn btn-primary">
+                        <span class="import-icon">📥</span>
+                        Importer les notes
+                    </button>
+                    <button id="clearRatings" class="btn btn-danger">
+                        <span class="clear-icon">🗑️</span>
+                        Effacer toutes les notes
+                    </button>
+                </div>
+                <input type="file" id="importFile" accept=".json" class="hidden-file-input" aria-label="Import ratings file">
+            </div>
         </div>
         <table id="liste" class="table">
             <thead>
                 <tr>
+                    <th>Note</th>
                     <th>Titre</th>
                     <th>Année</th>
                     <th>Date</th>
@@ -46,6 +67,7 @@
             </thead>
             <tbody>
                 <tr>
+                    <td rating></td>
                     <td title>American Cyborg: Steel Warrior</td>
                     <td date>1993</td>
                     <td view>2024-03-12</td>
@@ -55,8 +77,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/american-cyborg-steel-warrior</td>
                     <td>American cyborg: le guerrier d'acier</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Asteroid-a-Geddon</td>
                     <td date>2020</td>
                     <td view>2024-04-02</td>
@@ -66,8 +90,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/asteroid-a-geddon</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Pterodactyl</td>
                     <td date>2004</td>
                     <td view>2024-04-09</td>
@@ -77,8 +103,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/pterodactyl</td>
                     <td>Ptérodactyles</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Bigfoot : Géant des forêts</td>
                     <td date>2012</td>
                     <td view>2024-04-17</td>
@@ -88,8 +116,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/bigfoot</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Yeti</td>
                     <td date>2008</td>
                     <td view>2024-04-24</td>
@@ -99,8 +129,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/yeti-curse-of-the-snow-demon</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Vampires 2 : Adieu vampires</td>
                     <td date>2002</td>
                     <td view>2024-04-30</td>
@@ -110,8 +142,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/vampires-los-muertos</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Evolver</td>
                     <td date>1995</td>
                     <td view>2024-05-07</td>
@@ -121,8 +155,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/evolver</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Alienator</td>
                     <td date>1990</td>
                     <td view>2024-05-15</td>
@@ -132,8 +168,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/alienator</td>
                     <td>Les aliens sortis de concert de glamrock</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Le Retour du capitaine Nemo</td>
                     <td date>1978</td>
                     <td view>2024-05-29</td>
@@ -143,8 +181,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/search?q=The%20Amazing%20Captain%20Nemo</td>
                     <td>Le film de la série, c'était pas necessaire, non vraiment</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Against the Dark</td>
                     <td date>2009</td>
                     <td view>2024-06-04</td>
@@ -154,8 +194,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/against-the-dark</td>
                     <td>Un Steven Seagal oublié ... enfin on aurrait du</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Les Mutants de la Saint-Sylvestre</td>
                     <td date>1987</td>
                     <td view>2024-06-11</td>
@@ -165,8 +207,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/bloody-new-year</td>
                     <td>aka Réveillon sanglant / Bloody New Year</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Tha Eastsidaz, le Dogg se déchaine</td>
                     <td date>2000</td>
                     <td view>2024-06-18</td>
@@ -176,8 +220,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/search?q=Tha%20Eastsidaz</td>
                     <td>Tha Eastsidaz</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Beowulf</td>
                     <td date>1999</td>
                     <td view>2024-06-25</td>
@@ -187,8 +233,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/beowulf-1999</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Leprechaun : In The Hood</td>
                     <td date>2000</td>
                     <td view>2024-07-16</td>
@@ -198,8 +246,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/leprechaun-in-the-hood</td>
                     <td>Leprechaun 5 : La Malédiction.</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>The Octagon</td>
                     <td date>1980</td>
                     <td view>2024-07-24</td>
@@ -209,8 +259,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/the-octagon</td>
                     <td>La Fureur du juste</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Leprechaun : Back 2 Tha Hood</td>
                     <td date>2003</td>
                     <td view>2024-07-30</td>
@@ -220,8 +272,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/leprechaun-back-2-tha-hood</td>
                     <td>Leprechaun 6 : Le Retour</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Les Barbarians</td>
                     <td date>1987</td>
                     <td view>2024-08-06</td>
@@ -231,8 +285,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/the-barbarians-1987</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Titanic 666</td>
                     <td date>2022</td>
                     <td view>2024-08-13</td>
@@ -242,8 +298,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/titanic-666</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Dragon Hunt</td>
                     <td date>1990</td>
                     <td view>2024-08-21</td>
@@ -253,8 +311,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/search?q=Dragon%20Hunt</td>
                     <td>Dragon Kickboxers</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Bloody Mallory</td>
                     <td date>2002</td>
                     <td view>2024-08-27 </td>
@@ -264,8 +324,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/bloody-mallory</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Leprechaun 4 : Destination cosmos</td>
                     <td date>1996</td>
                     <td view>2024-09-03 </td>
@@ -275,8 +337,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/leprechaun-4-in-space</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Tammy and the T-Rex</td>
                     <td date>1994</td>
                     <td view>2024-09-10 </td>
@@ -287,8 +351,10 @@
                     <td justwatch>https://www.justwatch.com/us/movie/tammy-and-the-t-rex</td>
                     <td>Crossover non officiel entre Fast and Furious et Starshiptrooper et puis Jurrasic Park 2 aussi
                     </td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Arena, les gladiateurs du futur</td>
                     <td date>1989</td>
                     <td view>2024-09-18 </td>
@@ -298,8 +364,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/arena-1989</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>American ninja 4</td>
                     <td date>1990</td>
                     <td view>2024-09-24 </td>
@@ -309,8 +377,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/american-ninja-4-the-annihilation</td>
                     <td>American warrior 4 en vf 🤔</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Highlander 5 - Le gardien de l'immortalité</td>
                     <td date>2007</td>
                     <td view>2024-10-01 </td>
@@ -320,8 +390,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/highlander-the-source</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Aux portes de l'enfer</td>
                     <td date>1989</td>
                     <td view>2024-10-08 </td>
@@ -331,8 +403,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/search?q=Speak%20of%20the%20Devil</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Space Mutiny: La Guerre du futur</td>
                     <td date>1988</td>
                     <td view>2024-11-05 </td>
@@ -342,8 +416,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/space-mutiny</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Hercule à New York</td>
                     <td date>1970</td>
                     <td view>2024-11-12 </td>
@@ -353,8 +429,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/hercules-goes-bananas</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Les casseurs</td>
                     <td date>1977</td>
                     <td view>2024-11-19 </td>
@@ -364,8 +442,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/breaker-breaker</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Syngenor</td>
                     <td date>1990</td>
                     <td view>2024-12-03 </td>
@@ -375,8 +455,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/search?q=Syngenor</td>
                     <td>aka Soldat Cyborg</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Supermen contre les amazones</td>
                     <td date>1974</td>
                     <td view>2024-12-10 </td>
@@ -386,8 +468,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/search?q=Superuomini,%20superdonne,%20superbotte</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Le père Noël contre les martiens</td>
                     <td date>1964</td>
                     <td view>2024-12-17 </td>
@@ -397,8 +481,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/santa-claus-conquers-the-martians</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Black Ninja</td>
                     <td date>1987</td>
                     <td view>2025-01-07 </td>
@@ -408,8 +494,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/ninja-silent-assassin</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Robot Killer</td>
                     <td date>1987</td>
                     <td view>2025-01-14 </td>
@@ -419,8 +507,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/mutant-hunt</td>
                     <td>aka Mutant Hunt</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Thor le guerrier</td>
                     <td date>1983</td>
                     <td view>2025-01-21 </td>
@@ -430,8 +520,10 @@
                     <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/thor-the-conqueror</td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Crocodile Fury</td>
                     <td date>1988</td>
                     <td view>2025-01-27 </td>
@@ -441,8 +533,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Il est sur le podium celui là !</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Samurai Cop</td>
                     <td date>1991</td>
                     <td view>2025-02-04 </td>
@@ -452,8 +546,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Ator l'invincible</td>
                     <td date>1990</td>
                     <td view>2025-02-12 </td>
@@ -463,8 +559,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Le chevalier du monde perdu</td>
                     <td date>1983</td>
                     <td view>2025-02-18 </td>
@@ -474,8 +572,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Galgameth: L'apprenti dragon</td>
                     <td date>1996</td>
                     <td view>2025-02-25 </td>
@@ -485,8 +585,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>American Warrior 3</td>
                     <td date>1989</td>
                     <td view>2025-03-04 </td>
@@ -496,8 +598,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>American Ninja 3: Blood Hunt</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Vivre pour survivre</td>
                     <td date>1984</td>
                     <td view>2025-03-11 </td>
@@ -507,8 +611,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>White Fire !!!!!</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Piège mortel à Hawaï</td>
                     <td date>1987</td>
                     <td view>2025-03-18 </td>
@@ -518,8 +624,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Unmasking the Idol</td>
                     <td date>1986</td>
                     <td view>2025-03-26 </td>
@@ -529,8 +637,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Duncan Jax ; Les agents 007 1/2</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>L'ordre de l'Aigle Noir</td>
                     <td date>1987</td>
                     <td view>2025-04-02 </td>
@@ -542,8 +652,10 @@
                     <td>Moins de toutounes et plus de Baboon ! On continue les aventures de Boon dans Duncan Jax 2 -
                         L'Ordre de l'Aigle Noir (ou Mission : Empêcher la résurrection d’Hitler ! - USA 1987) (c'est la
                         suite du nanar de la semaine dernière)</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Atomic Cyborg</td>
                     <td date>1986</td>
                     <td view>2025-04-16 </td>
@@ -553,8 +665,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Shark Side of the Moon</td>
                     <td date>2022</td>
                     <td view>2025-04-22 </td>
@@ -564,8 +678,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Les Aventuriers de l'univers perdu</td>
                     <td date>1983</td>
                     <td view>2025-04-29 </td>
@@ -575,8 +691,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Et sinon vous avez compris ce qu'a dit le vaudour ? &#x1F602; </td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Le clandestin</td>
                     <td date>1988</td>
                     <td view>2025-05-06 </td>
@@ -586,8 +704,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Une chatastrophe ce film</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Les Guerriers du Bronx 2</td>
                     <td date>1983</td>
                     <td view>2025-05-13 </td>
@@ -597,8 +717,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Challenge the Ninja</td>
                     <td date>1986</td>
                     <td view>2025-05-20 </td>
@@ -608,8 +730,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>L'humanoïde</td>
                     <td date>1979</td>
                     <td view>2025-05-27 </td>
@@ -619,8 +743,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>A peu presque StarWar</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Apocalypse Warriors</td>
                     <td date>1987</td>
                     <td view>2025-06-03 </td>
@@ -630,8 +756,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Equalizer 2000</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>L'incroyable homme puma</td>
                     <td date>1980</td>
                     <td view>2025-06-10 </td>
@@ -641,8 +769,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Sakom est libre (enfin je le connaît pas mais bon, ils l'ont dit 50 fois) :)</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Kiss contre les fantômes</td>
                     <td date>1978</td>
                     <td view>2025-06-17 </td>
@@ -652,8 +782,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Du rroooooccckkkkkk</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Robowar</td>
                     <td date>1988</td>
                     <td view>2025-06-24 </td>
@@ -663,8 +795,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Presquedator</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>American Ninja 5</td>
                     <td date>1993</td>
                     <td view>2025-07-01 </td>
@@ -674,8 +808,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Niiiinjjjaaaa attaque PQ de feu!</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Apex</td>
                     <td date>1994</td>
                     <td view>2025-07-08 </td>
@@ -685,8 +821,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Devil Story : Il était une fois le diable</td>
                     <td date>1986</td>
                     <td view>2025-07-15</td>
@@ -696,8 +834,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Pas mal non ? c'est français</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Carnosaur 3: Primal Species</td>
                     <td date>1996</td>
                     <td view>2025-07-22</td>
@@ -707,8 +847,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Graouu graouuuu mais lowcost</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Monsieur Nounou</td>
                     <td date>1993</td>
                     <td view>2025-07-29</td>
@@ -718,8 +860,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Avec Panda ! RIP Hulk Hogan</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>The Impossible Kid</td>
                     <td date>1982</td>
                     <td view>2025-08-05</td>
@@ -729,8 +873,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>007 1/2</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Blood Hands</td>
                     <td date>1990</td>
                     <td view>2025-08-12</td>
@@ -740,8 +886,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Moustaches club</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Humains</td>
                     <td date>2009</td>
                     <td view>2025-08-19</td>
@@ -751,8 +899,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Clash Commando</td>
                     <td date>1986</td>
                     <td view>2025-08-27</td>
@@ -762,8 +912,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Clash of the ninjas. Vraiment dans le top 3 celui là !</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>La revanche de Samson</td>
                     <td date>1987</td>
                     <td view>2025-09-02</td>
@@ -773,8 +925,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Samson dan Delilah (va savoir pourquoi)</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>R.O.T.O.R.</td>
                     <td date>1987</td>
                     <td view>2025-09-10</td>
@@ -784,8 +938,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>ça veut dire quoi ROTOR déjà ? 😂</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Shadow Creature</td>
                     <td date>1985</td>
                     <td view>2025-09-16</td>
@@ -795,8 +951,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Cauchemar sanglant</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Connection Hawaï ou Jeu Fatal</td>
                     <td date>1991</td>
                     <td view>2025-09-23</td>
@@ -806,8 +964,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Do or Die avec dé-toutounage intensif</td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Ninja Condor 13</td>
                     <td date>1987</td>
                     <td view>2025-09-30</td>
@@ -817,8 +977,10 @@
                     <td images></td>
                     <td justwatch></td>
                     <td></td>
+
                 </tr>
                 <tr>
+                    <td rating></td>
                     <td title>Hurlements 2</td>
                     <td date>1985</td>
                     <td view>2025-10-07</td>
@@ -828,6 +990,7 @@
                     <td images></td>
                     <td justwatch></td>
                     <td>Howling II... Your Sister Is a Werewolf ou Howling II: Stirba - Werewolf Bitch</td>
+
                 </tr>
             </tbody>
         </table>
@@ -836,6 +999,9 @@
         <p>&copy; 2024-2025 SebJDG</p>
         <p>
             Dernière mise à jour : <span id="updateDate"></span>
+        </p>
+        <p>
+            <span id="movieStats"></span>
         </p>
     </footer>
 
@@ -848,7 +1014,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
-                    <img id="modalPosterImg" src="" alt="Poster du film" class="img-fluid">
+                    <img id="modalPosterImg" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlPC90ZXh0Pjwvc3ZnPg==" alt="Poster du film" class="img-fluid">
                 </div>
             </div>
         </div>

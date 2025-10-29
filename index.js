@@ -1,9 +1,14 @@
 // Initialize DataTable
-const table =
-    new DataTable('#liste', {
+let table;
+let movieRating;
+
+$(document).ready(function() {
+    console.log('DOM ready, initializing DataTable...');
+    
+    table = new DataTable('#liste', {
         paging: false,
         scrollCollapse: true,
-        scrollY: '60vh',
+        scrollY: '55vh',
         order: [[2, 'desc']],
         language: {
             info: '_TOTAL_ films',
@@ -19,18 +24,23 @@ const table =
         ],
         columnDefs: [
             {
-                targets: 2
-            },
-            {
-                target: 7,
-                visible: false
+                targets: 3
             },
             {
                 target: 8,
                 visible: false
+            },
+            {
+                target: 9,
+                visible: false
             }
         ]
     });
+    
+    movieRating = new MovieRating();
+    
+    document.getElementById('updateDate').textContent = new Date(document.lastModified).toLocaleString('fr-FR');
+});
 
 // Toggle column visibility
 $('a.toggle-vis').on('click', function (e) {
@@ -102,7 +112,14 @@ $('td[poster]').each(function () {
             })
             .on('click', function() {
                 // Show modal with full size poster
-                $('#modalPosterImg').attr('src', posterPath);
+                const modalImg = $('#modalPosterImg');
+                modalImg.attr('src', posterPath);
+                
+                // Handle image load error in modal
+                modalImg.off('error').on('error', function() {
+                    $(this).attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIiBzdHJva2U9IiNkZWUyZTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmM3NTdkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgaW5kaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==');
+                });
+                
                 const movieTitle = $(this).closest('tr').find('td[title]').text();
                 $('#posterModalLabel').text('Poster - ' + movieTitle);
                 $('#posterModal').modal('show');
@@ -186,15 +203,20 @@ $('td[images]').each(async function () {
                         'margin-right': '5px',
                         'margin-bottom': '2px'
                     })
-                    .on('click', function() {
-                        // Show modal with full size image
-                        $('#modalPosterImg').attr('src', imagePath);
-                        const movieTitle = $row.find('td[title]').text();
-                        $('#posterModalLabel').text(`${movieTitle} - ${imageName}`);
-                        $('#posterModal').modal('show');
-                    });
-                
-                imagesContainer.append(thumbnail);
+                        .on('click', function() {
+                            // Show modal with full size image
+                            const modalImg = $('#modalPosterImg');
+                            modalImg.attr('src', imagePath);
+                            
+                            // Handle image load error in modal
+                            modalImg.off('error').on('error', function() {
+                                $(this).attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIiBzdHJva2U9IiNkZWUyZTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmM3NTdkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgaW5kaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==');
+                            });
+                            
+                            const movieTitle = $row.find('td[title]').text();
+                            $('#posterModalLabel').text(`${movieTitle} - ${imageName}`);
+                            $('#posterModal').modal('show');
+                        });                imagesContainer.append(thumbnail);
                 imageCount++;
             } catch (error) {
                 // Image failed to load, skip it
@@ -206,4 +228,396 @@ $('td[images]').each(async function () {
     }
 });
 
-document.getElementById('updateDate').textContent = new Date(document.lastModified).toLocaleString('fr-FR');
+// Rating System
+class MovieRating {
+    constructor() {
+        this.storageKey = 'movieRatings';
+        this.init();
+    }
+
+    init() {
+        this.loadRatings();
+        this.setupRatingCells();
+        this.setupClearButton();
+        this.setupExportImportButtons();
+        this.updateMovieStats();
+    }
+
+    loadRatings() {
+        try {
+            const ratings = localStorage.getItem(this.storageKey);
+            return ratings ? JSON.parse(ratings) : {};
+        } catch (error) {
+            console.error('Error loading ratings:', error);
+            return {};
+        }
+    }
+
+    saveRating(movieTitle, rating, imdbId = null) {
+        try {
+            const ratings = this.loadRatings();
+            
+            // If we have an IMDb ID, use it as the key, otherwise fall back to title
+            const key = imdbId || movieTitle;
+            ratings[key] = {
+                rating: rating,
+                title: movieTitle,
+                imdbId: imdbId,
+                lastUpdated: new Date().toISOString()
+            };
+            
+            localStorage.setItem(this.storageKey, JSON.stringify(ratings));
+        } catch (error) {
+            console.error('Error saving rating:', error);
+        }
+    }
+
+    getRating(movieTitle, imdbId = null) {
+        const ratings = this.loadRatings();
+        const key = imdbId || movieTitle;
+        const ratingData = ratings[key];
+        
+        // Handle both old format (direct number) and new format (object)
+        if (typeof ratingData === 'number') {
+            return ratingData;
+        } else if (ratingData && typeof ratingData === 'object') {
+            return ratingData.rating || 0;
+        }
+        
+        return 0;
+    }
+
+    clearAllRatings() {
+        try {
+            localStorage.removeItem(this.storageKey);
+            this.setupRatingCells(); // Refresh all rating displays
+            this.updateMovieStats(); // Update statistics
+        } catch (error) {
+            console.error('Error clearing ratings:', error);
+        }
+    }
+
+    getTotalMovieCount() {
+        return $('tbody tr').length;
+    }
+
+    getRatedMovieCount() {
+        const ratings = this.loadRatings();
+        return Object.values(ratings).filter(rating => {
+            // Handle both old format (direct number) and new format (object)
+            const ratingValue = typeof rating === 'number' ? rating : (rating.rating || 0);
+            return ratingValue > 0;
+        }).length;
+    }
+
+    getAverageRating() {
+        const ratings = this.loadRatings();
+        const validRatings = Object.values(ratings).map(rating => {
+            // Handle both old format (direct number) and new format (object)
+            return typeof rating === 'number' ? rating : (rating.rating || 0);
+        }).filter(rating => rating > 0);
+        
+        if (validRatings.length === 0) return 0;
+        
+        const sum = validRatings.reduce((acc, rating) => acc + rating, 0);
+        return (sum / validRatings.length).toFixed(1);
+    }
+
+    updateMovieStats() {
+        const totalMovies = this.getTotalMovieCount();
+        const ratedMovies = this.getRatedMovieCount();
+        const averageRating = this.getAverageRating();
+        
+        let statsText = `${totalMovies} films au total`;
+        
+        if (ratedMovies > 0) {
+            const percentage = ((ratedMovies / totalMovies) * 100).toFixed(1);
+            statsText += ` • ${ratedMovies} films notés (${percentage}%)`;
+            statsText += ` • Note moyenne: ${averageRating}/10 ⭐`;
+        } else {
+            statsText += ` • Aucun film noté`;
+        }
+        
+        $('#movieStats').text(statsText);
+    }
+
+    createStarRating(movieTitle, currentRating = 0, imdbId = null) {
+        const container = $('<div>').addClass('star-rating');
+        
+        // Create 10 stars (for 1-10 rating)
+        for (let i = 1; i <= 10; i++) {
+            const star = $('<span>')
+                .addClass('star')
+                .attr('data-rating', i)
+                .html('★')
+                .on('click', () => {
+                    this.setRating(movieTitle, i, imdbId);
+                })
+                .on('mouseenter', () => {
+                    this.highlightStars(container, i);
+                })
+                .on('mouseleave', () => {
+                    this.highlightStars(container, currentRating);
+                });
+            
+            if (i <= currentRating) {
+                star.addClass('filled');
+            }
+            
+            container.append(star);
+        }
+
+        // Add rating display
+        if (currentRating > 0) {
+            const display = $('<span>')
+                .addClass('rating-display')
+                .text(`${currentRating}/10`);
+            container.append(display);
+        }
+
+        return container;
+    }
+
+    highlightStars(container, rating) {
+        container.find('.star').each(function(index) {
+            const star = $(this);
+            star.removeClass('filled hover');
+            
+            if (index < rating) {
+                star.addClass('hover');
+            }
+        });
+    }
+
+    setRating(movieTitle, rating, imdbId = null) {
+        this.saveRating(movieTitle, rating, imdbId);
+        
+        // Update the display for this movie
+        const ratingCell = $(`td[rating]`).filter(function() {
+            return $(this).closest('tr').find('td[title]').text() === movieTitle;
+        });
+        
+        const newRatingDisplay = this.createStarRating(movieTitle, rating, imdbId);
+        ratingCell.html(newRatingDisplay);
+        
+        // Update movie statistics
+        this.updateMovieStats();
+    }
+
+    extractImdbId(imdbUrl) {
+        // Extract IMDb ID from URL like "https://www.imdb.com/fr/title/tt0109098"
+        if (!imdbUrl) return null;
+        const match = imdbUrl.match(/\/title\/(tt\d+)/);
+        return match ? match[1] : null;
+    }
+
+    setupRatingCells() {
+        $('td[rating]').each((index, cell) => {
+            const $cell = $(cell);
+            const $row = $cell.closest('tr');
+            const movieTitle = $row.find('td[title]').text();
+            const imdbUrl = $row.find('td[link]').text();
+            const imdbId = this.extractImdbId(imdbUrl);
+            
+            if (movieTitle) {
+                const currentRating = this.getRating(movieTitle, imdbId);
+                const ratingDisplay = this.createStarRating(movieTitle, currentRating, imdbId);
+                $cell.html(ratingDisplay);
+            }
+        });
+    }
+
+    setupClearButton() {
+        $('#clearRatings').on('click', () => {
+            if (confirm('Êtes-vous sûr de vouloir effacer toutes les notes ?')) {
+                this.clearAllRatings();
+            }
+        });
+    }
+
+    setupExportImportButtons() {
+        // Export button
+        $('#exportRatings').on('click', () => {
+            this.exportRatings();
+        });
+
+        // Import button triggers file input
+        $('#importRatings').on('click', () => {
+            $('#importFile').click();
+        });
+
+        // File input change handler
+        $('#importFile').on('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                this.importRatings(file);
+            }
+            // Reset file input
+            event.target.value = '';
+        });
+    }
+
+    generateSecureHash(data) {
+        // Simple hash function for data integrity verification
+        let hash = 0;
+        const str = JSON.stringify(data);
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // Convert to 32-bit integer
+        }
+        return hash.toString(16);
+    }
+
+    validateRatingsData(data) {
+        // Validate the structure and content of ratings data
+        if (!data || typeof data !== 'object') {
+            return false;
+        }
+
+        // Check if it has the expected structure
+        if (!data.ratings || !data.metadata || !data.checksum) {
+            return false;
+        }
+
+        // Verify checksum
+        const expectedChecksum = this.generateSecureHash(data.ratings);
+        if (data.checksum !== expectedChecksum) {
+            console.error('Data integrity check failed');
+            return false;
+        }
+
+        // Validate ratings data structure
+        const ratings = data.ratings;
+        if (typeof ratings !== 'object') {
+            return false;
+        }
+
+        // Validate each rating entry
+        for (const [key, ratingData] of Object.entries(ratings)) {
+            if (typeof key !== 'string' || key.trim() === '') {
+                return false;
+            }
+            
+            // Handle both old format (direct number) and new format (object)
+            if (typeof ratingData === 'number') {
+                // Old format validation
+                if (ratingData < 0 || ratingData > 10 || !Number.isInteger(ratingData)) {
+                    return false;
+                }
+            } else if (typeof ratingData === 'object' && ratingData !== null) {
+                // New format validation
+                if (!ratingData.hasOwnProperty('rating') || !ratingData.hasOwnProperty('title')) {
+                    return false;
+                }
+                if (typeof ratingData.rating !== 'number' || ratingData.rating < 0 || ratingData.rating > 10 || !Number.isInteger(ratingData.rating)) {
+                    return false;
+                }
+                if (typeof ratingData.title !== 'string' || ratingData.title.trim() === '') {
+                    return false;
+                }
+                // imdbId is optional, but if present should be a string
+                if (ratingData.imdbId !== null && ratingData.imdbId !== undefined && typeof ratingData.imdbId !== 'string') {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    exportRatings() {
+        try {
+            const ratings = this.loadRatings();
+            const ratedCount = this.getRatedMovieCount();
+            
+            const exportData = {
+                ratings: ratings,
+                metadata: {
+                    exportDate: new Date().toISOString(),
+                    version: '1.0'
+                },
+                checksum: this.generateSecureHash(ratings)
+            };
+
+            const jsonString = JSON.stringify(exportData, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+
+            // Create download link
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `nanardi-ratings-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Clean up URL object
+            URL.revokeObjectURL(url);
+
+            alert(`Export réussi ! ${ratedCount} notes exportées.`);
+
+        } catch (error) {
+            console.error('Export failed:', error);
+            alert('Erreur lors de l\'export. Veuillez réessayer.');
+        }
+    }
+
+    importRatings(file) {
+        // Validate file type and size
+        if (!file.type.includes('json')) {
+            alert('Veuillez sélectionner un fichier JSON valide.');
+            return;
+        }
+
+        if (file.size > 1024 * 1024) { // 1MB limit
+            alert('Le fichier est trop volumineux (limite: 1MB).');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const importData = JSON.parse(event.target.result);
+                
+                // Validate the imported data
+                if (!this.validateRatingsData(importData)) {
+                    throw new Error('Invalid data format or corrupted file');
+                }
+
+                // Confirm import with user
+                const metadata = importData.metadata;
+                const message = `Voulez-vous importer les notes ?\n\n` +
+                    `Date d'export: ${new Date(metadata.exportDate).toLocaleDateString('fr-FR')}\n` +
+                    `Films notés: ${metadata.ratedMovies}\n` +
+                    `Total films: ${metadata.totalMovies}\n\n` +
+                    `⚠️ Cela remplacera vos notes actuelles !`;
+
+                if (confirm(message)) {
+                    // Save the imported ratings
+                    localStorage.setItem(this.storageKey, JSON.stringify(importData.ratings));
+                    
+                    // Refresh the display
+                    this.setupRatingCells();
+                    this.updateMovieStats();
+                    
+                    alert(`Import réussi ! ${metadata.ratedMovies} notes importées.`);
+                }
+
+            } catch (error) {
+                console.error('Import failed:', error);
+                alert('Erreur lors de l\'import. Le fichier est peut-être corrompu ou invalide.');
+            }
+        };
+
+        reader.onerror = () => {
+            alert('Erreur lors de la lecture du fichier.');
+        };
+
+        reader.readAsText(file);
+    }
+}
+
+// MovieRating initialized above after DataTable
