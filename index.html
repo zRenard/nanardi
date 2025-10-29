@@ -7,7 +7,8 @@
     <title>Les films du Nanardi</title>
     <link rel="icon" href="fav.png" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.8/css/bootstrap.min.css"
-        integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA==" crossorigin="anonymous">
+        integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA=="
+        crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.bootstrap5.css"
         integrity="sha384-jL+8qa11q0sNp6WjCTNtQHQea/pJOmdt+2wumoR9vdEZs8FeP4+Ew9Q+FEI5Wp4z" crossorigin="anonymous">
     <link rel="stylesheet" href="index.css">
@@ -24,8 +25,10 @@
             <a class="toggle-vis icon-visible" data-column="2">Date</a> -
             <a class="toggle-vis icon-visible" data-column="3">Replay</a> -
             <a class="toggle-vis icon-visible" data-column="4">IMDB</a> -
-            <a class="toggle-vis icon-hidden" data-column="5">Ou le voir ?</a>
-            <a class="toggle-vis icon-hidden" data-column="6">Commentaires</a>
+            <a class="toggle-vis icon-visible" data-column="5">Poster</a> -
+            <a class="toggle-vis icon-visible" data-column="6">Images</a> -
+            <a class="toggle-vis icon-hidden" data-column="7">Ou le voir ?</a>
+            <a class="toggle-vis icon-hidden" data-column="8">Commentaires</a>
         </div>
         <table id="liste" class="table">
             <thead>
@@ -35,6 +38,8 @@
                     <th>Date</th>
                     <th>Replay</th>
                     <th>IMDB</th>
+                    <th>Poster</th>
+                    <th>Images</th>
                     <th>Ou le voir ?</th>
                     <th>Commentaires</th>
                 </tr>
@@ -46,6 +51,8 @@
                     <td view>2024-03-12</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0109098</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/american-cyborg-steel-warrior</td>
                     <td>American cyborg: le guerrier d'acier</td>
                 </tr>
@@ -55,6 +62,8 @@
                     <td view>2024-04-02</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt13298656</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/asteroid-a-geddon</td>
                     <td></td>
                 </tr>
@@ -64,6 +73,8 @@
                     <td view>2024-04-09</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0452668</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/pterodactyl</td>
                     <td>Ptérodactyles</td>
                 </tr>
@@ -73,6 +84,8 @@
                     <td view>2024-04-17</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt1876261/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/bigfoot</td>
                     <td></td>
                 </tr>
@@ -82,6 +95,8 @@
                     <td view>2024-04-24</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0896585</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/yeti-curse-of-the-snow-demon</td>
                     <td></td>
                 </tr>
@@ -91,6 +106,8 @@
                     <td view>2024-04-30</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0272147</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/vampires-los-muertos</td>
                     <td></td>
                 </tr>
@@ -100,6 +117,8 @@
                     <td view>2024-05-07</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0112993</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/evolver</td>
                     <td></td>
                 </tr>
@@ -109,6 +128,8 @@
                     <td view>2024-05-15</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0096786</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/alienator</td>
                     <td>Les aliens sortis de concert de glamrock</td>
                 </tr>
@@ -118,6 +139,8 @@
                     <td view>2024-05-29</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0077156</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/search?q=The%20Amazing%20Captain%20Nemo</td>
                     <td>Le film de la série, c'était pas necessaire, non vraiment</td>
                 </tr>
@@ -127,6 +150,8 @@
                     <td view>2024-06-04</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt1194271</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/against-the-dark</td>
                     <td>Un Steven Seagal oublié ... enfin on aurrait du</td>
                 </tr>
@@ -136,6 +161,8 @@
                     <td view>2024-06-11</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0092676</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/bloody-new-year</td>
                     <td>aka Réveillon sanglant / Bloody New Year</td>
                 </tr>
@@ -145,6 +172,8 @@
                     <td view>2024-06-18</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0229362</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/search?q=Tha%20Eastsidaz</td>
                     <td>Tha Eastsidaz</td>
                 </tr>
@@ -154,6 +183,8 @@
                     <td view>2024-06-25</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0120604</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/beowulf-1999</td>
                     <td></td>
                 </tr>
@@ -163,6 +194,8 @@
                     <td view>2024-07-16</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0209095</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/leprechaun-in-the-hood</td>
                     <td>Leprechaun 5 : La Malédiction.</td>
                 </tr>
@@ -172,6 +205,8 @@
                     <td view>2024-07-24</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0081259</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/the-octagon</td>
                     <td>La Fureur du juste</td>
                 </tr>
@@ -181,6 +216,8 @@
                     <td view>2024-07-30</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0339294</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/leprechaun-back-2-tha-hood</td>
                     <td>Leprechaun 6 : Le Retour</td>
                 </tr>
@@ -190,6 +227,8 @@
                     <td view>2024-08-06</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0092615</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/the-barbarians-1987</td>
                     <td></td>
                 </tr>
@@ -199,6 +238,8 @@
                     <td view>2024-08-13</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt18394428</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/titanic-666</td>
                     <td></td>
                 </tr>
@@ -208,6 +249,8 @@
                     <td view>2024-08-21</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0092926</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/search?q=Dragon%20Hunt</td>
                     <td>Dragon Kickboxers</td>
                 </tr>
@@ -217,6 +260,8 @@
                     <td view>2024-08-27 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/title/tt0299556/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/bloody-mallory</td>
                     <td></td>
                 </tr>
@@ -226,6 +271,8 @@
                     <td view>2024-09-03 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/title/tt0116861</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/leprechaun-4-in-space</td>
                     <td></td>
                 </tr>
@@ -235,6 +282,8 @@
                     <td view>2024-09-10 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/title/tt0111361</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/tammy-and-the-t-rex</td>
                     <td>Crossover non officiel entre Fast and Furious et Starshiptrooper et puis Jurrasic Park 2 aussi
                     </td>
@@ -245,6 +294,8 @@
                     <td view>2024-09-18 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/title/tt0101366</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/arena-1989</td>
                     <td></td>
                 </tr>
@@ -254,6 +305,8 @@
                     <td view>2024-09-24 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/title/tt0101326</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/american-ninja-4-the-annihilation</td>
                     <td>American warrior 4 en vf 🤔</td>
                 </tr>
@@ -263,6 +316,8 @@
                     <td view>2024-10-01 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/title/tt0299981/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/highlander-the-source</td>
                     <td></td>
                 </tr>
@@ -272,6 +327,8 @@
                     <td view>2024-10-08 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/title/tt0102965</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/search?q=Speak%20of%20the%20Devil</td>
                     <td></td>
                 </tr>
@@ -281,6 +338,8 @@
                     <td view>2024-11-05 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/title/tt0096149/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/space-mutiny</td>
                     <td></td>
                 </tr>
@@ -290,6 +349,8 @@
                     <td view>2024-11-12 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/title/tt0065832/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/hercules-goes-bananas</td>
                     <td></td>
                 </tr>
@@ -299,6 +360,8 @@
                     <td view>2024-11-19 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/title/tt0075783/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/breaker-breaker</td>
                     <td></td>
                 </tr>
@@ -308,6 +371,8 @@
                     <td view>2024-12-03 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0100728</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/search?q=Syngenor</td>
                     <td>aka Soldat Cyborg</td>
                 </tr>
@@ -317,6 +382,8 @@
                     <td view>2024-12-10 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/title/tt0073804/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/search?q=Superuomini,%20superdonne,%20superbotte</td>
                     <td></td>
                 </tr>
@@ -326,6 +393,8 @@
                     <td view>2024-12-17 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/title/tt0058548/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/santa-claus-conquers-the-martians</td>
                     <td></td>
                 </tr>
@@ -335,6 +404,8 @@
                     <td view>2025-01-07 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/title/tt0199865</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/ninja-silent-assassin</td>
                     <td></td>
                 </tr>
@@ -344,6 +415,8 @@
                     <td view>2025-01-14 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/title/tt0093586</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/mutant-hunt</td>
                     <td>aka Mutant Hunt</td>
                 </tr>
@@ -353,6 +426,8 @@
                     <td view>2025-01-21 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/title/tt0200211/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch>https://www.justwatch.com/us/movie/thor-the-conqueror</td>
                     <td></td>
                 </tr>
@@ -362,6 +437,8 @@
                     <td view>2025-01-27 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt5823524/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Il est sur le podium celui là !</td>
                 </tr>
@@ -371,6 +448,8 @@
                     <td view>2025-02-04 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0130236/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td></td>
                 </tr>
@@ -380,6 +459,8 @@
                     <td view>2025-02-12 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0100448</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td></td>
                 </tr>
@@ -389,6 +470,8 @@
                     <td view>2025-02-18 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0088380</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td></td>
                 </tr>
@@ -398,6 +481,8 @@
                     <td view>2025-02-25 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0113141</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td></td>
                 </tr>
@@ -407,6 +492,8 @@
                     <td view>2025-03-04 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0096804</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>American Ninja 3: Blood Hunt</td>
                 </tr>
@@ -416,6 +503,8 @@
                     <td view>2025-03-11 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0088359</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>White Fire !!!!!</td>
                 </tr>
@@ -425,6 +514,8 @@
                     <td view>2025-03-18 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0093146</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td></td>
                 </tr>
@@ -434,6 +525,8 @@
                     <td view>2025-03-26 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0202046</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Duncan Jax ; Les agents 007 1/2</td>
                 </tr>
@@ -443,6 +536,8 @@
                     <td view>2025-04-02 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0199912</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Moins de toutounes et plus de Baboon ! On continue les aventures de Boon dans Duncan Jax 2 -
                         L'Ordre de l'Aigle Noir (ou Mission : Empêcher la résurrection d’Hitler ! - USA 1987) (c'est la
@@ -454,6 +549,8 @@
                     <td view>2025-04-16 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0091166</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td></td>
                 </tr>
@@ -463,6 +560,8 @@
                     <td view>2025-04-22 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt21426434</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td></td>
                 </tr>
@@ -472,6 +571,8 @@
                     <td view>2025-04-29 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0086141/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Et sinon vous avez compris ce qu'a dit le vaudour ? &#x1F602; </td>
                 </tr>
@@ -481,6 +582,8 @@
                     <td view>2025-05-06 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0096341</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Une chatastrophe ce film</td>
                 </tr>
@@ -490,6 +593,8 @@
                     <td view>2025-05-13 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0089104</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td></td>
                 </tr>
@@ -499,6 +604,8 @@
                     <td view>2025-05-20 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0165138</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td></td>
                 </tr>
@@ -508,6 +615,8 @@
                     <td view>2025-05-27 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0080058</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>A peu presque StarWar</td>
                 </tr>
@@ -517,6 +626,8 @@
                     <td view>2025-06-03 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0091012</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Equalizer 2000</td>
                 </tr>
@@ -526,6 +637,8 @@
                     <td view>2025-06-10 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0081693</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Sakom est libre (enfin je le connaît pas mais bon, ils l'ont dit 50 fois) :)</td>
                 </tr>
@@ -535,6 +648,8 @@
                     <td view>2025-06-17 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0077788</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Du rroooooccckkkkkk</td>
                 </tr>
@@ -544,6 +659,8 @@
                     <td view>2025-06-24 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0096000</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Presquedator</td>
                 </tr>
@@ -553,6 +670,8 @@
                     <td view>2025-07-01 </td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0106257</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Niiiinjjjaaaa attaque PQ de feu!</td>
                 </tr>
@@ -562,6 +681,8 @@
                     <td view>2025-07-08 </td>
                     <td replay>https://youtu.be/yBqjvlgtGW0?si=vwuuzhE3Z2hqIP0L</td>
                     <td link>https://www.imdb.com/fr/title/tt0109144</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td></td>
                 </tr>
@@ -571,6 +692,8 @@
                     <td view>2025-07-15</td>
                     <td replay>https://youtu.be/d8HvM0_ukWk?si=PxkNPgyP6-95nbAG</td>
                     <td link>https://www.imdb.com/fr/title/tt0233004</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Pas mal non ? c'est français</td>
                 </tr>
@@ -580,6 +703,8 @@
                     <td view>2025-07-22</td>
                     <td replay>https://youtu.be/ngMwtkTsYoQ?si=P5p5Gn3V5LRkNAmK</td>
                     <td link>https://www.imdb.com/fr/title/tt0115834</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Graouu graouuuu mais lowcost</td>
                 </tr>
@@ -589,6 +714,8 @@
                     <td view>2025-07-29</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0107612</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Avec Panda ! RIP Hulk Hogan</td>
                 </tr>
@@ -598,6 +725,8 @@
                     <td view>2025-08-05</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0430216/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>007 1/2</td>
                 </tr>
@@ -607,6 +736,8 @@
                     <td view>2025-08-12</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0266338/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Moustaches club</td>
                 </tr>
@@ -616,6 +747,8 @@
                     <td view>2025-08-19</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt1109478/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td></td>
                 </tr>
@@ -625,6 +758,8 @@
                     <td view>2025-08-27</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0301110/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Clash of the ninjas. Vraiment dans le top 3 celui là !</td>
                 </tr>
@@ -634,6 +769,8 @@
                     <td view>2025-09-02</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0089308/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Samson dan Delilah (va savoir pourquoi)</td>
                 </tr>
@@ -643,6 +780,8 @@
                     <td view>2025-09-10</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0098156/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>ça veut dire quoi ROTOR déjà ? 😂</td>
                 </tr>
@@ -652,6 +791,8 @@
                     <td view>2025-09-16</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0114403/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Cauchemar sanglant</td>
                 </tr>
@@ -661,6 +802,8 @@
                     <td view>2025-09-23</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0101744/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Do or Die avec dé-toutounage intensif</td>
                 </tr>
@@ -670,6 +813,8 @@
                     <td view>2025-09-30</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0387445</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td></td>
                 </tr>
@@ -679,6 +824,8 @@
                     <td view>2025-10-07</td>
                     <td replay></td>
                     <td link>https://www.imdb.com/fr/title/tt0089308/</td>
+                    <td poster></td>
+                    <td images></td>
                     <td justwatch></td>
                     <td>Howling II... Your Sister Is a Werewolf ou Howling II: Stirba - Werewolf Bitch</td>
                 </tr>
@@ -691,6 +838,22 @@
             Dernière mise à jour : <span id="updateDate"></span>
         </p>
     </footer>
+
+    <!-- Modal pour afficher le poster en grand -->
+    <div class="modal fade" id="posterModal" tabindex="-1" aria-labelledby="posterModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="posterModalLabel">Poster du film</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalPosterImg" src="" alt="Poster du film" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha384-wsqsSADZR1YRBEZ4/kKHNSmU+aX8ojbnKUMN4RyD3jDkxw5mHtoe2z/T/n4l56U/"
         crossorigin="anonymous"></script>
