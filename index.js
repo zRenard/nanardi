@@ -589,10 +589,10 @@ class MovieRating {
 
                 // Confirm import with user
                 const metadata = importData.metadata;
+                const ratedMovies = Object.keys(importData.ratings).length;
                 const message = `Voulez-vous importer les notes ?\n\n` +
                     `Date d'export: ${new Date(metadata.exportDate).toLocaleDateString('fr-FR')}\n` +
-                    `Films notés: ${metadata.ratedMovies}\n` +
-                    `Total films: ${metadata.totalMovies}\n\n` +
+                    `Films notés: ${ratedMovies}\n\n` +
                     `⚠️ Cela remplacera vos notes actuelles !`;
 
                 if (confirm(message)) {
@@ -602,8 +602,9 @@ class MovieRating {
                     // Refresh the display
                     this.setupRatingCells();
                     this.updateMovieStats();
+                    const ratedCount = this.getRatedMovieCount();
                     
-                    alert(`Import réussi ! ${metadata.ratedMovies} notes importées.`);
+                    alert(`Import réussi ! ${ratedCount} notes importées.`);
                 }
 
             } catch (error) {
