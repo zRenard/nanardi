@@ -51,29 +51,7 @@ $('a.toggle-vis').on('click', function (e) {
 });
 
 
-// Dynamically replace cell content with a link
-$('td[link]').each(function () {
-    if (!$(this).is(':empty')) {
-        var url = $(this).text();
-        $(this).html('<a href="' + url + '" target="_blank">' + url + '</a>');
-    }
-});
-$('td[justwatch]').each(function () {
-    if (!$(this).is(':empty')) {
-        var url = $(this).text();
-        $(this).html('<a href="' + url + '" target="_blank">' + url + '</a>');
-    }
-});
-$('td[replay]').each(function () {
-    if (!$(this).is(':empty')) {
-        var url = $(this).text();
-        $(this).html('<a href="' + url + '" target="_blank">' + url + '</a>');
-    }
-});
-
-// Poster columns are now in HTML, no need to add them dynamically
-
-// Extract IMDb ID from IMDb links and populate poster cells
+// First, extract IMDb IDs from links before replacing content
 $('td[link]').each(function () {
     const imdbUrl = $(this).text();
     const imdbIdMatch = imdbUrl.match(/\/title\/(tt\d+)/);
@@ -88,7 +66,46 @@ $('td[link]').each(function () {
     }
 });
 
-// Handle poster thumbnails
+// Initialize posters and images after IMDb IDs are set
+initializePostersAndImages();
+
+// Now replace cell content with icons/links
+$('td[link]').each(function () {
+    if (!$(this).is(':empty')) {
+        var url = $(this).text();
+        // Create an IMDb logo
+        var imdbIcon = '<div class="imdb-icon" title="Voir sur IMDb">' +
+                      '<svg width="64" height="32" viewBox="0 0 64 32" fill="currentColor">' +
+                      '<rect width="64" height="32" rx="4" fill="#F5C518"/>' +
+                      '<text x="32" y="22" font-family="Arial Black, sans-serif" font-size="14" font-weight="900" text-anchor="middle" fill="#000000">IMDb</text>' +
+                      '</svg>' +
+                      '</div>';
+        $(this).html('<a href="' + url + '" target="_blank" class="imdb-replay-icon">' + imdbIcon + '</a>');
+    }
+});
+$('td[justwatch]').each(function () {
+    if (!$(this).is(':empty')) {
+        var url = $(this).text();
+        $(this).html('<a href="' + url + '" target="_blank">' + url + '</a>');
+    }
+});
+$('td[replay]').each(function () {
+    if (!$(this).is(':empty')) {
+        var url = $(this).text();
+        // Create a YouTube logo
+        var youtubeIcon = '<div class="youtube-icon" title="Regarder sur YouTube">' +
+                         '<svg width="56" height="40" viewBox="0 0 28 20" fill="currentColor">' +
+                         '<path d="M27.9727 3.12324C27.6435 1.89323 26.6768 0.926623 25.4468 0.597366C23.2197 2.24288e-07 14.285 0 14.285 0C14.285 0 5.35042 2.24288e-07 3.12323 0.597366C1.89323 0.926623 0.926623 1.89323 0.597366 3.12324C2.24288e-07 5.35042 0 10 0 10C0 10 2.24288e-07 14.6496 0.597366 16.8768C0.926623 18.1068 1.89323 19.0734 3.12323 19.4026C5.35042 20 14.285 20 14.285 20C14.285 20 23.2197 20 25.4468 19.4026C26.6768 19.0734 27.6435 18.1068 27.9727 16.8768C28.5701 14.6496 28.5701 10 28.5701 10C28.5701 10 28.5701 5.35042 27.9727 3.12324Z" fill="#FF0000"/>' +
+                         '<path d="M11.4253 14.2854L18.8477 10.0004L11.4253 5.71533V14.2854Z" fill="white"/>' +
+                         '</svg>' +
+                         '</div>';
+        $(this).html('<a href="' + url + '" target="_blank" class="youtube-replay-icon">' + youtubeIcon + '</a>');
+    }
+});
+
+// Function to initialize posters and images after IMDb IDs are set
+function initializePostersAndImages() {
+    // Handle poster thumbnails
 $('td[poster]').each(function () {
     const imdbId = $(this).data('imdb-id');
     
@@ -102,7 +119,7 @@ $('td[poster]').each(function () {
             .attr('alt', 'Poster')
             .addClass('poster-thumbnail')
             .css({
-                'width': '50px',
+                'width': '100px',
                 'cursor': 'pointer',
                 'border-radius': '4px'
             })
@@ -227,6 +244,7 @@ $('td[images]').each(async function () {
         $this.html(imagesContainer);
     }
 });
+}
 
 // Rating System
 class MovieRating {

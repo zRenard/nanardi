@@ -221,3 +221,75 @@ a {
     margin-right: 8px;
     font-size: 18px;
 }
+
+/* YouTube replay icon styling */
+.youtube-replay-icon {
+    text-decoration: none !important;
+    display: inline-block;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.youtube-replay-icon:hover {
+    transform: scale(1.1);
+    text-decoration: none !important;
+    opacity: 0.8;
+}
+
+.youtube-replay-icon:visited {
+    text-decoration: none !important;
+}
+
+.youtube-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.youtube-icon svg {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* Center replay icons in table cells */
+td[replay] {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* IMDb icon styling */
+.imdb-replay-icon {
+    text-decoration: none !important;
+    display: inline-block;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.imdb-replay-icon:hover {
+    transform: scale(1.1);
+    text-decoration: none !important;
+    opacity: 0.8;
+}
+
+.imdb-replay-icon:visited {
+    text-decoration: none !important;
+}
+
+.imdb-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.imdb-icon svg {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* Center IMDb icons in table cells */
+td[link] {
+    text-align: center;
+    vertical-align: middle;
+}
