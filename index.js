@@ -86,7 +86,14 @@ $('td[link]').each(function () {
 $('td[justwatch]').each(function () {
     if (!$(this).is(':empty')) {
         var url = $(this).text();
-        $(this).html('<a href="' + url + '" target="_blank">' + url + '</a>');
+        // Create a JustWatch logo
+        var justwatchIcon = '<div class="justwatch-icon" title="Voir sur JustWatch">' +
+                           '<svg width="120" height="36" viewBox="0 0 80 24" fill="currentColor">' +
+                           '<rect width="80" height="24" rx="12" fill="#FFD23F"/>' +
+                           '<text x="40" y="16" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="#1A1A1A">JustWatch</text>' +
+                           '</svg>' +
+                           '</div>';
+        $(this).html('<a href="' + url + '" target="_blank" class="justwatch-replay-icon">' + justwatchIcon + '</a>');
     }
 });
 $('td[replay]').each(function () {

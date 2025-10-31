@@ -293,3 +293,39 @@ td[link] {
     text-align: center;
     vertical-align: middle;
 }
+
+/* JustWatch icon styling */
+.justwatch-replay-icon {
+    text-decoration: none !important;
+    display: inline-block;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.justwatch-replay-icon:hover {
+    transform: scale(1.1);
+    text-decoration: none !important;
+    opacity: 0.8;
+}
+
+.justwatch-replay-icon:visited {
+    text-decoration: none !important;
+}
+
+.justwatch-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.justwatch-icon svg {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* Center JustWatch icons in table cells */
+td[justwatch] {
+    text-align: center;
+    vertical-align: middle;
+}
