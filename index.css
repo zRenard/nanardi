@@ -329,3 +329,24 @@ td[justwatch] {
     text-align: center;
     vertical-align: middle;
 }
+
+/* Links container styling */
+.links-container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.links-container a {
+    display: inline-block;
+    text-decoration: none;
+}
+
+/* Center merged links in table cells */
+td[links] {
+    text-align: center;
+    vertical-align: middle;
+    padding: 8px;
+}

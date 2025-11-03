@@ -22,19 +22,9 @@ $(document).ready(function() {
             [20, 40, 60, -1],
             [20, 40, 60, 'All']
         ],
-        columnDefs: [
-            {
-                targets: 3
-            },
-            {
-                target: 8,
-                visible: false
-            },
-            {
-                target: 9,
-                visible: false
-            }
-        ]
+    columnDefs: [
+        { targets: 7, visible: false }
+    ],
     });
     
     movieRating = new MovieRating();
@@ -51,64 +41,83 @@ $('a.toggle-vis').on('click', function (e) {
 });
 
 
-// First, extract IMDb IDs from links before replacing content
-$('td[link]').each(function () {
-    const imdbUrl = $(this).text();
-    const imdbIdMatch = imdbUrl.match(/\/title\/(tt\d+)/);
+// Extract IMDb IDs and process links from the new structure
+$('tbody tr').each(function() {
+    const $row = $(this);
+    const linksCell = $row.find('td[links]');
     
-    if (imdbIdMatch) {
-        const imdbId = imdbIdMatch[1];
-        const posterCell = $(this).closest('tr').find('td[poster]');
+    if (linksCell.length) {
+        // Extract URLs from data attributes
+        const replayUrl = linksCell.attr('data-replay') || '';
+        const imdbUrl = linksCell.attr('data-imdb') || '';
+        const justwatchUrl = linksCell.attr('data-justwatch') || '';
         
-        if (posterCell.length) {
-            posterCell.attr('data-imdb-id', imdbId);
+        // Extract IMDb ID for posters
+        if (imdbUrl) {
+            const imdbIdMatch = imdbUrl.match(/\/title\/(tt\d+)/);
+            if (imdbIdMatch) {
+                const imdbId = imdbIdMatch[1];
+                const posterCell = $row.find('td[poster]');
+                if (posterCell.length) {
+                    posterCell.attr('data-imdb-id', imdbId);
+                }
+            }
         }
+        
+        // Create merged links cell content
+        const linksContainer = $('<div>').addClass('links-container');
+        
+        // Add YouTube icon if replay URL exists
+        if (replayUrl) {
+            const youtubeIcon = $('<a>')
+                .attr('href', replayUrl)
+                .attr('target', '_blank')
+                .addClass('youtube-replay-icon')
+                .attr('title', 'Regarder sur YouTube')
+                .html('<div class="youtube-icon">' +
+                      '<svg width="34" height="25" viewBox="0 0 28 20" fill="currentColor">' +
+                      '<path d="M27.9727 3.12324C27.6435 1.89323 26.6768 0.926623 25.4468 0.597366C23.2197 2.24288e-07 14.285 0 14.285 0C14.285 0 5.35042 2.24288e-07 3.12323 0.597366C1.89323 0.926623 0.926623 1.89323 0.597366 3.12324C2.24288e-07 5.35042 0 10 0 10C0 10 2.24288e-07 14.6496 0.597366 16.8768C0.926623 18.1068 1.89323 19.0734 3.12323 19.4026C5.35042 20 14.285 20 14.285 20C14.285 20 23.2197 20 25.4468 19.4026C26.6768 19.0734 27.6435 18.1068 27.9727 16.8768C28.5701 14.6496 28.5701 10 28.5701 10C28.5701 10 28.5701 5.35042 27.9727 3.12324Z" fill="#FF0000"/>' +
+                      '<path d="M11.4253 14.2854L18.8477 10.0004L11.4253 5.71533V14.2854Z" fill="white"/>' +
+                      '</svg></div>');
+            linksContainer.append(youtubeIcon);
+        }
+        
+        // Add IMDb icon if IMDb URL exists
+        if (imdbUrl) {
+            const imdbIcon = $('<a>')
+                .attr('href', imdbUrl)
+                .attr('target', '_blank')
+                .addClass('imdb-replay-icon')
+                .attr('title', 'Voir sur IMDb')
+                .html('<div class="imdb-icon">' +
+                      '<svg width="50" height="25" viewBox="0 0 64 32" fill="currentColor">' +
+                      '<rect width="64" height="32" rx="4" fill="#F5C518"/>' +
+                      '<text x="32" y="22" font-family="Arial Black, sans-serif" font-size="14" font-weight="900" text-anchor="middle" fill="#000000">IMDb</text>' +
+                      '</svg></div>');
+            linksContainer.append(imdbIcon);
+        }
+        
+        // Add JustWatch icon if JustWatch URL exists
+        if (justwatchUrl) {
+            const justwatchIcon = $('<a>')
+                .attr('href', justwatchUrl)
+                .attr('target', '_blank')
+                .addClass('justwatch-replay-icon')
+                .attr('title', 'Voir sur JustWatch')
+                .html('<div class="justwatch-icon">' +
+                      '<svg width="83" height="25" viewBox="0 0 80 24" fill="currentColor">' +
+                      '<rect width="80" height="24" rx="12" fill="#FFD23F"/>' +
+                      '<text x="40" y="16" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="#1A1A1A">JustWatch</text>' +
+                      '</svg></div>');
+            linksContainer.append(justwatchIcon);
+        }
+        
+        linksCell.html(linksContainer);
     }
 });
 
 // Initialize posters and images after IMDb IDs are set
 initializePostersAndImages();
-
-// Now replace cell content with icons/links
-$('td[link]').each(function () {
-    if (!$(this).is(':empty')) {
-        var url = $(this).text();
-        // Create an IMDb logo
-        var imdbIcon = '<div class="imdb-icon" title="Voir sur IMDb">' +
-                      '<svg width="64" height="32" viewBox="0 0 64 32" fill="currentColor">' +
-                      '<rect width="64" height="32" rx="4" fill="#F5C518"/>' +
-                      '<text x="32" y="22" font-family="Arial Black, sans-serif" font-size="14" font-weight="900" text-anchor="middle" fill="#000000">IMDb</text>' +
-                      '</svg>' +
-                      '</div>';
-        $(this).html('<a href="' + url + '" target="_blank" class="imdb-replay-icon">' + imdbIcon + '</a>');
-    }
-});
-$('td[justwatch]').each(function () {
-    if (!$(this).is(':empty')) {
-        var url = $(this).text();
-        // Create a JustWatch logo
-        var justwatchIcon = '<div class="justwatch-icon" title="Voir sur JustWatch">' +
-                           '<svg width="120" height="36" viewBox="0 0 80 24" fill="currentColor">' +
-                           '<rect width="80" height="24" rx="12" fill="#FFD23F"/>' +
-                           '<text x="40" y="16" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="#1A1A1A">JustWatch</text>' +
-                           '</svg>' +
-                           '</div>';
-        $(this).html('<a href="' + url + '" target="_blank" class="justwatch-replay-icon">' + justwatchIcon + '</a>');
-    }
-});
-$('td[replay]').each(function () {
-    if (!$(this).is(':empty')) {
-        var url = $(this).text();
-        // Create a YouTube logo
-        var youtubeIcon = '<div class="youtube-icon" title="Regarder sur YouTube">' +
-                         '<svg width="56" height="40" viewBox="0 0 28 20" fill="currentColor">' +
-                         '<path d="M27.9727 3.12324C27.6435 1.89323 26.6768 0.926623 25.4468 0.597366C23.2197 2.24288e-07 14.285 0 14.285 0C14.285 0 5.35042 2.24288e-07 3.12323 0.597366C1.89323 0.926623 0.926623 1.89323 0.597366 3.12324C2.24288e-07 5.35042 0 10 0 10C0 10 2.24288e-07 14.6496 0.597366 16.8768C0.926623 18.1068 1.89323 19.0734 3.12323 19.4026C5.35042 20 14.285 20 14.285 20C14.285 20 23.2197 20 25.4468 19.4026C26.6768 19.0734 27.6435 18.1068 27.9727 16.8768C28.5701 14.6496 28.5701 10 28.5701 10C28.5701 10 28.5701 5.35042 27.9727 3.12324Z" fill="#FF0000"/>' +
-                         '<path d="M11.4253 14.2854L18.8477 10.0004L11.4253 5.71533V14.2854Z" fill="white"/>' +
-                         '</svg>' +
-                         '</div>';
-        $(this).html('<a href="' + url + '" target="_blank" class="youtube-replay-icon">' + youtubeIcon + '</a>');
-    }
-});
 
 // Function to initialize posters and images after IMDb IDs are set
 function initializePostersAndImages() {
@@ -131,17 +140,35 @@ $('td[poster]').each(function () {
                 'border-radius': '4px'
             })
             .on('error', function() {
-                // If image doesn't exist, hide the thumbnail
-                $(this).hide();
+                // If poster doesn't exist, try goodenough.jpg as fallback
+                const goodenoughPath = `media/${imdbId}/goodenough.jpg`;
+                const $img = $(this);
+                
+                // Try goodenough.jpg as fallback
+                $img.off('error').on('error', function() {
+                    // If goodenough.jpg also doesn't exist, hide the thumbnail
+                    $(this).hide();
+                }).attr('src', goodenoughPath);
             })
             .on('click', function() {
                 // Show modal with full size poster
                 const modalImg = $('#modalPosterImg');
-                modalImg.attr('src', posterPath);
+                const currentSrc = $(this).attr('src'); // Use the current src (might be goodenough.jpg)
+                modalImg.attr('src', currentSrc);
                 
                 // Handle image load error in modal
                 modalImg.off('error').on('error', function() {
-                    $(this).attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIiBzdHJva2U9IiNkZWUyZTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmM3NTdkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgaW5kaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==');
+                    // If current image fails, try goodenough.jpg if we haven't already
+                    if (currentSrc.includes('poster.jpg')) {
+                        const goodenoughPath = `media/${imdbId}/goodenough.jpg`;
+                        $(this).off('error').on('error', function() {
+                            // If goodenough.jpg also fails, show placeholder
+                            $(this).attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIiBzdHJva2U9IiNkZWUyZTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmM3NTdkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgaW5kaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==');
+                        }).attr('src', goodenoughPath);
+                    } else {
+                        // Already tried goodenough.jpg, show placeholder
+                        $(this).attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIiBzdHJva2U9IiNkZWUyZTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmM3NTdkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgaW5kaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==');
+                    }
                 });
                 
                 const movieTitle = $(this).closest('tr').find('td[title]').text();

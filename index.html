@@ -25,12 +25,10 @@
                 <a class="toggle-vis icon-visible" data-column="0">Note</a> -
                 <a class="toggle-vis icon-visible" data-column="2">Année</a> -
                 <a class="toggle-vis icon-visible" data-column="3">Date</a> -
-                <a class="toggle-vis icon-visible" data-column="4">Replay</a> -
-                <a class="toggle-vis icon-visible" data-column="5">IMDB</a> -
-                <a class="toggle-vis icon-visible" data-column="6">Poster</a> -
-                <a class="toggle-vis icon-visible" data-column="7">Images</a> -
-                <a class="toggle-vis icon-hidden" data-column="8">Ou le voir ?</a>
-                <a class="toggle-vis icon-hidden" data-column="9">Commentaires</a>
+                <a class="toggle-vis icon-visible" data-column="4">Links</a> -
+                <a class="toggle-vis icon-visible" data-column="5">Poster</a> -
+                <a class="toggle-vis icon-visible" data-column="6">Images</a> -
+                <a class="toggle-vis icon-hidden" data-column="7">Commentaires</a>
             </div>
             <div class="rating-controls">
                 <div class="rating-actions">
@@ -47,7 +45,8 @@
                         Effacer toutes les notes
                     </button>
                 </div>
-                <input type="file" id="importFile" accept=".json" class="hidden-file-input" aria-label="Import ratings file">
+                <input type="file" id="importFile" accept=".json" class="hidden-file-input"
+                    aria-label="Import ratings file">
             </div>
         </div>
         <table id="liste" class="table">
@@ -57,11 +56,9 @@
                     <th>Titre</th>
                     <th>Année</th>
                     <th>Date</th>
-                    <th>Replay</th>
-                    <th>IMDB</th>
+                    <th>Liens</th>
                     <th>Affiche</th>
                     <th>Images</th>
-                    <th>Ou le voir ?</th>
                     <th>Commentaires</th>
                 </tr>
             </thead>
@@ -71,926 +68,755 @@
                     <td title>American Cyborg: Steel Warrior</td>
                     <td date>1993</td>
                     <td view>2024-03-12</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0109098</td>
+                    <td links data-replay="" data-imdb="https://www.imdb.com/fr/title/tt0109098"
+                        data-justwatch="https://www.justwatch.com/us/movie/american-cyborg-steel-warrior"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/american-cyborg-steel-warrior</td>
                     <td>American cyborg: le guerrier d'acier</td>
 
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Asteroid-a-Geddon</td>
-                    <td date>2020</td>
-                    <td view>2024-04-02</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt13298656</td>
+                    <td note></td>
+                    <td titre>Asteroid-a-Geddon</td>
+                    <td annee>2020</td>
+                    <td date>2024-04-02</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt13298656"
+                        data-justwatch="https://www.justwatch.com/us/movie/asteroid-a-geddon"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/asteroid-a-geddon</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Pterodactyl</td>
-                    <td date>2004</td>
-                    <td view>2024-04-09</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0452668</td>
+                    <td note></td>
+                    <td titre>Pterodactyl</td>
+                    <td annee>2004</td>
+                    <td date>2024-04-09</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0452668"
+                        data-justwatch="https://www.justwatch.com/us/movie/pterodactyl"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/pterodactyl</td>
-                    <td>Ptérodactyles</td>
-
+                    <td commentaires>Ptérodactyles</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Bigfoot : Géant des forêts</td>
-                    <td date>2012</td>
-                    <td view>2024-04-17</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt1876261/</td>
+                    <td note></td>
+                    <td titre>Bigfoot : Géant des forêts</td>
+                    <td annee>2012</td>
+                    <td date>2024-04-17</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt1876261/"
+                        data-justwatch="https://www.justwatch.com/us/movie/bigfoot"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/bigfoot</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Yeti</td>
-                    <td date>2008</td>
-                    <td view>2024-04-24</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0896585</td>
+                    <td note></td>
+                    <td titre>Yeti</td>
+                    <td annee>2008</td>
+                    <td date>2024-04-24</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0896585"
+                        data-justwatch="https://www.justwatch.com/us/movie/yeti-curse-of-the-snow-demon"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/yeti-curse-of-the-snow-demon</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Vampires 2 : Adieu vampires</td>
-                    <td date>2002</td>
-                    <td view>2024-04-30</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0272147</td>
+                    <td note></td>
+                    <td titre>Vampires 2 : Adieu vampires</td>
+                    <td annee>2002</td>
+                    <td date>2024-04-30</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0272147"
+                        data-justwatch="https://www.justwatch.com/us/movie/vampires-los-muertos"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/vampires-los-muertos</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Evolver</td>
-                    <td date>1995</td>
-                    <td view>2024-05-07</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0112993</td>
+                    <td note></td>
+                    <td titre>Evolver</td>
+                    <td annee>1995</td>
+                    <td date>2024-05-07</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0112993"
+                        data-justwatch="https://www.justwatch.com/us/movie/evolver"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/evolver</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Alienator</td>
-                    <td date>1990</td>
-                    <td view>2024-05-15</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0096786</td>
+                    <td note></td>
+                    <td titre>Alienator</td>
+                    <td annee>1990</td>
+                    <td date>2024-05-15</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0096786"
+                        data-justwatch="https://www.justwatch.com/us/movie/alienator"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/alienator</td>
-                    <td>Les aliens sortis de concert de glamrock</td>
-
+                    <td commentaires>Les aliens sortis de concert de glamrock</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Le Retour du capitaine Nemo</td>
-                    <td date>1978</td>
-                    <td view>2024-05-29</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0077156</td>
+                    <td note></td>
+                    <td titre>Le Retour du capitaine Nemo</td>
+                    <td annee>1978</td>
+                    <td date>2024-05-29</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0077156"
+                        data-justwatch="https://www.justwatch.com/us/search?q=The%20Amazing%20Captain%20Nemo"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/search?q=The%20Amazing%20Captain%20Nemo</td>
-                    <td>Le film de la série, c'était pas necessaire, non vraiment</td>
-
+                    <td commentaires>Le film de la série, c'était pas necessaire, non vraiment</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Against the Dark</td>
-                    <td date>2009</td>
-                    <td view>2024-06-04</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt1194271</td>
+                    <td note></td>
+                    <td titre>Against the Dark</td>
+                    <td annee>2009</td>
+                    <td date>2024-06-04</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt1194271"
+                        data-justwatch="https://www.justwatch.com/us/movie/against-the-dark"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/against-the-dark</td>
-                    <td>Un Steven Seagal oublié ... enfin on aurrait du</td>
-
+                    <td commentaires>Un Steven Seagal oublié ... enfin on aurrait du</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Les Mutants de la Saint-Sylvestre</td>
-                    <td date>1987</td>
-                    <td view>2024-06-11</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0092676</td>
+                    <td note></td>
+                    <td titre>Les Mutants de la Saint-Sylvestre</td>
+                    <td annee>1987</td>
+                    <td date>2024-06-11</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0092676"
+                        data-justwatch="https://www.justwatch.com/us/movie/bloody-new-year"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/bloody-new-year</td>
-                    <td>aka Réveillon sanglant / Bloody New Year</td>
-
+                    <td commentaires>aka Réveillon sanglant / Bloody New Year</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Tha Eastsidaz, le Dogg se déchaine</td>
-                    <td date>2000</td>
-                    <td view>2024-06-18</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0229362</td>
+                    <td note></td>
+                    <td titre>Tha Eastsidaz, le Dogg se déchaine</td>
+                    <td annee>2000</td>
+                    <td date>2024-06-18</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0229362"
+                        data-justwatch="https://www.justwatch.com/us/search?q=Tha%20Eastsidaz"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/search?q=Tha%20Eastsidaz</td>
-                    <td>Tha Eastsidaz</td>
-
+                    <td commentaires>Tha Eastsidaz</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Beowulf</td>
-                    <td date>1999</td>
-                    <td view>2024-06-25</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0120604</td>
+                    <td note></td>
+                    <td titre>Beowulf</td>
+                    <td annee>1999</td>
+                    <td date>2024-06-25</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0120604"
+                        data-justwatch="https://www.justwatch.com/us/movie/beowulf-1999"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/beowulf-1999</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Leprechaun : In The Hood</td>
-                    <td date>2000</td>
-                    <td view>2024-07-16</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0209095</td>
+                    <td note></td>
+                    <td titre>Leprechaun : In The Hood</td>
+                    <td annee>2000</td>
+                    <td date>2024-07-16</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0209095"
+                        data-justwatch="https://www.justwatch.com/us/movie/leprechaun-in-the-hood"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/leprechaun-in-the-hood</td>
-                    <td>Leprechaun 5 : La Malédiction.</td>
-
+                    <td commentaires>Leprechaun 5 : La Malédiction.</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>The Octagon</td>
-                    <td date>1980</td>
-                    <td view>2024-07-24</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0081259</td>
+                    <td note></td>
+                    <td titre>The Octagon</td>
+                    <td annee>1980</td>
+                    <td date>2024-07-24</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0081259"
+                        data-justwatch="https://www.justwatch.com/us/movie/the-octagon"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/the-octagon</td>
-                    <td>La Fureur du juste</td>
-
+                    <td commentaires>La Fureur du juste</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Leprechaun : Back 2 Tha Hood</td>
-                    <td date>2003</td>
-                    <td view>2024-07-30</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0339294</td>
+                    <td note></td>
+                    <td titre>Leprechaun : Back 2 Tha Hood</td>
+                    <td annee>2003</td>
+                    <td date>2024-07-30</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0339294"
+                        data-justwatch="https://www.justwatch.com/us/movie/leprechaun-back-2-tha-hood"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/leprechaun-back-2-tha-hood</td>
-                    <td>Leprechaun 6 : Le Retour</td>
-
+                    <td commentaires>Leprechaun 6 : Le Retour</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Les Barbarians</td>
-                    <td date>1987</td>
-                    <td view>2024-08-06</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0092615</td>
+                    <td note></td>
+                    <td titre>Les Barbarians</td>
+                    <td annee>1987</td>
+                    <td date>2024-08-06</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0092615"
+                        data-justwatch="https://www.justwatch.com/us/movie/the-barbarians-1987"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/the-barbarians-1987</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Titanic 666</td>
-                    <td date>2022</td>
-                    <td view>2024-08-13</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt18394428</td>
+                    <td note></td>
+                    <td titre>Titanic 666</td>
+                    <td annee>2022</td>
+                    <td date>2024-08-13</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt18394428"
+                        data-justwatch="https://www.justwatch.com/us/movie/titanic-666"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/titanic-666</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Dragon Hunt</td>
-                    <td date>1990</td>
-                    <td view>2024-08-21</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0092926</td>
+                    <td note></td>
+                    <td titre>Dragon Hunt</td>
+                    <td annee>1990</td>
+                    <td date>2024-08-21</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0092926"
+                        data-justwatch="https://www.justwatch.com/us/search?q=Dragon%20Hunt"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/search?q=Dragon%20Hunt</td>
-                    <td>Dragon Kickboxers</td>
-
+                    <td commentaires>Dragon Kickboxers</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Bloody Mallory</td>
-                    <td date>2002</td>
-                    <td view>2024-08-27 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/title/tt0299556/</td>
+                    <td note></td>
+                    <td titre>Bloody Mallory</td>
+                    <td annee>2002</td>
+                    <td date>2024-08-27 </td>
+                    <td links data-imdb="https://www.imdb.com/title/tt0299556/"
+                        data-justwatch="https://www.justwatch.com/us/movie/bloody-mallory"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/bloody-mallory</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Leprechaun 4 : Destination cosmos</td>
-                    <td date>1996</td>
-                    <td view>2024-09-03 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/title/tt0116861</td>
+                    <td note></td>
+                    <td titre>Leprechaun 4 : Destination cosmos</td>
+                    <td annee>1996</td>
+                    <td date>2024-09-03 </td>
+                    <td links data-imdb="https://www.imdb.com/title/tt0116861"
+                        data-justwatch="https://www.justwatch.com/us/movie/leprechaun-4-in-space"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/leprechaun-4-in-space</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Tammy and the T-Rex</td>
-                    <td date>1994</td>
-                    <td view>2024-09-10 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/title/tt0111361</td>
+                    <td note></td>
+                    <td titre>Tammy and the T-Rex</td>
+                    <td annee>1994</td>
+                    <td date>2024-09-10 </td>
+                    <td links data-imdb="https://www.imdb.com/title/tt0111361"
+                        data-justwatch="https://www.justwatch.com/us/movie/tammy-and-the-t-rex"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/tammy-and-the-t-rex</td>
-                    <td>Crossover non officiel entre Fast and Furious et Starshiptrooper et puis Jurrasic Park 2 aussi
+                    <td commentaires>Crossover non officiel entre Fast and Furious et Starshiptrooper et puis Jurrasic
+                        Park 2 aussi
                     </td>
-
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Arena, les gladiateurs du futur</td>
-                    <td date>1989</td>
-                    <td view>2024-09-18 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/title/tt0101366</td>
+                    <td note></td>
+                    <td titre>Arena, les gladiateurs du futur</td>
+                    <td annee>1989</td>
+                    <td date>2024-09-18 </td>
+                    <td links data-imdb="https://www.imdb.com/title/tt0101366"
+                        data-justwatch="https://www.justwatch.com/us/movie/arena-1989"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/arena-1989</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>American ninja 4</td>
-                    <td date>1990</td>
-                    <td view>2024-09-24 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/title/tt0101326</td>
+                    <td note></td>
+                    <td titre>American ninja 4</td>
+                    <td annee>1990</td>
+                    <td date>2024-09-24 </td>
+                    <td links data-imdb="https://www.imdb.com/title/tt0101326"
+                        data-justwatch="https://www.justwatch.com/us/movie/american-ninja-4-the-annihilation"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/american-ninja-4-the-annihilation</td>
-                    <td>American warrior 4 en vf 🤔</td>
-
+                    <td commentaires>American warrior 4 en vf 🤔</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Highlander 5 - Le gardien de l'immortalité</td>
-                    <td date>2007</td>
-                    <td view>2024-10-01 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/title/tt0299981/</td>
+                    <td note></td>
+                    <td titre>Highlander 5 - Le gardien de l'immortalité</td>
+                    <td annee>2007</td>
+                    <td date>2024-10-01 </td>
+                    <td links data-imdb="https://www.imdb.com/title/tt0299981/"
+                        data-justwatch="https://www.justwatch.com/us/movie/highlander-the-source"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/highlander-the-source</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Aux portes de l'enfer</td>
-                    <td date>1989</td>
-                    <td view>2024-10-08 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/title/tt0102965</td>
+                    <td note></td>
+                    <td titre>Aux portes de l'enfer</td>
+                    <td annee>1989</td>
+                    <td date>2024-10-08 </td>
+                    <td links data-imdb="https://www.imdb.com/title/tt0102965"
+                        data-justwatch="https://www.justwatch.com/us/search?q=Speak%20of%20the%20Devil"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/search?q=Speak%20of%20the%20Devil</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Space Mutiny: La Guerre du futur</td>
-                    <td date>1988</td>
-                    <td view>2024-11-05 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/title/tt0096149/</td>
+                    <td note></td>
+                    <td titre>Space Mutiny: La Guerre du futur</td>
+                    <td annee>1988</td>
+                    <td date>2024-11-05 </td>
+                    <td links data-imdb="https://www.imdb.com/title/tt0096149/"
+                        data-justwatch="https://www.justwatch.com/us/movie/space-mutiny"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/space-mutiny</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Hercule à New York</td>
-                    <td date>1970</td>
-                    <td view>2024-11-12 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/title/tt0065832/</td>
+                    <td note></td>
+                    <td titre>Hercule à New York</td>
+                    <td annee>1970</td>
+                    <td date>2024-11-12 </td>
+                    <td links data-imdb="https://www.imdb.com/title/tt0065832/"
+                        data-justwatch="https://www.justwatch.com/us/movie/hercules-goes-bananas"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/hercules-goes-bananas</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Les casseurs</td>
-                    <td date>1977</td>
-                    <td view>2024-11-19 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/title/tt0075783/</td>
+                    <td note></td>
+                    <td titre>Les casseurs</td>
+                    <td annee>1977</td>
+                    <td date>2024-11-19 </td>
+                    <td links data-imdb="https://www.imdb.com/title/tt0075783/"
+                        data-justwatch="https://www.justwatch.com/us/movie/breaker-breaker"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/breaker-breaker</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Syngenor</td>
-                    <td date>1990</td>
-                    <td view>2024-12-03 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0100728</td>
+                    <td note></td>
+                    <td titre>Syngenor</td>
+                    <td annee>1990</td>
+                    <td date>2024-12-03 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0100728"
+                        data-justwatch="https://www.justwatch.com/us/search?q=Syngenor"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/search?q=Syngenor</td>
-                    <td>aka Soldat Cyborg</td>
-
+                    <td commentaires>aka Soldat Cyborg</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Supermen contre les amazones</td>
-                    <td date>1974</td>
-                    <td view>2024-12-10 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/title/tt0073804/</td>
+                    <td note></td>
+                    <td titre>Supermen contre les amazones</td>
+                    <td annee>1974</td>
+                    <td date>2024-12-10 </td>
+                    <td links data-imdb="https://www.imdb.com/title/tt0073804/"
+                        data-justwatch="https://www.justwatch.com/us/search?q=Superuomini,%20superdonne,%20superbotte">
+                    </td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/search?q=Superuomini,%20superdonne,%20superbotte</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Le père Noël contre les martiens</td>
-                    <td date>1964</td>
-                    <td view>2024-12-17 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/title/tt0058548/</td>
+                    <td note></td>
+                    <td titre>Le père Noël contre les martiens</td>
+                    <td annee>1964</td>
+                    <td date>2024-12-17 </td>
+                    <td links data-imdb="https://www.imdb.com/title/tt0058548/"
+                        data-justwatch="https://www.justwatch.com/us/movie/santa-claus-conquers-the-martians"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/santa-claus-conquers-the-martians</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Black Ninja</td>
-                    <td date>1987</td>
-                    <td view>2025-01-07 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/title/tt0199865</td>
+                    <td note></td>
+                    <td titre>Black Ninja</td>
+                    <td annee>1987</td>
+                    <td date>2025-01-07 </td>
+                    <td links data-imdb="https://www.imdb.com/title/tt0199865"
+                        data-justwatch="https://www.justwatch.com/us/movie/ninja-silent-assassin"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/ninja-silent-assassin</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Robot Killer</td>
-                    <td date>1987</td>
-                    <td view>2025-01-14 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/title/tt0093586</td>
+                    <td note></td>
+                    <td titre>Robot Killer</td>
+                    <td annee>1987</td>
+                    <td date>2025-01-14 </td>
+                    <td links data-imdb="https://www.imdb.com/title/tt0093586"
+                        data-justwatch="https://www.justwatch.com/us/movie/mutant-hunt"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/mutant-hunt</td>
-                    <td>aka Mutant Hunt</td>
-
+                    <td commentaires>aka Mutant Hunt</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Thor le guerrier</td>
-                    <td date>1983</td>
-                    <td view>2025-01-21 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/title/tt0200211/</td>
+                    <td note></td>
+                    <td titre>Thor le guerrier</td>
+                    <td annee>1983</td>
+                    <td date>2025-01-21 </td>
+                    <td links data-imdb="https://www.imdb.com/title/tt0200211/"
+                        data-justwatch="https://www.justwatch.com/us/movie/thor-the-conqueror"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch>https://www.justwatch.com/us/movie/thor-the-conqueror</td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Crocodile Fury</td>
-                    <td date>1988</td>
-                    <td view>2025-01-27 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt5823524/</td>
+                    <td note></td>
+                    <td titre>Crocodile Fury</td>
+                    <td annee>1988</td>
+                    <td date>2025-01-27 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt5823524/"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Il est sur le podium celui là !</td>
-
+                    <td commentaires>Il est sur le podium celui là !</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Samurai Cop</td>
-                    <td date>1991</td>
-                    <td view>2025-02-04 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0130236/</td>
+                    <td note></td>
+                    <td titre>Samurai Cop</td>
+                    <td annee>1991</td>
+                    <td date>2025-02-04 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0130236/"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Ator l'invincible</td>
-                    <td date>1990</td>
-                    <td view>2025-02-12 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0100448</td>
+                    <td note></td>
+                    <td titre>Ator l'invincible</td>
+                    <td annee>1990</td>
+                    <td date>2025-02-12 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0100448"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Le chevalier du monde perdu</td>
-                    <td date>1983</td>
-                    <td view>2025-02-18 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0088380</td>
+                    <td note></td>
+                    <td titre>Le chevalier du monde perdu</td>
+                    <td annee>1983</td>
+                    <td date>2025-02-18 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0088380"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Galgameth: L'apprenti dragon</td>
-                    <td date>1996</td>
-                    <td view>2025-02-25 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0113141</td>
+                    <td note></td>
+                    <td titre>Galgameth: L'apprenti dragon</td>
+                    <td annee>1996</td>
+                    <td date>2025-02-25 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0113141"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>American Warrior 3</td>
-                    <td date>1989</td>
-                    <td view>2025-03-04 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0096804</td>
+                    <td note></td>
+                    <td titre>American Warrior 3</td>
+                    <td annee>1989</td>
+                    <td date>2025-03-04 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0096804"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>American Ninja 3: Blood Hunt</td>
-
+                    <td commentaires>American Ninja 3: Blood Hunt</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Vivre pour survivre</td>
-                    <td date>1984</td>
-                    <td view>2025-03-11 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0088359</td>
+                    <td note></td>
+                    <td titre>Vivre pour survivre</td>
+                    <td annee>1984</td>
+                    <td date>2025-03-11 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0088359"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>White Fire !!!!!</td>
-
+                    <td commentaires>White Fire !!!!!</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Piège mortel à Hawaï</td>
-                    <td date>1987</td>
-                    <td view>2025-03-18 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0093146</td>
+                    <td note></td>
+                    <td titre>Piège mortel à Hawaï</td>
+                    <td annee>1987</td>
+                    <td date>2025-03-18 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0093146"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Unmasking the Idol</td>
-                    <td date>1986</td>
-                    <td view>2025-03-26 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0202046</td>
+                    <td note></td>
+                    <td titre>Unmasking the Idol</td>
+                    <td annee>1986</td>
+                    <td date>2025-03-26 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0202046"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Duncan Jax ; Les agents 007 1/2</td>
-
+                    <td commentaires>Duncan Jax ; Les agents 007 1/2</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>L'ordre de l'Aigle Noir</td>
-                    <td date>1987</td>
-                    <td view>2025-04-02 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0199912</td>
+                    <td note></td>
+                    <td titre>L'ordre de l'Aigle Noir</td>
+                    <td annee>1987</td>
+                    <td date>2025-04-02 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0199912"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Moins de toutounes et plus de Baboon ! On continue les aventures de Boon dans Duncan Jax 2 -
+                    <td commentaires>Moins de toutounes et plus de Baboon ! On continue les aventures de Boon dans
+                        Duncan Jax 2 -
                         L'Ordre de l'Aigle Noir (ou Mission : Empêcher la résurrection d’Hitler ! - USA 1987) (c'est la
                         suite du nanar de la semaine dernière)</td>
-
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Atomic Cyborg</td>
-                    <td date>1986</td>
-                    <td view>2025-04-16 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0091166</td>
+                    <td note></td>
+                    <td titre>Atomic Cyborg</td>
+                    <td annee>1986</td>
+                    <td date>2025-04-16 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0091166"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Shark Side of the Moon</td>
-                    <td date>2022</td>
-                    <td view>2025-04-22 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt21426434</td>
+                    <td note></td>
+                    <td titre>Shark Side of the Moon</td>
+                    <td annee>2022</td>
+                    <td date>2025-04-22 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt21426434"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Les Aventuriers de l'univers perdu</td>
-                    <td date>1983</td>
-                    <td view>2025-04-29 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0086141/</td>
+                    <td note></td>
+                    <td titre>Les Aventuriers de l'univers perdu</td>
+                    <td annee>1983</td>
+                    <td date>2025-04-29 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0086141/"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Et sinon vous avez compris ce qu'a dit le vaudour ? &#x1F602; </td>
-
+                    <td commentaires>Et sinon vous avez compris ce qu'a dit le vaudour ? &#x1F602; </td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Le clandestin</td>
-                    <td date>1988</td>
-                    <td view>2025-05-06 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0096341</td>
+                    <td note></td>
+                    <td titre>Le clandestin</td>
+                    <td annee>1988</td>
+                    <td date>2025-05-06 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0096341"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Une chatastrophe ce film</td>
-
+                    <td commentaires>Une chatastrophe ce film</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Les Guerriers du Bronx 2</td>
-                    <td date>1983</td>
-                    <td view>2025-05-13 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0089104</td>
+                    <td note></td>
+                    <td titre>Les Guerriers du Bronx 2</td>
+                    <td annee>1983</td>
+                    <td date>2025-05-13 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0089104"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Challenge the Ninja</td>
-                    <td date>1986</td>
-                    <td view>2025-05-20 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0165138</td>
+                    <td note></td>
+                    <td titre>Challenge the Ninja</td>
+                    <td annee>1986</td>
+                    <td date>2025-05-20 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0165138"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>L'humanoïde</td>
-                    <td date>1979</td>
-                    <td view>2025-05-27 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0080058</td>
+                    <td note></td>
+                    <td titre>L'humanoïde</td>
+                    <td annee>1979</td>
+                    <td date>2025-05-27 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0080058"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>A peu presque StarWar</td>
-
+                    <td commentaires>A peu presque StarWar</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Apocalypse Warriors</td>
-                    <td date>1987</td>
-                    <td view>2025-06-03 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0091012</td>
+                    <td note></td>
+                    <td titre>Apocalypse Warriors</td>
+                    <td annee>1987</td>
+                    <td date>2025-06-03 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0091012"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Equalizer 2000</td>
-
+                    <td commentaires>Equalizer 2000</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>L'incroyable homme puma</td>
-                    <td date>1980</td>
-                    <td view>2025-06-10 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0081693</td>
+                    <td note></td>
+                    <td titre>L'incroyable homme puma</td>
+                    <td annee>1980</td>
+                    <td date>2025-06-10 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0081693"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Sakom est libre (enfin je le connaît pas mais bon, ils l'ont dit 50 fois) :)</td>
-
+                    <td commentaires>Sakom est libre (enfin je le connaît pas mais bon, ils l'ont dit 50 fois) :)</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Kiss contre les fantômes</td>
-                    <td date>1978</td>
-                    <td view>2025-06-17 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0077788</td>
+                    <td note></td>
+                    <td titre>Kiss contre les fantômes</td>
+                    <td annee>1978</td>
+                    <td date>2025-06-17 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0077788"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Du rroooooccckkkkkk</td>
-
+                    <td commentaires>Du rroooooccckkkkkk</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Robowar</td>
-                    <td date>1988</td>
-                    <td view>2025-06-24 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0096000</td>
+                    <td note></td>
+                    <td titre>Robowar</td>
+                    <td annee>1988</td>
+                    <td date>2025-06-24 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0096000"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Presquedator</td>
-
+                    <td commentaires>Presquedator</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>American Ninja 5</td>
-                    <td date>1993</td>
-                    <td view>2025-07-01 </td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0106257</td>
+                    <td note></td>
+                    <td titre>American Ninja 5</td>
+                    <td annee>1993</td>
+                    <td date>2025-07-01 </td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0106257"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Niiiinjjjaaaa attaque PQ de feu!</td>
-
+                    <td commentaires>Niiiinjjjaaaa attaque PQ de feu!</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Apex</td>
-                    <td date>1994</td>
-                    <td view>2025-07-08 </td>
-                    <td replay>https://youtu.be/yBqjvlgtGW0?si=vwuuzhE3Z2hqIP0L</td>
-                    <td link>https://www.imdb.com/fr/title/tt0109144</td>
+                    <td note></td>
+                    <td titre>Apex</td>
+                    <td annee>1994</td>
+                    <td date>2025-07-08 </td>
+                    <td links data-replay="https://youtu.be/yBqjvlgtGW0?si=vwuuzhE3Z2hqIP0L"
+                        data-imdb="https://www.imdb.com/fr/title/tt0109144"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Devil Story : Il était une fois le diable</td>
-                    <td date>1986</td>
-                    <td view>2025-07-15</td>
-                    <td replay>https://youtu.be/d8HvM0_ukWk?si=PxkNPgyP6-95nbAG</td>
-                    <td link>https://www.imdb.com/fr/title/tt0233004</td>
+                    <td note></td>
+                    <td titre>Devil Story : Il était une fois le diable</td>
+                    <td annee>1986</td>
+                    <td date>2025-07-15</td>
+                    <td links data-replay="https://youtu.be/d8HvM0_ukWk?si=PxkNPgyP6-95nbAG"
+                        data-imdb="https://www.imdb.com/fr/title/tt0233004"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Pas mal non ? c'est français</td>
-
+                    <td commentaires>Pas mal non ? c'est français</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Carnosaur 3: Primal Species</td>
-                    <td date>1996</td>
-                    <td view>2025-07-22</td>
-                    <td replay>https://youtu.be/ngMwtkTsYoQ?si=P5p5Gn3V5LRkNAmK</td>
-                    <td link>https://www.imdb.com/fr/title/tt0115834</td>
+                    <td note></td>
+                    <td titre>Carnosaur 3: Primal Species</td>
+                    <td annee>1996</td>
+                    <td date>2025-07-22</td>
+                    <td links data-replay="https://youtu.be/ngMwtkTsYoQ?si=P5p5Gn3V5LRkNAmK"
+                        data-imdb="https://www.imdb.com/fr/title/tt0115834"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Graouu graouuuu mais lowcost</td>
-
+                    <td commentaires>Graouu graouuuu mais lowcost</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Monsieur Nounou</td>
-                    <td date>1993</td>
-                    <td view>2025-07-29</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0107612</td>
+                    <td note></td>
+                    <td titre>Monsieur Nounou</td>
+                    <td annee>1993</td>
+                    <td date>2025-07-29</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0107612"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Avec Panda ! RIP Hulk Hogan</td>
-
+                    <td commentaires>Avec Panda ! RIP Hulk Hogan</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>The Impossible Kid</td>
-                    <td date>1982</td>
-                    <td view>2025-08-05</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0430216/</td>
+                    <td note></td>
+                    <td titre>The Impossible Kid</td>
+                    <td annee>1982</td>
+                    <td date>2025-08-05</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0430216/"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>007 1/2</td>
-
+                    <td commentaires>007 1/2</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Blood Hands</td>
-                    <td date>1990</td>
-                    <td view>2025-08-12</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0266338/</td>
+                    <td note></td>
+                    <td titre>Blood Hands</td>
+                    <td annee>1990</td>
+                    <td date>2025-08-12</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0266338/"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Moustaches club</td>
-
+                    <td commentaires>Moustaches club</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Humains</td>
-                    <td date>2009</td>
-                    <td view>2025-08-19</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt1109478/</td>
+                    <td note></td>
+                    <td titre>Humains</td>
+                    <td annee>2009</td>
+                    <td date>2025-08-19</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt1109478/"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Clash Commando</td>
-                    <td date>1986</td>
-                    <td view>2025-08-27</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0301110/</td>
+                    <td note></td>
+                    <td titre>Clash Commando</td>
+                    <td annee>1986</td>
+                    <td date>2025-08-27</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0301110/"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Clash of the ninjas. Vraiment dans le top 3 celui là !</td>
-
+                    <td commentaires>Clash of the ninjas. Vraiment dans le top 3 celui là !</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>La revanche de Samson</td>
-                    <td date>1987</td>
-                    <td view>2025-09-02</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0437467/</td>
+                    <td note></td>
+                    <td titre>La revanche de Samson</td>
+                    <td annee>1987</td>
+                    <td date>2025-09-02</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0437467/"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Samson dan Delilah (va savoir pourquoi)</td>
-
+                    <td commentaires>Samson dan Delilah (va savoir pourquoi)</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>R.O.T.O.R.</td>
-                    <td date>1987</td>
-                    <td view>2025-09-10</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0098156/</td>
+                    <td note></td>
+                    <td titre>R.O.T.O.R.</td>
+                    <td annee>1987</td>
+                    <td date>2025-09-10</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0098156/"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>ça veut dire quoi ROTOR déjà ? 😂</td>
-
+                    <td commentaires>ça veut dire quoi ROTOR déjà ? 😂</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Shadow Creature</td>
-                    <td date>1985</td>
-                    <td view>2025-09-16</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0114403/</td>
+                    <td note></td>
+                    <td titre>Shadow Creature</td>
+                    <td annee>1985</td>
+                    <td date>2025-09-16</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0114403/"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Cauchemar sanglant</td>
-
+                    <td commentaires>Cauchemar sanglant</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Connection Hawaï ou Jeu Fatal</td>
-                    <td date>1991</td>
-                    <td view>2025-09-23</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0101744/</td>
+                    <td note></td>
+                    <td titre>Connection Hawaï ou Jeu Fatal</td>
+                    <td annee>1991</td>
+                    <td date>2025-09-23</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0101744/"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Do or Die avec dé-toutounage intensif</td>
-
+                    <td commentaires>Do or Die avec dé-toutounage intensif</td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Ninja Condor 13</td>
-                    <td date>1987</td>
-                    <td view>2025-09-30</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0387445</td>
+                    <td note></td>
+                    <td titre>Ninja Condor 13</td>
+                    <td annee>1987</td>
+                    <td date>2025-09-30</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0387445"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td></td>
-
+                    <td commentaires></td>
                 </tr>
                 <tr>
-                    <td rating></td>
-                    <td title>Hurlements 2</td>
-                    <td date>1985</td>
-                    <td view>2025-10-07</td>
-                    <td replay></td>
-                    <td link>https://www.imdb.com/fr/title/tt0089308/</td>
+                    <td note></td>
+                    <td titre>Hurlements 2</td>
+                    <td annee>1985</td>
+                    <td date>2025-10-07</td>
+                    <td links data-imdb="https://www.imdb.com/fr/title/tt0089308/"></td>
                     <td poster></td>
                     <td images></td>
-                    <td justwatch></td>
-                    <td>Howling II... Your Sister Is a Werewolf ou Howling II: Stirba - Werewolf Bitch</td>
-
+                    <td commentaires>Howling II... Your Sister Is a Werewolf ou Howling II: Stirba - Werewolf Bitch</td>
                 </tr>
             </tbody>
         </table>
@@ -1014,7 +840,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
-                    <img id="modalPosterImg" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlPC90ZXh0Pjwvc3ZnPg==" alt="Poster du film" class="img-fluid">
+                    <img id="modalPosterImg"
+                        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlPC90ZXh0Pjwvc3ZnPg=="
+                        alt="Poster du film" class="img-fluid">
                 </div>
             </div>
         </div>
