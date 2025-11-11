@@ -126,12 +126,43 @@ $('td[poster]').each(function () {
     const imdbId = $(this).data('imdb-id');
     
     if (imdbId) {
-        const posterPath = `media/${imdbId}/poster.jpg`;
         const $this = $(this);
-        
+
+        // Utility to try multiple image sources in order
+        function trySources($img, sources, finalHandler) {
+            let idx = 0;
+            if (!Array.isArray(sources) || sources.length === 0) {
+                if (finalHandler) finalHandler($img);
+                return;
+            }
+
+            const setSrc = () => {
+                $img.attr('src', sources[idx]);
+            };
+
+            $img.off('error').on('error', function () {
+                idx++;
+                if (idx >= sources.length) {
+                    if (finalHandler) finalHandler($img);
+                } else {
+                    setSrc();
+                }
+            });
+
+            // Start with first source
+            setSrc();
+        }
+
+        // Candidate poster sources (try jpg then png, then goodenough variants)
+        const posterCandidates = [
+            `media/${imdbId}/poster.jpg`,
+            `media/${imdbId}/poster.png`,
+            `media/${imdbId}/goodenough.jpg`,
+            `media/${imdbId}/goodenough.png`
+        ];
+
         // Create thumbnail image
         const thumbnail = $('<img>')
-            .attr('src', posterPath)
             .attr('alt', 'Poster')
             .addClass('poster-thumbnail')
             .css({
@@ -139,43 +170,39 @@ $('td[poster]').each(function () {
                 'cursor': 'pointer',
                 'border-radius': '4px'
             })
-            .on('error', function() {
-                // If poster doesn't exist, try goodenough.jpg as fallback
-                const goodenoughPath = `media/${imdbId}/goodenough.jpg`;
-                const $img = $(this);
-                
-                // Try goodenough.jpg as fallback
-                $img.off('error').on('error', function() {
-                    // If goodenough.jpg also doesn't exist, hide the thumbnail
-                    $(this).hide();
-                }).attr('src', goodenoughPath);
-            })
-            .on('click', function() {
-                // Show modal with full size poster
-                const modalImg = $('#modalPosterImg');
-                const currentSrc = $(this).attr('src'); // Use the current src (might be goodenough.jpg)
+            // If no candidate works, hide the thumbnail
+            ;
+
+        // Try poster candidates and hide if none work
+        trySources(thumbnail, posterCandidates, ($img) => { $img.hide(); });
+
+        // Click handler shows modal with same source resolution strategy for modal
+        thumbnail.on('click', function() {
+            const modalImg = $('#modalPosterImg');
+            const currentSrc = $(this).attr('src') || posterCandidates[0];
+
+            // If the thumbnail ended up using a good alternative, show that; otherwise try candidates for modal
+            if (currentSrc) {
                 modalImg.attr('src', currentSrc);
-                
-                // Handle image load error in modal
-                modalImg.off('error').on('error', function() {
-                    // If current image fails, try goodenough.jpg if we haven't already
-                    if (currentSrc.includes('poster.jpg')) {
-                        const goodenoughPath = `media/${imdbId}/goodenough.jpg`;
-                        $(this).off('error').on('error', function() {
-                            // If goodenough.jpg also fails, show placeholder
-                            $(this).attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIiBzdHJva2U9IiNkZWUyZTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmM3NTdkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgaW5kaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==');
-                        }).attr('src', goodenoughPath);
-                    } else {
-                        // Already tried goodenough.jpg, show placeholder
-                        $(this).attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIiBzdHJva2U9IiNkZWUyZTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmM3NTdkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgaW5kaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==');
-                    }
-                });
-                
-                const movieTitle = $(this).closest('tr').find('td[title]').text();
-                $('#posterModalLabel').text('Poster - ' + movieTitle);
-                $('#posterModal').modal('show');
+            }
+
+            // If modal image fails, try the remaining candidates and finally show a placeholder
+            const modalCandidates = [
+                `media/${imdbId}/poster.jpg`,
+                `media/${imdbId}/poster.png`,
+                `media/${imdbId}/goodenough.jpg`,
+                `media/${imdbId}/goodenough.png`
+            ];
+
+            trySources(modalImg, modalCandidates, ($img) => {
+                $img.off('error').attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIiBzdHJva2U9IiNkZWUyZTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmM3NTdkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgaW5kaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==');
             });
-        
+
+            const movieTitle = $(this).closest('tr').find('td[title]').text();
+            $('#posterModalLabel').text('Poster - ' + movieTitle);
+            $('#posterModal').modal('show');
+        });
+
         $this.html(thumbnail);
     }
 });
@@ -195,7 +222,11 @@ async function getDirectoryListing(directoryPath) {
         links.forEach(link => {
             const href = link.getAttribute('href');
             // Check if it's an image file and not poster.jpg
-            if (href && href.match(/\.(jpg|jpeg|png|gif|webp)$/i) && href !== 'poster.jpg') {
+            if (href && href.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+                // Exclude poster.* and goodenough.* files from the additional images listing
+                if (href.match(/^poster\.(jpg|jpeg|png)$/i) || href.match(/^goodenough\.(jpg|jpeg|png)$/i)) {
+                    return;
+                }
                 imageFiles.push(href);
             }
         });
