@@ -87,6 +87,12 @@ a {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
+.poster-thumbnail-large {
+    width: 100px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
 /* Modal styles */
 #posterModal .modal-body {
     padding: 20px;
@@ -114,6 +120,8 @@ a {
     border-radius: 4px;
     transition: transform 0.2s ease;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-right: 5px;
+    margin-bottom: 2px;
 }
 
 .additional-image-thumbnail:hover {

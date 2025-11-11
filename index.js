@@ -164,12 +164,7 @@ $('td[poster]').each(function () {
         // Create thumbnail image
         const thumbnail = $('<img>')
             .attr('alt', 'Poster')
-            .addClass('poster-thumbnail')
-            .css({
-                'width': '100px',
-                'cursor': 'pointer',
-                'border-radius': '4px'
-            })
+            .addClass('poster-thumbnail-large')
             // If no candidate works, hide the thumbnail
             ;
 
@@ -276,15 +271,6 @@ $('td[images]').each(async function () {
                     .attr('alt', `${imageName}`)
                     .attr('title', imageName)
                     .addClass('additional-image-thumbnail')
-                    .css({
-                        'width': '50px',
-                        'height': '75px',
-                        'object-fit': 'cover',
-                        'cursor': 'pointer',
-                        'border-radius': '4px',
-                        'margin-right': '5px',
-                        'margin-bottom': '2px'
-                    })
                         .on('click', function() {
                             // Show modal with full size image
                             const modalImg = $('#modalPosterImg');
