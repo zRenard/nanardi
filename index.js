@@ -495,7 +495,7 @@ class MovieRating {
             const $cell = $(cell);
             const $row = $cell.closest('tr');
             const movieTitle = $row.find('td[title]').text();
-            const imdbUrl = $row.find('td[link]').text();
+            const imdbUrl = $row.find('td[links]').attr('data-imdb');
             const imdbId = this.extractImdbId(imdbUrl);
             
             if (movieTitle) {
