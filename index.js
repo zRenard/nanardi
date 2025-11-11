@@ -9,7 +9,7 @@ $(document).ready(function() {
         paging: false,
         scrollCollapse: true,
         scrollY: '50vh',
-        order: [[2, 'desc']],
+        order: [[3, 'desc']],
         language: {
             info: '_TOTAL_ films',
             infoEmpty: 'Aucun films disponible',
@@ -476,9 +476,19 @@ class MovieRating {
         this.saveRating(movieTitle, rating, imdbId);
         
         // Update the display for this movie
-        const ratingCell = $(`td[rating]`).filter(function() {
-            return $(this).closest('tr').find('td[title]').text() === movieTitle;
-        });
+        // Use IMDb ID as primary key if available, otherwise fall back to title
+        let ratingCell;
+        
+        if (imdbId) {
+            // Find the row with the matching IMDb ID
+            const row = $(`td[poster][data-imdb-id="${imdbId}"]`).closest('tr');
+            ratingCell = row.find('td[rating]');
+        } else {
+            // Fall back to title matching if no IMDb ID
+            ratingCell = $(`td[rating]`).filter(function() {
+                return $(this).closest('tr').find('td[title]').text() === movieTitle;
+            });
+        }
         
         const newRatingDisplay = this.createStarRating(movieTitle, rating, imdbId);
         ratingCell.html(newRatingDisplay);
