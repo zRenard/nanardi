@@ -462,22 +462,26 @@ class MovieRating {
         this.saveRating(movieTitle, rating, imdbId);
         
         // Update the display for this movie
-        // Use IMDb ID as primary key if available, otherwise fall back to title
-        let ratingCell;
+        // Find the row by IMDb ID or title
+        let row;
         
         if (imdbId) {
             // Find the row with the matching IMDb ID
-            const row = $(`td[poster][data-imdb-id="${imdbId}"]`).closest('tr');
-            ratingCell = row.find('td[rating]');
+            row = $(`td[poster][data-imdb-id="${imdbId}"]`).closest('tr');
         } else {
             // Fall back to title matching if no IMDb ID
-            ratingCell = $(`td[rating]`).filter(function() {
-                return $(this).closest('tr').find('td[title]').text() === movieTitle;
+            row = $(`tbody tr`).filter(function() {
+                return $(this).find('td[title], td[titre]').text() === movieTitle;
             });
         }
         
-        const newRatingDisplay = this.createStarRating(movieTitle, rating, imdbId);
-        ratingCell.html(newRatingDisplay);
+        // Get the first cell (rating cell) of the row
+        const ratingCell = row.find('td').first();
+        
+        if (ratingCell.length) {
+            const newRatingDisplay = this.createStarRating(movieTitle, rating, imdbId);
+            ratingCell.html(newRatingDisplay);
+        }
         
         // Update movie statistics
         this.updateMovieStats();
@@ -491,17 +495,18 @@ class MovieRating {
     }
 
     setupRatingCells() {
-        $('td[rating]').each((index, cell) => {
-            const $cell = $(cell);
-            const $row = $cell.closest('tr');
-            const movieTitle = $row.find('td[title]').text();
+        // Find ALL td cells in rating column (might be td[note])
+        $('tbody tr').each((index, row) => {
+            const $row = $(row);
+            const $firstCell = $row.find('td').first(); // Get the first td which should be the rating cell
+            const movieTitle = $row.find('td[title], td[titre]').text();
             const imdbUrl = $row.find('td[links]').attr('data-imdb');
             const imdbId = this.extractImdbId(imdbUrl);
             
-            if (movieTitle) {
+            if (movieTitle && $firstCell.length) {
                 const currentRating = this.getRating(movieTitle, imdbId);
                 const ratingDisplay = this.createStarRating(movieTitle, currentRating, imdbId);
-                $cell.html(ratingDisplay);
+                $firstCell.html(ratingDisplay);
             }
         });
     }
