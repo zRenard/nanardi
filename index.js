@@ -35,7 +35,7 @@ $(document).ready(function() {
 // Toggle column visibility
 $('a.toggle-vis').on('click', function (e) {
     e.preventDefault();
-    var column = table.column($(this).attr('data-column'));
+    let column = table.column($(this).attr('data-column'));
     column.visible(!column.visible());
     $(this).toggleClass('icon-visible icon-hidden');
 });
@@ -115,6 +115,40 @@ $('tbody tr').each(function() {
         linksCell.html(linksContainer);
     }
 });
+
+// Function to get directory listing via fetch
+async function getDirectoryListing(directoryPath) {
+    try {
+        const response = await fetch(directoryPath);
+        const text = await response.text();
+        
+        // Parse the HTML directory listing to extract image files
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(text, 'text/html');
+        const links = doc.querySelectorAll('a[href]');
+        
+        const imageFiles = [];
+        for(const link of links) {
+            const href = link.getAttribute('href');
+            // Check if it's an image file and not poster.jpg
+            if (href && href.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+                // Extract just the filename (in case href contains a path)
+                const filename = href.split(/[\/\\]/).pop();
+                
+                // Exclude poster.* and goodenough.* files from the additional images listing
+                if (filename.match(/^poster\.(jpg|jpeg|png)$/i) || filename.match(/^goodenough\.(jpg|jpeg|png)$/i)) {
+                    continue;
+                }
+                imageFiles.push(filename);
+            }
+        };
+        
+        return imageFiles.sort(); // Sort alphabetically
+    } catch (error) {
+        console.log(`Could not list directory ${directoryPath}:`, error);
+        return [];
+    }
+}
 
 // Initialize posters and images after IMDb IDs are set
 initializePostersAndImages();
@@ -202,36 +236,6 @@ $('td[poster]').each(function () {
     }
 });
 
-// Function to get directory listing via fetch
-async function getDirectoryListing(directoryPath) {
-    try {
-        const response = await fetch(directoryPath);
-        const text = await response.text();
-        
-        // Parse the HTML directory listing to extract image files
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(text, 'text/html');
-        const links = doc.querySelectorAll('a[href]');
-        
-        const imageFiles = [];
-        links.forEach(link => {
-            const href = link.getAttribute('href');
-            // Check if it's an image file and not poster.jpg
-            if (href && href.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
-                // Exclude poster.* and goodenough.* files from the additional images listing
-                if (href.match(/^poster\.(jpg|jpeg|png)$/i) || href.match(/^goodenough\.(jpg|jpeg|png)$/i)) {
-                    return;
-                }
-                imageFiles.push(href);
-            }
-        });
-        
-        return imageFiles.sort(); // Sort alphabetically
-    } catch (error) {
-        console.log(`Could not list directory ${directoryPath}:`, error);
-        return [];
-    }
-}
 
 // Handle additional movie images
 $('td[images]').each(async function () {
@@ -299,8 +303,9 @@ $('td[images]').each(async function () {
 
 // Rating System
 class MovieRating {
+    storageKey = 'movieRatings';
+
     constructor() {
-        this.storageKey = 'movieRatings';
         this.init();
     }
 
@@ -386,7 +391,7 @@ class MovieRating {
             return typeof rating === 'number' ? rating : (rating.rating || 0);
         }).filter(rating => rating > 0);
         
-        if (validRatings.length === 0) return 0;
+        if (validRatings.length === 0) return '0.0';
         
         const sum = validRatings.reduce((acc, rating) => acc + rating, 0);
         return (sum / validRatings.length).toFixed(1);
@@ -636,7 +641,7 @@ class MovieRating {
             link.download = `nanardi-ratings-${new Date().toISOString().split('T')[0]}.json`;
             document.body.appendChild(link);
             link.click();
-            document.body.removeChild(link);
+            link.remove();
             
             // Clean up URL object
             URL.revokeObjectURL(url);
@@ -661,48 +666,44 @@ class MovieRating {
             return;
         }
 
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            try {
-                const importData = JSON.parse(event.target.result);
-                
-                // Validate the imported data
-                if (!this.validateRatingsData(importData)) {
-                    throw new Error('Invalid data format or corrupted file');
-                }
-
-                // Confirm import with user
-                const metadata = importData.metadata;
-                const ratedMovies = Object.keys(importData.ratings).length;
-                const message = `Voulez-vous importer les notes ?\n\n` +
-                    `Date d'export: ${new Date(metadata.exportDate).toLocaleDateString('fr-FR')}\n` +
-                    `Films notés: ${ratedMovies}\n\n` +
-                    `⚠️ Cela remplacera vos notes actuelles !`;
-
-                if (confirm(message)) {
-                    // Save the imported ratings
-                    localStorage.setItem(this.storageKey, JSON.stringify(importData.ratings));
+        file.text()
+            .then((text) => {
+                try {
+                    const importData = JSON.parse(text);
                     
-                    // Refresh the display
-                    this.setupRatingCells();
-                    this.updateMovieStats();
-                    const ratedCount = this.getRatedMovieCount();
-                    
-                    alert(`Import réussi ! ${ratedCount} notes importées.`);
+                    // Validate the imported data
+                    if (!this.validateRatingsData(importData)) {
+                        throw new Error('Invalid data format or corrupted file');
+                    }
+
+                    // Confirm import with user
+                    const metadata = importData.metadata;
+                    const ratedMovies = Object.keys(importData.ratings).length;
+                    const message = `Voulez-vous importer les notes ?\n\n` +
+                        `Date d'export: ${new Date(metadata.exportDate).toLocaleDateString('fr-FR')}\n` +
+                        `Films notés: ${ratedMovies}\n\n` +
+                        `⚠️ Cela remplacera vos notes actuelles !`;
+
+                    if (confirm(message)) {
+                        // Save the imported ratings
+                        localStorage.setItem(this.storageKey, JSON.stringify(importData.ratings));
+                        
+                        // Refresh the display
+                        this.setupRatingCells();
+                        this.updateMovieStats();
+                        const ratedCount = this.getRatedMovieCount();
+                        
+                        alert(`Import réussi ! ${ratedCount} notes importées.`);
+                    }
+
+                } catch (error) {
+                    console.error('Import failed:', error);
+                    alert('Erreur lors de l\'import. Le fichier est peut-être corrompu ou invalide.');
                 }
-
-            } catch (error) {
-                console.error('Import failed:', error);
-                alert('Erreur lors de l\'import. Le fichier est peut-être corrompu ou invalide.');
-            }
-        };
-
-        reader.onerror = () => {
-            alert('Erreur lors de la lecture du fichier.');
-        };
-
-        reader.readAsText(file);
+            })
+            .catch(() => {
+                alert('Erreur lors de la lecture du fichier.');
+            });
     }
 }
 
-// MovieRating initialized above after DataTable
