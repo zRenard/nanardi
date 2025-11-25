@@ -4,6 +4,14 @@ let movieRating;
 
 $(document).ready(function() {
     console.log('DOM ready, initializing DataTable...');
+    // Custom ordering: use the numeric value from the cell's `data-order` attribute
+    // This plugin returns an array of numeric values used by DataTables when ordering the column.
+    $.fn.dataTable.ext.order['dom-data-order'] = function (settings, col) {
+        return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
+            const v = $(td).attr('data-order');
+            return v !== undefined && v !== null ? parseFloat(v) || 0 : 0;
+        });
+    };
     
     table = new DataTable('#liste', {
         paging: false,
@@ -22,9 +30,48 @@ $(document).ready(function() {
             [20, 40, 60, -1],
             [20, 40, 60, 'All']
         ],
-    columnDefs: [
-        { targets: 7, visible: false }
-    ],
+        columnDefs: [
+            { targets: 7, visible: false },
+            {
+                targets: 0,
+                // Use our custom order plugin that reads `data-order`
+                orderDataType: 'dom-data-order',
+                type: 'num',
+                render: function (data, type, row, meta) {
+                    // For ordering, return the numeric rating value.
+                    if (type === 'sort' || type === 'order') {
+                        try {
+                            // Try data-order attribute first
+                            const settings = meta.settings;
+                            const $table = $(settings.nTable);
+                            const $cell = $table.find('tbody tr').eq(meta.row).find('td').eq(meta.col);
+                            const orderAttr = $cell.attr('data-order');
+                            if (orderAttr !== undefined) {
+                                const n = parseFloat(orderAttr);
+                                return isNaN(n) ? 0 : n;
+                            }
+
+                            // Fallback: extract from hidden .rating-sort span in the HTML
+                            if (typeof data === 'string') {
+                                const m = data.match(/<span[^>]*class=["']rating-sort["'][^>]*>(\d+)\/<\/span>|<span[^>]*class=["']rating-sort["'][^>]*>(\d+)<\/span>/i);
+                                if (m) {
+                                    const val = m[1] || m[2];
+                                    const n2 = parseFloat(val);
+                                    return isNaN(n2) ? 0 : n2;
+                                }
+                            }
+
+                            return 0;
+                        } catch (e) {
+                            return 0;
+                        }
+                    }
+
+                    // For display and other types, return original data
+                    return data;
+                }
+            }
+        ],
     });
     
     movieRating = new MovieRating();
@@ -366,6 +413,14 @@ class MovieRating {
             localStorage.removeItem(this.storageKey);
             this.setupRatingCells(); // Refresh all rating displays
             this.updateMovieStats(); // Update statistics
+            // Ensure DataTables re-reads updated DOM
+            try {
+                if (typeof table !== 'undefined' && table) {
+                    table.rows().invalidate().draw(false);
+                }
+            } catch (e) {
+                // ignore
+            }
         } catch (error) {
             console.error('Error clearing ratings:', error);
         }
@@ -449,6 +504,10 @@ class MovieRating {
             container.append(display);
         }
 
+        // Hidden numeric value used for sorting by DataTables (prepend so text starts with number)
+        const sortValue = $('<span>').addClass('rating-sort').text(currentRating || 0);
+        container.prepend(sortValue);
+
         return container;
     }
 
@@ -486,6 +545,22 @@ class MovieRating {
         if (ratingCell.length) {
             const newRatingDisplay = this.createStarRating(movieTitle, rating, imdbId);
             ratingCell.html(newRatingDisplay);
+            // Update numeric sort value used by DataTables
+            ratingCell.attr('data-order', rating || 0);
+            // Redraw table so sorting can take new value into account
+            try {
+                if (typeof table !== 'undefined' && table) {
+                    // Invalidate the DataTables cached data for this row so it re-reads the DOM
+                    try {
+                        table.row(row).invalidate().draw(false);
+                    } catch (err) {
+                        // Fallback: if row invalidation fails, do a full draw
+                        table.draw(false);
+                    }
+                }
+            } catch (e) {
+                // ignore if DataTable not initialized yet
+            }
         }
         
         // Update movie statistics
@@ -512,8 +587,18 @@ class MovieRating {
                 const currentRating = this.getRating(movieTitle, imdbId);
                 const ratingDisplay = this.createStarRating(movieTitle, currentRating, imdbId);
                 $firstCell.html(ratingDisplay);
+                // Store numeric rating for DataTables sorting (orthogonal data)
+                $firstCell.attr('data-order', currentRating || 0);
             }
         });
+        // If DataTables has already been initialized, invalidate cached rows so it re-reads the DOM/html
+        try {
+            if (typeof table !== 'undefined' && table) {
+                table.rows().invalidate().draw(false);
+            }
+        } catch (e) {
+            // ignore if DataTable not ready
+        }
     }
 
     setupClearButton() {
@@ -691,6 +776,14 @@ class MovieRating {
                         // Refresh the display
                         this.setupRatingCells();
                         this.updateMovieStats();
+                        // Ensure DataTables re-reads updated DOM after import
+                        try {
+                            if (typeof table !== 'undefined' && table) {
+                                table.rows().invalidate().draw(false);
+                            }
+                        } catch (e) {
+                            // ignore
+                        }
                         const ratedCount = this.getRatedMovieCount();
                         
                         alert(`Import réussi ! ${ratedCount} notes importées.`);
