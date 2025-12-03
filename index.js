@@ -2,6 +2,14 @@
 let table;
 let movieRating;
 
+// Suppress console errors for failed resource loads globally
+window.addEventListener('error', function(event) {
+    // Suppress errors for images that fail to load
+    if (event.filename && event.filename.includes('media/')) {
+        return true;
+    }
+}, true);
+
 $(document).ready(function() {
     console.log('DOM ready, initializing DataTable...');
     // Custom ordering: use the numeric value from the cell's `data-order` attribute
@@ -10,6 +18,21 @@ $(document).ready(function() {
         return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
             const v = $(td).attr('data-order');
             return v !== undefined && v !== null ? parseFloat(v) || 0 : 0;
+        });
+    };
+
+    // Custom ordering for dates: read `data-sort-value` (US format YYYY-MM-DD) for sorting
+    // but display dates in French format via render function
+    $.fn.dataTable.ext.order['dom-date-us'] = function (settings, col) {
+        return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
+            const v = $(td).attr('data-sort-value');
+            if (!v) return 0;
+            // Convert YYYY-MM-DD to a sortable numeric value: YYYYMMDD
+            const parts = v.split('-');
+            if (parts.length === 3) {
+                return parseInt(parts[0] + parts[1] + parts[2], 10);
+            }
+            return 0;
         });
     };
     
@@ -32,6 +55,11 @@ $(document).ready(function() {
         ],
         columnDefs: [
             { targets: 7, visible: false },
+            {
+                targets: 3,
+                // Use custom date ordering that reads `data-sort-value` (US format)
+                orderDataType: 'dom-date-us'
+            },
             {
                 targets: 0,
                 // Use our custom order plugin that reads `data-order`
@@ -77,6 +105,36 @@ $(document).ready(function() {
     movieRating = new MovieRating();
     
     document.getElementById('updateDate').textContent = new Date(document.lastModified).toLocaleString('fr-FR');
+    
+    // Populate date cells AFTER DataTables initialization
+    // This converts US dates (YYYY-MM-DD) to French format (DD/MM/YYYY) and stores sort value
+    $('tbody tr').each(function() {
+        const $row = $(this);
+        const dateCell = $row.find('td[date]');
+        
+        if (dateCell.length) {
+            let dateValue = dateCell.text().trim();
+            
+            // Check if it looks like a full date (YYYY-MM-DD format)
+            if (dateValue && dateValue.match(/^\d{4}-\d{2}-\d{2}/)) {
+                // Store the US format in data-sort-value for sorting
+                dateCell.attr('data-sort-value', dateValue.substring(0, 10)); // Extract just YYYY-MM-DD
+                // Convert YYYY-MM-DD to DD/MM/YYYY and display
+                const dateMatch = dateValue.match(/(\d{4})-(\d{2})-(\d{2})/);
+                if (dateMatch) {
+                    const [, year, month, day] = dateMatch;
+                    dateCell.text(day + '/' + month + '/' + year);
+                }
+            }
+        }
+    });
+    
+    // Force DataTables to re-read the updated DOM
+    try {
+        table.rows().invalidate().draw(false);
+    } catch (e) {
+        // ignore if not ready
+    }
 });
 
 // Toggle column visibility
@@ -86,7 +144,6 @@ $('a.toggle-vis').on('click', function (e) {
     column.visible(!column.visible());
     $(this).toggleClass('icon-visible icon-hidden');
 });
-
 
 // Extract IMDb IDs and process links from the new structure
 $('tbody tr').each(function() {
@@ -203,54 +260,88 @@ initializePostersAndImages();
 // Function to initialize posters and images after IMDb IDs are set
 function initializePostersAndImages() {
     // Handle poster thumbnails
-$('td[poster]').each(function () {
-    const imdbId = $(this).data('imdb-id');
-    
-    if (imdbId) {
-        const $this = $(this);
+    $('td[poster]').each(function () {
+        const imdbId = $(this).data('imdb-id');
+        
+        if (imdbId) {
+            const $this = $(this);
 
-        // Utility to try multiple image sources in order
-        function trySources($img, sources, finalHandler) {
-            let idx = 0;
-            if (!Array.isArray(sources) || sources.length === 0) {
-                if (finalHandler) finalHandler($img);
-                return;
+            // Utility to try multiple image sources in order
+            function trySources(sources, finalHandler) {
+                // Try sources sequentially using an off-DOM Image tester.
+                // Calls finalHandler(src) with the first working src, or null if none work.
+                if (!Array.isArray(sources) || sources.length === 0) {
+                    if (finalHandler) finalHandler(null);
+                    return;
+                }
+
+                let idx = 0;
+
+                const tryNext = () => {
+                    if (idx >= sources.length) {
+                        if (finalHandler) finalHandler(null);
+                        return;
+                    }
+
+                    const candidate = sources[idx++];
+                    const tester = new Image();
+                    let settled = false;
+
+                    // Safety timeout in case load/error never fire
+                    const to = setTimeout(() => {
+                        if (settled) return;
+                        settled = true;
+                        tester.onload = tester.onerror = null;
+                        tryNext();
+                    }, 5000);
+
+                    tester.onload = () => {
+                        if (settled) return;
+                        settled = true;
+                        clearTimeout(to);
+                        tester.onload = tester.onerror = null;
+                        if (finalHandler) finalHandler(candidate);
+                    };
+
+                    tester.onerror = () => {
+                        if (settled) return;
+                        settled = true;
+                        clearTimeout(to);
+                        tester.onload = tester.onerror = null;
+                        tryNext();
+                    };
+
+                    // Start the request
+                    tester.src = candidate;
+                };
+
+                tryNext();
             }
 
-            const setSrc = () => {
-                $img.attr('src', sources[idx]);
-            };
-
-            $img.off('error').on('error', function () {
-                idx++;
-                if (idx >= sources.length) {
-                    if (finalHandler) finalHandler($img);
-                } else {
-                    setSrc();
-                }
-            });
-
-            // Start with first source
-            setSrc();
-        }
-
-        // Candidate poster sources (try jpg then png, then goodenough variants)
-        const posterCandidates = [
-            `media/${imdbId}/poster.jpg`,
-            `media/${imdbId}/poster.png`,
-            `media/${imdbId}/goodenough.jpg`,
-            `media/${imdbId}/goodenough.png`
-        ];
+            // Candidate poster sources (try jpg then png, then goodenough variants)
+            const posterCandidates = [
+                `media/${imdbId}/poster.jpg`,
+                `media/${imdbId}/poster.png`,
+                // Prefer per-movie goodenough, then global fallback at project root
+                `media/${imdbId}/goodenough.jpg`,
+                `media/${imdbId}/goodenough.png`,
+                `./goodenough.jpg`,
+                `./goodenough.png`
+            ];
 
         // Create thumbnail image
         const thumbnail = $('<img>')
             .attr('alt', 'Poster')
-            .addClass('poster-thumbnail-large')
-            // If no candidate works, hide the thumbnail
-            ;
+            .addClass('poster-thumbnail-large');
 
         // Try poster candidates and hide if none work
-        trySources(thumbnail, posterCandidates, ($img) => { $img.hide(); });
+        trySources(posterCandidates, (workingSrc) => {
+            if (workingSrc) {
+                thumbnail.attr('src', workingSrc);
+            } else {
+                thumbnail.hide();
+            }
+        });
 
         // Click handler shows modal with same source resolution strategy for modal
         thumbnail.on('click', function() {
@@ -267,11 +358,17 @@ $('td[poster]').each(function () {
                 `media/${imdbId}/poster.jpg`,
                 `media/${imdbId}/poster.png`,
                 `media/${imdbId}/goodenough.jpg`,
-                `media/${imdbId}/goodenough.png`
+                `media/${imdbId}/goodenough.png`,
+                `./goodenough.jpg`,
+                `./goodenough.png`
             ];
 
-            trySources(modalImg, modalCandidates, ($img) => {
-                $img.off('error').attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIiBzdHJva2U9IiNkZWUyZTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmM3NTdkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgaW5kaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==');
+            trySources(modalCandidates, (workingSrc) => {
+                if (!workingSrc) {
+                    modalImg.attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIiBzdHJva2U9IiNkZWUyZTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmM3NTdkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgaW5kaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==');
+                } else {
+                    modalImg.attr('src', workingSrc);
+                }
             });
 
             const movieTitle = $(this).closest('tr').find('td[title]').text();
