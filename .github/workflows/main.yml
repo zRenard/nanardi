@@ -40,7 +40,7 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ftp.cluster010.hosting.ovh.net
-          username: zrenard
+          username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
           server-dir: /www/nanardi/
           exclude: |
