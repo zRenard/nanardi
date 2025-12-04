@@ -1,2 +1,13 @@
 .DS_Store
 Nanardi.xcworkspace/
+node_modules/
+out/
+package-lock.json
+.vscode/
+.idea/
+*.log
+*.swp
+*.swo
+*.bak
+*.tmp
+*.old

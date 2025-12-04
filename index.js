@@ -1,6 +1,5 @@
 // Initialize DataTable
 let table;
-let movieRating;
 
 // Suppress console errors for failed resource loads globally
 window.addEventListener('error', function(event) {
@@ -15,7 +14,7 @@ $(document).ready(function() {
     // Custom ordering: use the numeric value from the cell's `data-order` attribute
     // This plugin returns an array of numeric values used by DataTables when ordering the column.
     $.fn.dataTable.ext.order['dom-data-order'] = function (settings, col) {
-        return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
+        return this.api().column(col, { order: 'index' }).nodes().map(function (td) {
             const v = $(td).attr('data-order');
             return v !== undefined && v !== null ? parseFloat(v) || 0 : 0;
         });
@@ -24,7 +23,7 @@ $(document).ready(function() {
     // Custom ordering for dates: read `data-sort-value` (US format YYYY-MM-DD) for sorting
     // but display dates in French format via render function
     $.fn.dataTable.ext.order['dom-date-us'] = function (settings, col) {
-        return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
+        return this.api().column(col, { order: 'index' }).nodes().map(function (td) {
             const v = $(td).attr('data-sort-value');
             if (!v) return 0;
             // Convert YYYY-MM-DD to a sortable numeric value: YYYYMMDD
@@ -90,7 +89,7 @@ $(document).ready(function() {
                             }
 
                             return 0;
-                        } catch (e) {
+                        } catch (err) {
                             return 0;
                         }
                     }
@@ -132,14 +131,14 @@ $(document).ready(function() {
     // Force DataTables to re-read the updated DOM
     try {
         table.rows().invalidate().draw(false);
-    } catch (e) {
+    } catch (err) {
         // ignore if not ready
     }
 });
 
 // Toggle column visibility
-$('a.toggle-vis').on('click', function (e) {
-    e.preventDefault();
+$('a.toggle-vis').on('click', function (event) {
+    event.preventDefault();
     let column = table.column($(this).attr('data-column'));
     column.visible(!column.visible());
     $(this).toggleClass('icon-visible icon-hidden');
@@ -237,7 +236,7 @@ async function getDirectoryListing(directoryPath) {
             // Check if it's an image file and not poster.jpg
             if (href && href.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
                 // Extract just the filename (in case href contains a path)
-                const filename = href.split(/[\/\\]/).pop();
+                const filename = href.split(/[/\\]/).pop();
                 
                 // Exclude poster.* and goodenough.* files from the additional images listing
                 if (filename.match(/^poster\.(jpg|jpeg|png)$/i) || filename.match(/^goodenough\.(jpg|jpeg|png)$/i)) {
@@ -419,20 +418,22 @@ $('td[images]').each(async function () {
                     .attr('alt', `${imageName}`)
                     .attr('title', imageName)
                     .addClass('additional-image-thumbnail')
-                        .on('click', function() {
-                            // Show modal with full size image
-                            const modalImg = $('#modalPosterImg');
-                            modalImg.attr('src', imagePath);
-                            
-                            // Handle image load error in modal
-                            modalImg.off('error').on('error', function() {
+            .on('click', function() {
+                // Show modal with full size image
+                const modalImg = $('#modalPosterImg');
+                modalImg.attr('src', imagePath);
+                
+                // Handle image load error in modal
+                modalImg.off('error').on('error', function() {
                                 $(this).attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIiBzdHJva2U9IiNkZWUyZTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmM3NTdkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgaW5kaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==');
                             });
                             
                             const movieTitle = $row.find('td[title]').text();
-                            $('#posterModalLabel').text(`${movieTitle} - ${imageName}`);
-                            $('#posterModal').modal('show');
-                        });                imagesContainer.append(thumbnail);
+                $('#posterModalLabel').text(`${movieTitle} - ${imageName}`);
+                $('#posterModal').modal('show');
+            });
+            
+            imagesContainer.append(thumbnail);
                 imageCount++;
             } catch (error) {
                 // Image failed to load, skip it
@@ -465,8 +466,8 @@ class MovieRating {
         try {
             const ratings = localStorage.getItem(this.storageKey);
             return ratings ? JSON.parse(ratings) : {};
-        } catch (error) {
-            console.error('Error loading ratings:', error);
+        } catch (err) {
+            console.error('Error loading ratings:', err);
             return {};
         }
     }
@@ -485,8 +486,8 @@ class MovieRating {
             };
             
             localStorage.setItem(this.storageKey, JSON.stringify(ratings));
-        } catch (error) {
-            console.error('Error saving rating:', error);
+        } catch (err) {
+            console.error('Error saving rating:', err);
         }
     }
 
@@ -518,8 +519,8 @@ class MovieRating {
             } catch (e) {
                 // ignore
             }
-        } catch (error) {
-            console.error('Error clearing ratings:', error);
+        } catch (err) {
+            console.error('Error clearing ratings:', err);
         }
     }
 
@@ -778,7 +779,7 @@ class MovieRating {
                 }
             } else if (typeof ratingData === 'object' && ratingData !== null) {
                 // New format validation
-                if (!ratingData.hasOwnProperty('rating') || !ratingData.hasOwnProperty('title')) {
+                if (!Object.prototype.hasOwnProperty.call(ratingData, 'rating') || !Object.prototype.hasOwnProperty.call(ratingData, 'title')) {
                     return false;
                 }
                 if (typeof ratingData.rating !== 'number' || ratingData.rating < 0 || ratingData.rating > 10 || !Number.isInteger(ratingData.rating)) {
