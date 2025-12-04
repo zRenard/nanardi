@@ -18,24 +18,24 @@ jobs:
         run: npm install terser html-minifier csso-cli
       - name: Install Validation Tools
         run: npm install htmlhint eslint stylelint stylelint-config-standard
-      - name: ✅ Validating JavaScript
-        run: npx eslint *.js
       - name: ✅ Validating HTML
-        run: npx htmlhint *.html
+        run: npx htmlhint index.html
+      - name: ✅ Validating JavaScript
+        run: npx eslint index.js
       - name: ✅ Validating CSS
-        run: npx stylelint *.css
+        run: npx stylelint index.css
       - name: 📝 Minifying HTML
         run: npx html-minifier --collapse-whitespace --remove-comments --minify-css true --minify-js true -o index.html index.html
       - name: 📝 Minifying JavaScript
         run: npx terser index.js -o index.js --compress --mangle --comments "/eslint/"
       - name: 📝 Minifying CSS
         run: npx csso-cli index.css --output index.css
-      - name: ✅ Validate minified JavaScript
-        run: npx eslint *.js
       - name: ✅ Validate minified HTML
-        run: npx htmlhint *.html
+        run: npx htmlhint index.html
+      - name: ✅ Validate minified JavaScript
+        run: npx eslint index.js
       - name: ✅ Validate minified CSS
-        run: npx stylelint *.css
+        run: npx stylelint index.css
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
