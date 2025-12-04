@@ -4,14 +4,39 @@ on:
     - main
 name: 🚀 Validate and deploy website on push
 jobs:
+  web-build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  
+      - name: Install HTML & JS Minifiers
+        run: npm install -g terser html-minifier
+      - name: Minify JavaScript Files
+        run: |
+          if [ -f index.js ]; then
+            terser index.js -o index.js --compress --mangle
+          fi
+      - name: Minify HTML Files
+        run: |
+          if [ -f index.html ]; then
+            html-minifier --collapse-whitespace --remove-comments --minify-css true --minify-js true -o index.html index.html
+          fi
   web-validate:
+    needs: web-build
     name: Validate
     runs-on: ubuntu-latest
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v6
-      - name: ✅ Validate HTML files
+      - name: ✅ Validate HTML
         run: npx htmlhint@1.7.1 '**/*.html'
+      - name: ✅ Validate JavaScript
+        run: npx eslint ./
   web-deploy:
     needs: web-validate
     name: Deploy
@@ -19,6 +44,8 @@ jobs:
     steps:
     - name: 🚚 Get latest code
       uses: actions/checkout@v6
+    - name: ✅ Validate HTML files
+      run: npx htmlhint@1.7.1 '**/*.html'    
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.6
       with:
