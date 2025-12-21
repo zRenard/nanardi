@@ -941,10 +941,16 @@
                     <h5 class="modal-title" id="posterModalLabel">Poster du film</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body text-center">
+                <div class="modal-body text-center position-relative">
+                    <button id="prevImageBtn" class="btn btn-secondary image-nav-btn prev-btn" style="display: none;">
+                        <span>❮</span>
+                    </button>
                     <img id="modalPosterImg"
                         src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlPC90ZXh0Pjwvc3ZnPg=="
                         alt="Poster du film" class="img-fluid">
+                    <button id="nextImageBtn" class="btn btn-secondary image-nav-btn next-btn" style="display: none;">
+                        <span>❯</span>
+                    </button>
                 </div>
             </div>
         </div>

@@ -1,6 +1,11 @@
 // Initialize DataTable
 let table;
 
+// Variables globales pour la navigation des images
+let currentMovieImages = [];
+let currentImageIndex = 0;
+let currentMovieTitle = '';
+
 // Suppress console errors for failed resource loads globally
 window.addEventListener('error', function(event) {
     // Suppress errors for images that fail to load
@@ -343,9 +348,38 @@ function initializePostersAndImages() {
         });
 
         // Click handler shows modal with same source resolution strategy for modal
-        thumbnail.on('click', function() {
+        thumbnail.on('click', async function() {
             const modalImg = $('#modalPosterImg');
             const currentSrc = $(this).attr('src') || posterCandidates[0];
+            const movieTitle = $(this).closest('tr').find('td[title]').text();
+            currentMovieTitle = movieTitle;
+
+            // Récupérer toutes les images du film
+            const directoryPath = `media/${imdbId}/`;
+            const imageFiles = await getDirectoryListing(directoryPath);
+            
+            // Créer la liste des images (poster + images additionnelles)
+            currentMovieImages = [];
+            
+            // Ajouter le poster d'abord
+            const posterSrc = currentSrc;
+            if (posterSrc) {
+                currentMovieImages.push({
+                    src: posterSrc,
+                    name: 'Poster'
+                });
+            }
+            
+            // Ajouter les images additionnelles
+            for (const imageName of imageFiles) {
+                currentMovieImages.push({
+                    src: `${directoryPath}${imageName}`,
+                    name: imageName
+                });
+            }
+            
+            // Définir l'index courant à 0 (le poster)
+            currentImageIndex = 0;
 
             // If the thumbnail ended up using a good alternative, show that; otherwise try candidates for modal
             if (currentSrc) {
@@ -370,8 +404,8 @@ function initializePostersAndImages() {
                 }
             });
 
-            const movieTitle = $(this).closest('tr').find('td[title]').text();
             $('#posterModalLabel').text('Poster - ' + movieTitle);
+            updateNavigationButtons();
             $('#posterModal').modal('show');
         });
 
@@ -418,18 +452,46 @@ $('td[images]').each(async function () {
                     .attr('alt', `${imageName}`)
                     .attr('title', imageName)
                     .addClass('additional-image-thumbnail')
-            .on('click', function() {
+            .on('click', async function() {
                 // Show modal with full size image
                 const modalImg = $('#modalPosterImg');
                 modalImg.attr('src', imagePath);
                 
+                const movieTitle = $row.find('td[title]').text();
+                currentMovieTitle = movieTitle;
+                
+                // Récupérer toutes les images du film
+                currentMovieImages = [];
+                
+                // Ajouter le poster d'abord (s'il existe)
+                const posterCell = $row.find('td[poster]');
+                const posterImg = posterCell.find('img');
+                if (posterImg.length && posterImg.attr('src')) {
+                    currentMovieImages.push({
+                        src: posterImg.attr('src'),
+                        name: 'Poster'
+                    });
+                }
+                
+                // Ajouter toutes les images additionnelles
+                for (const imgName of imageFiles) {
+                    currentMovieImages.push({
+                        src: `${directoryPath}${imgName}`,
+                        name: imgName
+                    });
+                }
+                
+                // Trouver l'index de l'image cliquée
+                currentImageIndex = currentMovieImages.findIndex(img => img.src === imagePath);
+                if (currentImageIndex === -1) currentImageIndex = 0;
+                
                 // Handle image load error in modal
                 modalImg.off('error').on('error', function() {
-                                $(this).attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIiBzdHJva2U9IiNkZWUyZTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmM3NTdkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgaW5kaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==');
-                            });
-                            
-                            const movieTitle = $row.find('td[title]').text();
+                    $(this).attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIiBzdHJva2U9IiNkZWUyZTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmM3NTdkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgaW5kaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==');
+                });
+                
                 $('#posterModalLabel').text(`${movieTitle} - ${imageName}`);
+                updateNavigationButtons();
                 $('#posterModal').modal('show');
             });
             
@@ -445,6 +507,66 @@ $('td[images]').each(async function () {
     }
 });
 }
+
+// Fonction pour mettre à jour la visibilité des boutons de navigation
+function updateNavigationButtons() {
+    const prevBtn = $('#prevImageBtn');
+    const nextBtn = $('#nextImageBtn');
+    
+    // Afficher le bouton précédent seulement s'il y a une image précédente
+    if (currentImageIndex > 0) {
+        prevBtn.show();
+    } else {
+        prevBtn.hide();
+    }
+    
+    // Afficher le bouton suivant seulement s'il y a une image suivante
+    if (currentImageIndex < currentMovieImages.length - 1) {
+        nextBtn.show();
+    } else {
+        nextBtn.hide();
+    }
+}
+
+// Fonction pour afficher l'image précédente
+function showPreviousImage() {
+    if (currentImageIndex > 0) {
+        currentImageIndex--;
+        const image = currentMovieImages[currentImageIndex];
+        const modalImg = $('#modalPosterImg');
+        modalImg.attr('src', image.src);
+        $('#posterModalLabel').text(`${currentMovieTitle} - ${image.name}`);
+        updateNavigationButtons();
+    }
+}
+
+// Fonction pour afficher l'image suivante
+function showNextImage() {
+    if (currentImageIndex < currentMovieImages.length - 1) {
+        currentImageIndex++;
+        const image = currentMovieImages[currentImageIndex];
+        const modalImg = $('#modalPosterImg');
+        modalImg.attr('src', image.src);
+        $('#posterModalLabel').text(`${currentMovieTitle} - ${image.name}`);
+        updateNavigationButtons();
+    }
+}
+
+// Gestionnaires d'événements pour les boutons de navigation
+$('#prevImageBtn').on('click', showPreviousImage);
+$('#nextImageBtn').on('click', showNextImage);
+
+// Support pour les touches fléchées du clavier
+$(document).on('keydown', function(e) {
+    // Vérifier si le modal est ouvert
+    if ($('#posterModal').hasClass('show')) {
+        if (e.key === 'ArrowLeft') {
+            showPreviousImage();
+        } else if (e.key === 'ArrowRight') {
+            showNextImage();
+        }
+    }
+});
 
 // Rating System
 class MovieRating {
