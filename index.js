@@ -247,11 +247,47 @@ async function getDirectoryListing(directoryPath) {
                 if (filename.match(/^poster\.(jpg|jpeg|png)$/i) || filename.match(/^goodenough\.(jpg|jpeg|png)$/i)) {
                     continue;
                 }
+                
                 imageFiles.push(filename);
             }
         };
         
-        return imageFiles.sort(); // Sort alphabetically
+        // Récupérer les dates de modification via requêtes HEAD
+        const imagesWithDates = await Promise.all(
+            imageFiles.map(async (filename) => {
+                try {
+                    const response = await fetch(`${directoryPath}${filename}`, { method: 'HEAD' });
+                    const lastModified = response.headers.get('Last-Modified');
+                    const timestamp = lastModified ? new Date(lastModified).getTime() : 0;
+                    
+                    return {
+                        filename,
+                        timestamp,
+                        date: lastModified
+                    };
+                } catch (error) {
+                    console.log(`Could not get date for ${filename}:`, error);
+                    return {
+                        filename,
+                        timestamp: 0,
+                        date: null
+                    };
+                }
+            })
+        );
+        
+        // Trier par date de modification (plus ancien en premier)
+        imagesWithDates.sort((a, b) => {
+            if (a.timestamp && b.timestamp) {
+                return a.timestamp - b.timestamp; // Ascending order (plus ancien d'abord)
+            }
+            if (a.timestamp) return 1;
+            if (b.timestamp) return -1;
+            return 0; // Keep original order if no dates
+        });
+        
+        // Return just the filenames in the sorted order
+        return imagesWithDates.map(img => img.filename);
     } catch (error) {
         console.log(`Could not list directory ${directoryPath}:`, error);
         return [];
