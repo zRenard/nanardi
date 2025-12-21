@@ -394,7 +394,7 @@ $('td[images]').each(async function () {
         const imageFiles = await getDirectoryListing(directoryPath);
         
         let imageCount = 0;
-        const maxImages = 8; // Increased limit since we're being dynamic
+        const maxImages = 20; // Increased limit since we're being dynamic
         
         // Process each image file found
         for (const imageName of imageFiles) {
