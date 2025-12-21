@@ -36,6 +36,16 @@ jobs:
         run: npx eslint index.js
       - name: ✅ Validate minified CSS
         run: npx stylelint index.css
+      - name: � Prepare deployment files
+        run: |
+          mkdir -p deploy
+          cp index.html deploy/
+          cp index.js deploy/
+          cp index.css deploy/
+          cp nanardi.png deploy/
+          cp goodenough.jpg deploy/
+          cp fav.png deploy/
+          cp -r media deploy/
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
@@ -43,12 +53,6 @@ jobs:
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
           server-dir: /www/nanardi/
-          exclude: |
-            .git*
-            .git*/**
-            node_modules/**
-            *.yml
-            *.yaml
-            README.md
-            *.json
-            *.mjj
+          local-dir: ./deploy/
+          state-name: .ftp-deploy-sync-state.json
+          dry-run: false
