@@ -35,11 +35,5 @@ export default [
             'no-unused-vars': 'off',
             'no-useless-escape': 'warn'
         }
-    },
-    {
-        "parserOptions": {
-            "ecmaVersion": "latest",
-            "sourceType": "module"
-        }
     }
 ];
