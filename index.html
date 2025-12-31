@@ -21,7 +21,8 @@
     <main>
         <div class="title-section">
             <h1>La nanardlist/Nanardaward/Les Seb d'Or/#🄽🄰🄽🄰🅁🄳🄸 de 2025</h1><br>
-            <img src="media/nanard-tier-20025.png" alt="Nanard Tier 20025">
+           <img src="media/nanard-tier-20025-thumb.png" alt="Nanard Tier 20025" id="tierImage" style="cursor: pointer;">
+           <h6>Tier list des 81 films au 30 décembre 2025</h6>
         </div>
         <div class="controls-section">
             <div class="column-controls">
@@ -937,6 +938,21 @@
         </p>
     </footer>
 
+    <!-- Modal pour afficher l'image de la nanardi-tierlistca en grand -->
+    <div class="modal fade" id="tierModal" tabindex="-1" aria-labelledby="tierModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tierModalLabel">Nanard Tier 2025</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalTierImg" src="media/nanard-tier-20025.png" alt="Nanard Tier 20025" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal pour afficher le poster en grand -->
     <div class="modal fade" id="posterModal" tabindex="-1" aria-labelledby="posterModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -946,13 +962,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center position-relative">
-                    <button id="prevImageBtn" class="btn btn-secondary image-nav-btn prev-btn" style="display: none;">
+                    <button id="prevImageBtn" class="btn btn-secondary image-nav-btn prev-btn">
                         <span>❮</span>
                     </button>
                     <img id="modalPosterImg"
                         src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlPC90ZXh0Pjwvc3ZnPg=="
                         alt="Poster du film" class="img-fluid">
-                    <button id="nextImageBtn" class="btn btn-secondary image-nav-btn next-btn" style="display: none;">
+                    <button id="nextImageBtn" class="btn btn-secondary image-nav-btn next-btn">
                         <span>❯</span>
                     </button>
                 </div>

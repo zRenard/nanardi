@@ -1038,7 +1038,7 @@ class MovieRating {
                                 table.rows().invalidate().draw(false);
                             }
                         } catch (e) {
-                            // ignore
+                            console.log('DataTable not ready for refresh after import:', e);
                         }
                         const ratedCount = this.getRatedMovieCount();
                         
@@ -1056,3 +1056,9 @@ class MovieRating {
     }
 }
 
+// Event listener for tier image click to open modal
+$(document).ready(function() {
+    $('#tierImage').on('click', function() {
+        $('#tierModal').modal('show');
+    });
+});
