@@ -19,6 +19,10 @@
         <h1>Les films du <img src="nanardi.png" alt="Nanardi"></h1>
     </header>
     <main>
+        <div class="title-section">
+            <h1>La nanardlist/Nanardaward/Les Seb d'Or/#🄽🄰🄽🄰🅁🄳🄸 de 2025</h1><br>
+            <img src="nanard-tier-20025.png" alt="Nanard Tier 20025">
+        </div>
         <div class="controls-section">
             <div class="column-controls">
                 Afficher/cacher les colonnes:
@@ -29,24 +33,6 @@
                 <a class="toggle-vis icon-visible" data-column="5">Poster</a> -
                 <a class="toggle-vis icon-visible" data-column="6">Images</a> -
                 <a class="toggle-vis icon-hidden" data-column="7">Commentaires</a>
-            </div>
-            <div class="rating-controls">
-                <div class="rating-actions">
-                    <button id="exportRatings" class="btn btn-success">
-                        <span class="export-icon">📤</span>
-                        Exporter les notes
-                    </button>
-                    <button id="importRatings" class="btn btn-primary">
-                        <span class="import-icon">📥</span>
-                        Importer les notes
-                    </button>
-                    <button id="clearRatings" class="btn btn-danger">
-                        <span class="clear-icon">🗑️</span>
-                        Effacer toutes les notes
-                    </button>
-                </div>
-                <input type="file" id="importFile" accept=".json" class="hidden-file-input"
-                    aria-label="Import ratings file">
             </div>
         </div>
         <table id="liste" class="table">
@@ -922,9 +908,27 @@
                 </tr>
             </tbody>
         </table>
+                    <div class="rating-controls">
+                <div class="rating-actions">
+                    <button id="exportRatings" class="btn btn-success">
+                        <span class="export-icon">📤</span>
+                        Exporter les notes
+                    </button>
+                    <button id="importRatings" class="btn btn-primary">
+                        <span class="import-icon">📥</span>
+                        Importer les notes
+                    </button>
+                    <button id="clearRatings" class="btn btn-danger">
+                        <span class="clear-icon">🗑️</span>
+                        Effacer toutes les notes
+                    </button>
+                </div>
+                <input type="file" id="importFile" accept=".json" class="hidden-file-input"
+                    aria-label="Import ratings file">
+            </div>
     </main>
     <footer>
-        <p>&copy; 2024-2025 SebJDG</p>
+        <p>&copy; 2024-2026 SebJDG</p>
         <p>
             Dernière mise à jour : <span id="updateDate"></span>
         </p>

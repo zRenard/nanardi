@@ -28,6 +28,22 @@ main {
     box-sizing: border-box;
 }
 
+.title-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.title-section h1 {
+    margin-bottom: 20px;
+}
+
+.title-section img {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
