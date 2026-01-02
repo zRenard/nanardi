@@ -171,8 +171,8 @@ table td:nth-child(2) {
 
 table th:nth-child(1),
 table td:nth-child(1) {
-    max-width: 160px;
-    width: 160px;
+    max-width: 200px;
+    width: 200px;
 }
 
 table th:nth-child(3),

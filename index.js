@@ -78,7 +78,6 @@ $(document).ready(function() {
             [20, 40, 60, 'All']
         ],
         columnDefs: [
-            { targets: 4, visible: false },
             { targets: 8, visible: false },
             {
                 targets: 3,
