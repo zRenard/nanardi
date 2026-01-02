@@ -776,12 +776,8 @@ class MovieRating {
             this.setupRatingCells(); // Refresh all rating displays
             this.updateMovieStats(); // Update statistics
             // Ensure DataTables re-reads updated DOM
-            try {
-                if (typeof table !== 'undefined' && table) {
-                    table.rows().invalidate().draw(false);
-                }
-            } catch (e) {
-                // ignore
+            if (typeof table !== 'undefined' && table) {
+                table.rows().invalidate().draw(false);
             }
         } catch (err) {
             console.error('Error clearing ratings:', err);
@@ -818,11 +814,11 @@ class MovieRating {
         const totalMovies = this.getTotalMovieCount();
         const ratedMovies = this.getRatedMovieCount();
         const averageRating = this.getAverageRating();
-        const awardedMovies = $('td[award][type$="-2025"]').length;
+        const awardedMovies_2025 = $('td[award][type$="-2025"]').length;
         
         let statsText = `${totalMovies} films au total`;
-        
-        statsText += ` • ${ totalMovies - awardedMovies } films avec award`;
+        statsText += ` • ${awardedMovies_2025 } award 2025`;
+        statsText += ` • ${ totalMovies - awardedMovies_2025 } films sans award`;
         
         if (ratedMovies > 0) {
             const percentage = ((ratedMovies / totalMovies) * 100).toFixed(1);
