@@ -21,8 +21,41 @@
     <main>
         <div class="title-section">
             <h1>La nanardlist/Nanardaward/Les Seb d'Or/#🄽🄰🄽🄰🅁🄳🄸 de 2025</h1><br>
-           <img src="media/nanard-tier-20025-thumb.png" alt="Nanard Tier 20025" id="tierImage" style="cursor: pointer;">
-           <h6>Tier list des 81 films au 30 décembre 2025</h6>
+           <img src="media/nanard-tier-20025-thumb.png" alt="Nanard Tier 20025" id="tierImage" class="clickable-image">
+           <div class="award-stats-container">
+               <div class="award-stats-total">
+                   <span class="stats-label">Tier list de <span id="award2025Count">0</span> films</span>
+                   <span class="stats-separator">|</span>
+                   <span class="stats-value">Décernés lors de la soirée du 30 décembre 2025</span>
+               </div>
+               <div class="award-stats-details">
+                   <span class="award-badge award-or" data-award-type="or-2025">
+                       <span class="badge-icon">⭐</span>
+                       <span class="badge-label">Ninja d'Or</span>
+                       <span class="badge-count" id="orCount">0</span>
+                   </span>
+                   <span class="award-badge award-cringe-badge" data-award-type="cringe-2025">
+                       <span class="badge-icon">😬</span>
+                       <span class="badge-label">Cringe</span>
+                       <span class="badge-count" id="cringeCount">0</span>
+                   </span>
+                   <span class="award-badge award-kong-badge" data-award-type="kong-2025">
+                       <span class="badge-icon">🦧</span>
+                       <span class="badge-label">Un petit trucs en plus</span>
+                       <span class="badge-count" id="kongCount">0</span>
+                   </span>
+                   <span class="award-badge award-jaquette-badge" data-award-type="jaquette-2025">
+                       <span class="badge-icon">🎬</span>
+                       <span class="badge-label">CarJaquette</span>
+                       <span class="badge-count" id="jaquetteCount">0</span>
+                   </span>
+                   <span class="award-badge award-nanarvet-badge" data-award-type="nanarvet-2025">
+                       <span class="badge-icon">💀</span>
+                       <span class="badge-label">Nanarvet</span>
+                       <span class="badge-count" id="nanarvetCount">0</span>
+                   </span>
+               </div>
+           </div>
         </div>
         <div class="controls-section">
             <div class="column-controls">
@@ -30,10 +63,11 @@
                 <a class="toggle-vis icon-visible" data-column="0">Note</a> -
                 <a class="toggle-vis icon-visible" data-column="2">Année</a> -
                 <a class="toggle-vis icon-visible" data-column="3">Date</a> -
-                <a class="toggle-vis icon-visible" data-column="4">Links</a> -
+                <a class="toggle-vis icon-hidden" data-column="4">Links</a> -
                 <a class="toggle-vis icon-visible" data-column="5">Poster</a> -
                 <a class="toggle-vis icon-visible" data-column="6">Images</a> -
-                <a class="toggle-vis icon-hidden" data-column="7">Commentaires</a>
+                <a class="toggle-vis icon-visible" data-column="7">Award</a> -
+                <a class="toggle-vis icon-hidden" data-column="8">Commentaires</a>
             </div>
         </div>
         <table id="liste" class="table">
@@ -46,6 +80,7 @@
                     <th>Liens</th>
                     <th>Affiche</th>
                     <th>Images</th>
+                    <th>Award</th>
                     <th>Commentaires</th>
                 </tr>
             </thead>
@@ -59,6 +94,7 @@
                         data-justwatch=""></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -70,6 +106,7 @@
                         data-justwatch=""></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td>Le maitre d'arme 2 / The Swordsman 2</td>
                 </tr>
                 <tr>
@@ -81,6 +118,7 @@
                         data-justwatch=""></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -92,6 +130,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/american-cyborg-steel-warrior"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td>American cyborg: le guerrier d'acier</td>
                 </tr>
                 <tr>
@@ -103,6 +142,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/asteroid-a-geddon"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="nanarvet-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -114,6 +154,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/pterodactyl"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires>Ptérodactyles</td>
                 </tr>
                 <tr>
@@ -125,6 +166,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/bigfoot"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -136,6 +178,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/yeti-curse-of-the-snow-demon"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires>Yeti: Curse of the Snow Demon</td>
                 </tr>
                 <tr>
@@ -147,6 +190,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/vampires-los-muertos"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -158,6 +202,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/evolver"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -169,6 +214,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/alienator"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires>Les aliens sortis de concert de glamrock</td>
                 </tr>
                 <tr>
@@ -180,6 +226,7 @@
                         data-justwatch="https://www.justwatch.com/us/search?q=The%20Amazing%20Captain%20Nemo"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires>Le film de la série, c'était pas necessaire, non vraiment</td>
                 </tr>
                 <tr>
@@ -191,6 +238,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/against-the-dark"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires>Un Steven Seagal oublié ... enfin on aurrait du</td>
                 </tr>
                 <tr>
@@ -202,6 +250,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/bloody-new-year"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires>aka Réveillon sanglant / Bloody New Year</td>
                 </tr>
                 <tr>
@@ -213,6 +262,7 @@
                         data-justwatch="https://www.justwatch.com/us/search?q=Tha%20Eastsidaz"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires>Tha Eastsidaz</td>
                 </tr>
                 <tr>
@@ -224,6 +274,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/beowulf-1999"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -235,6 +286,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/leprechaun-in-the-hood"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires>Leprechaun 5 : La Malédiction.</td>
                 </tr>
                 <tr>
@@ -246,6 +298,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/the-octagon"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires>La Fureur du juste</td>
                 </tr>
                 <tr>
@@ -257,6 +310,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/leprechaun-back-2-tha-hood"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="nanarvet-2025"></td>
                     <td commentaires>Leprechaun 6 : Le Retour</td>
                 </tr>
                 <tr>
@@ -268,6 +322,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/the-barbarians-1987"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -279,6 +334,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/titanic-666"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="nanarvet-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -290,6 +346,7 @@
                         data-justwatch="https://www.justwatch.com/us/search?q=Dragon%20Hunt"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires>Dragon Kickboxers</td>
                 </tr>
                 <tr>
@@ -301,6 +358,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/bloody-mallory"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -312,6 +370,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/leprechaun-4-in-space"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -323,6 +382,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/tammy-and-the-t-rex"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="or-2025"></td>
                     <td commentaires>Crossover non officiel entre Fast and Furious et Starshiptrooper et puis Jurrasic
                         Park 2 aussi
                     </td>
@@ -336,6 +396,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/arena-1989"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -347,6 +408,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/american-ninja-4-the-annihilation"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires>American warrior 4 en vf 🤔</td>
                 </tr>
                 <tr>
@@ -358,6 +420,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/highlander-the-source"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -369,6 +432,7 @@
                         data-justwatch="https://www.justwatch.com/us/search?q=Speak%20of%20the%20Devil"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -380,6 +444,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/space-mutiny"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -391,6 +456,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/hercules-goes-bananas"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -402,6 +468,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/breaker-breaker"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -413,6 +480,7 @@
                         data-justwatch="https://www.justwatch.com/us/search?q=Syngenor"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires>aka Soldat Cyborg</td>
                 </tr>
                 <tr>
@@ -425,6 +493,7 @@
                     </td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -436,6 +505,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/santa-claus-conquers-the-martians"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -447,6 +517,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/ninja-silent-assassin"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="or-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -458,6 +529,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/mutant-hunt"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires>aka Mutant Hunt</td>
                 </tr>
                 <tr>
@@ -469,6 +541,7 @@
                         data-justwatch="https://www.justwatch.com/us/movie/thor-the-conqueror"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -479,6 +552,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt5823524/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires>Il est sur le podium celui là !</td>
                 </tr>
                 <tr>
@@ -489,6 +563,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0130236/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="or-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -499,6 +574,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0100448"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires>Quest for the Mighty Sword</td>
                 </tr>
                 <tr>
@@ -509,6 +585,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0088380"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires>Warrior of the Lost World</td>
                 </tr>
                 <tr>
@@ -519,6 +596,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0113141"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -529,6 +607,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0096804"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires>American Ninja 3: Blood Hunt</td>
                 </tr>
                 <tr>
@@ -539,6 +618,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0088359"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="or-2025"></td>
                     <td commentaires>White Fire !!!!!</td>
                 </tr>
                 <tr>
@@ -549,6 +629,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0093146"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires>Hard Ticket to Hawaii</td>
                 </tr>
                 <tr>
@@ -559,6 +640,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0202046"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires>Duncan Jax ; Les agents 007 1/2</td>
                 </tr>
                 <tr>
@@ -569,6 +651,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0199912"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires>Moins de toutounes et plus de Baboon ! On continue les aventures de Boon dans
                         Duncan Jax 2 -
                         L'Ordre de l'Aigle Noir (ou Mission : Empêcher la résurrection d’Hitler ! - USA 1987) (c'est la
@@ -582,6 +665,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0091166"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -592,6 +676,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt21426434"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="nanarvet-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -602,6 +687,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0086141/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires>Et sinon vous avez compris ce qu'a dit le vaudour ? &#x1F602; </td>
                 </tr>
                 <tr>
@@ -612,6 +698,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0096341"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires>Une chatastrophe ce film</td>
                 </tr>
                 <tr>
@@ -622,6 +709,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0089104"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -632,6 +720,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0165138"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -642,6 +731,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0080058"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires>A peu presque StarWar</td>
                 </tr>
                 <tr>
@@ -652,6 +742,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0091012"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires>Equalizer 2000</td>
                 </tr>
                 <tr>
@@ -662,6 +753,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0081693"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires>Sakom est libre (enfin je le connaît pas mais bon, ils l'ont dit 50 fois) :)</td>
                 </tr>
                 <tr>
@@ -672,6 +764,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0077788"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires>Du rroooooccckkkkkk</td>
                 </tr>
                 <tr>
@@ -682,6 +775,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0096000"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires>Presquedator</td>
                 </tr>
                 <tr>
@@ -692,6 +786,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0106257"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires>Niiiinjjjaaaa attaque PQ de feu!</td>
                 </tr>
                 <tr>
@@ -703,6 +798,7 @@
                         data-imdb="https://www.imdb.com/fr/title/tt0109144"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -714,6 +810,7 @@
                         data-imdb="https://www.imdb.com/fr/title/tt0233004"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="or-2025"></td>
                     <td commentaires>Pas mal non ? c'est français</td>
                 </tr>
                 <tr>
@@ -725,6 +822,7 @@
                         data-imdb="https://www.imdb.com/fr/title/tt0115834"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires>Graouu graouuuu mais lowcost</td>
                 </tr>
                 <tr>
@@ -735,6 +833,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0107612"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires>Avec Panda ! RIP Hulk Hogan</td>
                 </tr>
                 <tr>
@@ -745,6 +844,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0430216/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires>007 1/2 avec Weng Weng</td>
                 </tr>
                 <tr>
@@ -755,6 +855,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0266338/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires>Moustaches club</td>
                 </tr>
                 <tr>
@@ -765,6 +866,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt1109478/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="nanarvet-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -775,6 +877,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0301110/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires>Clash of the ninjas. Vraiment dans le top 3 celui là !</td>
                 </tr>
                 <tr>
@@ -785,6 +888,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0437467/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires>Samson dan Delilah (va savoir pourquoi)</td>
                 </tr>
                 <tr>
@@ -795,6 +899,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0098156/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires>ça veut dire quoi ROTOR déjà ? 😂</td>
                 </tr>
                 <tr>
@@ -805,6 +910,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0114403/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires>Cauchemar sanglant</td>
                 </tr>
                 <tr>
@@ -815,6 +921,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0101744/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires>Do or Die avec dé-toutounage intensif</td>
                 </tr>
                 <tr>
@@ -825,6 +932,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0387445"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -835,6 +943,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0089308/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires>Howling II... Your Sister Is a Werewolf ou Howling II: Stirba - Werewolf Bitch</td>
                 </tr>
                 <tr>
@@ -845,6 +954,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0092863/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires>Deep Space</td>
                 </tr>
                 <tr>
@@ -855,6 +965,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0493424/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="jaquette-2025"></td>
                     <td commentaires>Tourné à Bastia, proche de Bordeaux, en Roumanie</td>
                 </tr>
                 <tr>
@@ -865,6 +976,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0104135/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="cringe-2025"></td>
                     <td commentaires>À chacun sa loi</td>
                 </tr>
                 <tr>
@@ -875,6 +987,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0109518"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires>Quasibocop</td>
                 </tr>
                 <tr>
@@ -885,6 +998,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0106258/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="kong-2025"></td>
                     <td commentaires>American Samurai</td>
                 </tr>
                 <tr>
@@ -895,6 +1009,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt6987760/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="nanarvet-2025"></td>
                     <td commentaires></td>
                 </tr>
                 <tr>
@@ -905,6 +1020,7 @@
                     <td links data-imdb="https://www.imdb.com/fr/title/tt0087805/"></td>
                     <td poster></td>
                     <td images></td>
+                    <td award type="or-2025"></td>
                     <td commentaires>Ninja III: The Domination</td>
                 </tr>
             </tbody>

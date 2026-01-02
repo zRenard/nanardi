@@ -39,6 +39,26 @@ $(document).ready(function() {
             return 0;
         });
     };
+
+    // Custom ordering for awards: read `type` attribute and sort by specific order
+    // Order: or-2025, cringe-2025, kong-2025, jaquette-2025, nanarvet-2025
+    $.fn.dataTable.ext.order['dom-award-type'] = function (settings, col) {
+        const awardOrder = {
+            'or-2025': 1,
+            'cringe-2025': 2,
+            'kong-2025': 3,
+            'jaquette-2025': 4,
+            'nanarvet-2025': 5
+        };
+        return this.api().column(col, { order: 'index' }).nodes().map(function (td) {
+            const typeAttr = $(td).attr('type');
+            if (typeAttr && awardOrder[typeAttr]) {
+                return awardOrder[typeAttr];
+            }
+            // Empty cells or unknown types go to the end
+            return 999;
+        });
+    };
     
     table = new DataTable('#liste', {
         paging: false,
@@ -58,11 +78,17 @@ $(document).ready(function() {
             [20, 40, 60, 'All']
         ],
         columnDefs: [
-            { targets: 7, visible: false },
+            { targets: 4, visible: false },
+            { targets: 8, visible: false },
             {
                 targets: 3,
                 // Use custom date ordering that reads `data-sort-value` (US format)
                 orderDataType: 'dom-date-us'
+            },
+            {
+                targets: 7,
+                // Use custom award ordering that reads `type` attribute
+                orderDataType: 'dom-award-type'
             },
             {
                 targets: 0,
@@ -109,6 +135,87 @@ $(document).ready(function() {
     movieRating = new MovieRating();
     
     document.getElementById('updateDate').textContent = new Date(document.lastModified).toLocaleString('fr-FR');
+    
+    // Apply award styling based on cell content
+    $('td[award]').each(function() {
+        const $cell = $(this);
+        const value = $cell.text().trim().toLowerCase();
+        const typeAttr = $cell.attr('type');
+        
+        // Award configurations with icons and labels
+        const awardConfig = {
+            'or-2025': { icon: '⭐', label: 'Ninja d\'Or 2025', class: 'award-or' },
+            'cringe-2025': { icon: '😬', label: 'Le cringe était presque parfait 2025', class: 'award-cringe-badge' },
+            'kong-2025': { icon: '🦧', label: 'Un petit trucs en plus 2025', class: 'award-kong-badge' },
+            'jaquette-2025': { icon: '🎬', label: 'CarJaquette 2025', class: 'award-jaquette-badge' },
+            'nanarvet-2025': { icon: '💀', label: 'Nanarvet 2025', class: 'award-nanarvet-badge' }
+        };
+        
+        // Check for type attribute and create badge structure
+        if (typeAttr && awardConfig[typeAttr]) {
+            const config = awardConfig[typeAttr];
+            const badge = $('<span>').addClass('award-badge-cell ' + config.class)
+                .append(
+                    $('<span>').addClass('badge-icon').text(config.icon),
+                    $('<span>').addClass('badge-label').text(config.label)
+                );
+            $cell.empty().append(badge);
+        }
+    });
+    
+    // Count and display awards 2025 by type
+    const orCount = $('td[award][type="or-2025"]').length;
+    const cringeCount = $('td[award][type="cringe-2025"]').length;
+    const kongCount = $('td[award][type="kong-2025"]').length;
+    const jaquetteCount = $('td[award][type="jaquette-2025"]').length;
+    const nanarvetCount = $('td[award][type="nanarvet-2025"]').length;
+    const totalAward2025 = orCount + cringeCount + kongCount + jaquetteCount + nanarvetCount;
+    
+    $('#award2025Count').text(totalAward2025);
+    $('#orCount').text(orCount);
+    $('#cringeCount').text(cringeCount);
+    $('#kongCount').text(kongCount);
+    $('#jaquetteCount').text(jaquetteCount);
+    $('#nanarvetCount').text(nanarvetCount);
+    
+    // Award filter functionality
+    let currentAwardFilter = null;
+    
+    // Custom search function for award filtering
+    $.fn.dataTable.ext.search.push(
+        function(settings, data, dataIndex) {
+            // If no filter is active, show all rows
+            if (!currentAwardFilter) {
+                return true;
+            }
+            
+            // Get the award cell (column 7)
+            const row = table.row(dataIndex).node();
+            const awardCell = $(row).find('td[award]');
+            const awardType = awardCell.attr('type');
+            
+            // Show row if award type matches filter
+            return awardType === currentAwardFilter;
+        }
+    );
+    
+    // Add click handlers to award badges
+    $('.award-badge[data-award-type]').on('click', function() {
+        const awardType = $(this).attr('data-award-type');
+        
+        // Toggle filter: if clicking the same badge, remove filter
+        if (currentAwardFilter === awardType) {
+            currentAwardFilter = null;
+            $('.award-badge').removeClass('active');
+        } else {
+            currentAwardFilter = awardType;
+            $('.award-badge').removeClass('active');
+            $(this).addClass('active');
+        }
+        
+        // Redraw table with filter
+        table.draw();
+    });
     
     // Populate date cells AFTER DataTables initialization
     // This converts US dates (YYYY-MM-DD) to French format (DD/MM/YYYY) and stores sort value
@@ -712,8 +819,11 @@ class MovieRating {
         const totalMovies = this.getTotalMovieCount();
         const ratedMovies = this.getRatedMovieCount();
         const averageRating = this.getAverageRating();
+        const awardedMovies = $('td[award][type$="-2025"]').length;
         
         let statsText = `${totalMovies} films au total`;
+        
+        statsText += ` • ${ totalMovies - awardedMovies } films avec award`;
         
         if (ratedMovies > 0) {
             const percentage = ((ratedMovies / totalMovies) * 100).toFixed(1);

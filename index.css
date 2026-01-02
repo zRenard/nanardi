@@ -44,6 +44,117 @@ main {
     display: block;
 }
 
+.award-stats-container {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.award-stats-total {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.stats-label {
+    color: #555;
+}
+
+.stats-separator {
+    margin: 0 10px;
+    color: #999;
+}
+
+.stats-value {
+    color: #2196F3;
+    font-weight: bold;
+}
+
+.award-stats-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.award-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    color: #000;
+    cursor: pointer;
+}
+
+.award-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+.award-badge.active {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
+    outline: 3px solid rgba(33, 150, 243, 0.5);
+    outline-offset: 2px;
+}
+
+.badge-icon {
+    margin-right: 6px;
+    font-size: 16px;
+}
+
+.badge-label {
+    margin-right: 6px;
+}
+
+.badge-count {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: bold;
+    min-width: 20px;
+    text-align: center;
+}
+
+.award-or {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    border: 2px solid #DAA520;
+}
+
+.award-cringe-badge {
+    background: linear-gradient(135deg, #90EE90 0%, #32CD32 100%);
+    border: 2px solid #228B22;
+}
+
+.award-kong-badge {
+    background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+    border: 2px solid #FF1493;
+}
+
+.award-jaquette-badge {
+    background: linear-gradient(135deg, #0FF 0%, #00CED1 100%);
+    border: 2px solid #008B8B;
+}
+
+.award-nanarvet-badge {
+    background: linear-gradient(135deg, #FF6347 0%, #DC143C 100%);
+    border: 2px solid #B22222;
+    color: #000;
+}
+
+.award-nanarvet-badge .badge-count {
+    background: rgba(255, 255, 255, 0.95);
+    color: #000;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -425,3 +536,58 @@ td[links] {
     vertical-align: middle;
     padding: 8px;
 }
+
+/* Award cell styling */
+td[award] {
+    text-align: center;
+    vertical-align: middle;
+    padding: 8px;
+}
+
+.award-badge-cell {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    color: #000;
+}
+
+.award-badge-cell .badge-icon {
+    margin-right: 6px;
+    font-size: 16px;
+}
+
+.award-badge-cell .badge-label {
+    white-space: nowrap;
+}
+
+.award-badge-cell.award-or {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    border: 2px solid #DAA520;
+}
+
+.award-badge-cell.award-cringe-badge {
+    background: linear-gradient(135deg, #90EE90 0%, #32CD32 100%);
+    border: 2px solid #228B22;
+}
+
+.award-badge-cell.award-kong-badge {
+    background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);
+    border: 2px solid #FF1493;
+}
+
+.award-badge-cell.award-jaquette-badge {
+    background: linear-gradient(135deg, #0FF 0%, #00CED1 100%);
+    border: 2px solid #008B8B;
+}
+
+.award-badge-cell.award-nanarvet-badge {
+    background: linear-gradient(135deg, #FF6347 0%, #DC143C 100%);
+    border: 2px solid #B22222;
+    color: #000;
+}
+
+
