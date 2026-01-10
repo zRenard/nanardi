@@ -7,7 +7,7 @@ let currentImageIndex = 0;
 let currentMovieTitle = '';
 
 // Suppress console errors for failed resource loads globally
-window.addEventListener('error', function(event) {
+globalThis.addEventListener('error', function(event) {
     // Suppress errors for images that fail to load
     if (event.filename && event.filename.includes('media/')) {
         return true;
@@ -21,7 +21,7 @@ $(document).ready(function() {
     $.fn.dataTable.ext.order['dom-data-order'] = function (settings, col) {
         return this.api().column(col, { order: 'index' }).nodes().map(function (td) {
             const v = $(td).attr('data-order');
-            return v !== undefined && v !== null ? parseFloat(v) || 0 : 0;
+            return v !== undefined && v !== null ? Number.parseFloat(v) || 0 : 0;
         });
     };
 
@@ -34,7 +34,7 @@ $(document).ready(function() {
             // Convert YYYY-MM-DD to a sortable numeric value: YYYYMMDD
             const parts = v.split('-');
             if (parts.length === 3) {
-                return parseInt(parts[0] + parts[1] + parts[2], 10);
+                return Number.parseInt(parts[0] + parts[1] + parts[2], 10);
             }
             return 0;
         });
@@ -104,8 +104,8 @@ $(document).ready(function() {
                             const $cell = $table.find('tbody tr').eq(meta.row).find('td').eq(meta.col);
                             const orderAttr = $cell.attr('data-order');
                             if (orderAttr !== undefined) {
-                                const n = parseFloat(orderAttr);
-                                return isNaN(n) ? 0 : n;
+                                const n = Number.parseFloat(orderAttr);
+                                return Number.isNaN(n) ? 0 : n;
                             }
 
                             // Fallback: extract from hidden .rating-sort span in the HTML
@@ -113,8 +113,8 @@ $(document).ready(function() {
                                 const m = data.match(/<span[^>]*class=["']rating-sort["'][^>]*>(\d+)\/<\/span>|<span[^>]*class=["']rating-sort["'][^>]*>(\d+)<\/span>/i);
                                 if (m) {
                                     const val = m[1] || m[2];
-                                    const n2 = parseFloat(val);
-                                    return isNaN(n2) ? 0 : n2;
+                                    const n2 = Number.parseFloat(val);
+                                    return Number.isNaN(n2) ? 0 : n2;
                                 }
                             }
 
@@ -138,7 +138,6 @@ $(document).ready(function() {
     // Apply award styling based on cell content
     $('td[award]').each(function() {
         const $cell = $(this);
-        const value = $cell.text().trim().toLowerCase();
         const typeAttr = $cell.attr('type');
         
         // Award configurations with icons and labels
