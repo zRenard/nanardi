@@ -816,19 +816,63 @@ class MovieRating {
         const averageRating = this.getAverageRating();
         const awardedMovies_2025 = $('td[award][type$="-2025"]').length;
         
-        let statsText = `${totalMovies} films au total`;
-        statsText += ` • ${awardedMovies_2025 } award 2025`;
-        statsText += ` • ${ totalMovies - awardedMovies_2025 } films sans award`;
+        // Version compacte pour le footer (une seule ligne)
+        let statsTextFooter = `${totalMovies} films au total`;
+        statsTextFooter += ` • ${awardedMovies_2025} award 2025`;
+        statsTextFooter += ` • ${totalMovies - awardedMovies_2025} films sans award`;
         
         if (ratedMovies > 0) {
             const percentage = ((ratedMovies / totalMovies) * 100).toFixed(1);
-            statsText += ` • ${ratedMovies} films notés (${percentage}%)`;
-            statsText += ` • Note moyenne: ${averageRating}/10 ⭐`;
+            statsTextFooter += ` • ${ratedMovies} films notés (${percentage}%)`;
+            statsTextFooter += ` • Note moyenne: ${averageRating}/10 ⭐`;
         } else {
-            statsText += ` • Aucun film noté`;
+            statsTextFooter += ` • Aucun film noté`;
         }
+        
+        // Version multi-lignes pour la popin (meilleure lisibilité)
+        let statsTextModal = `<div class="stats-line"><strong>${totalMovies}</strong> films au total</div>`;
+        statsTextModal += `<div class="stats-line"><strong>${awardedMovies_2025}</strong> award 2025</div>`;
+        statsTextModal += `<div class="stats-line"><strong>${totalMovies - awardedMovies_2025}</strong> films sans award</div>`;
+        
+        if (ratedMovies > 0) {
+            const percentage = ((ratedMovies / totalMovies) * 100).toFixed(1);
+            statsTextModal += `<div class="stats-line"><strong>${ratedMovies}</strong> films notés (<strong>${percentage}%</strong>) • Note moyenne: <strong>${averageRating}/10</strong> ⭐</div>`;
+        } else {
+            statsTextModal += `<div class="stats-line">Aucun film noté</div>`;
+        }
+        
+        // Comptage des awards par type
+        const awardCounts = {
+            'or-2025': { count: $('td[award][type="or-2025"]').length, label: 'Ninja d\'Or', icon: '⭐', color: '#FFD700' },
+            'cringe-2025': { count: $('td[award][type="cringe-2025"]').length, label: 'Cringe', icon: '😬', color: '#32CD32' },
+            'kong-2025': { count: $('td[award][type="kong-2025"]').length, label: 'Un petit truc en plus', icon: '🦧', color: '#FF69B4' },
+            'jaquette-2025': { count: $('td[award][type="jaquette-2025"]').length, label: 'CarJaquette', icon: '🎬', color: '#00CED1' },
+            'nanarvet-2025': { count: $('td[award][type="nanarvet-2025"]').length, label: 'Nanarvet', icon: '💀', color: '#DC143C' }
+        };
+        
+        // Générer le bloc de statistiques d'awards
+        const maxAwardCount = Math.max(...Object.values(awardCounts).map(a => a.count));
+        const totalAwards = Object.values(awardCounts).reduce((sum, a) => sum + a.count, 0);
+        let awardsBlock = `<div class="stats-block"><div class="stats-legend"><span class="legend-icon" aria-hidden="true">🏆</span>Répartition des awards 2025 — total: ${totalAwards}</div>`;
+        awardsBlock += '<div class="awards-bars">';
+        
+        for (const [type, data] of Object.entries(awardCounts)) {
+            if (data.count > 0) {
+                const percentage = maxAwardCount > 0 ? (data.count / maxAwardCount * 100) : 0;
+                awardsBlock += `<div class="award-bar-row">`;
+                awardsBlock += `<span class="award-bar-label"><span class="award-icon">${data.icon}</span> ${data.label}</span>`;
+                awardsBlock += `<div class="award-bar-container">`;
+                awardsBlock += `<div class="award-bar" style="width: ${percentage}%; background: linear-gradient(90deg, ${data.color}, ${data.color}cc);"></div>`;
+                awardsBlock += `<span class="award-bar-value">${data.count}</span>`;
+                awardsBlock += `</div>`;
+                awardsBlock += `</div>`;
+            }
+        }
+        
+        awardsBlock += '</div></div>';
+        
         // Comptage des films par année basé sur la colonne Date
-        const yearCounts = {};
+        const yearCountsByDate = {};
         $('tbody tr').each(function() {
             const dateCell = $(this).find('td[date]');
             if (!dateCell.length) return;
@@ -851,22 +895,208 @@ class MovieRating {
             }
 
             if (!isNaN(yearNum)) {
-                yearCounts[yearNum] = (yearCounts[yearNum] || 0) + 1;
+                yearCountsByDate[yearNum] = (yearCountsByDate[yearNum] || 0) + 1;
             }
         });
 
-        const sortedYears = Object.keys(yearCounts)
+        const sortedYearsByDate = Object.keys(yearCountsByDate)
             .map(y => parseInt(y, 10))
             .filter(y => !isNaN(y))
             .sort((a, b) => a - b);
 
-        const perYearLine = sortedYears.length
-            ? 'Par année de visionnage : ' + sortedYears.map(y => `${y} (${yearCounts[y]})`).join(', ')
+        const perYearLine = sortedYearsByDate.length
+            ? 'Par année de visionnage : ' + sortedYearsByDate.map(y => `${y} (${yearCountsByDate[y]})`).join(', ')
             : 'Par année de visionnage : —';
 
-        // Afficher les stats sur 2 lignes
-        const statsHtml = `${statsText}<br>${perYearLine}`;
-        $('#movieStats').html(statsHtml);
+        // Générer un mini graphique SVG (visionnage)
+        const graphHtmlByDate = this.generateYearMiniGraph(yearCountsByDate, sortedYearsByDate);
+
+        // Comptage des films par année de production (colonne année)
+        const yearCountsByAnnee = {};
+        $('tbody tr').each(function() {
+            const anneeCell = $(this).find('td[annee]');
+            if (!anneeCell.length) return;
+
+            const anneeText = anneeCell.text().trim();
+            const yearNum = parseInt(anneeText, 10);
+            
+            if (!isNaN(yearNum)) {
+                yearCountsByAnnee[yearNum] = (yearCountsByAnnee[yearNum] || 0) + 1;
+            }
+        });
+
+        const sortedYearsByAnnee = Object.keys(yearCountsByAnnee)
+            .map(y => parseInt(y, 10))
+            .filter(y => !isNaN(y))
+            .sort((a, b) => a - b);
+
+        // Générer un mini graphique SVG (production)
+        const graphHtmlByAnnee = this.generateYearMiniGraph(yearCountsByAnnee, sortedYearsByAnnee);
+
+        // Légendes et plages d'années
+        const dateRangeLabel = sortedYearsByDate.length ? `${sortedYearsByDate[0]}–${sortedYearsByDate[sortedYearsByDate.length - 1]}` : '—';
+        const anneeRangeLabel = sortedYearsByAnnee.length ? `${sortedYearsByAnnee[0]}–${sortedYearsByAnnee[sortedYearsByAnnee.length - 1]}` : '—';
+
+        const graphDateBlock = `<div class="stats-block"><div class="stats-legend"><span class="legend-icon" aria-hidden="true">📅</span>Films/an (visionnage) — plage: ${dateRangeLabel} • Couleur: année</div>${graphHtmlByDate}</div>`;
+        const graphAnneeBlock = `<div class="stats-block"><div class="stats-legend"><span class="legend-icon" aria-hidden="true">🎬</span>Films/an (production) — plage: ${anneeRangeLabel} • Couleur: année</div>${graphHtmlByAnnee}</div>`;
+
+        // ===== Statistiques temporelles =====
+        // Décennie la plus représentée (années de production)
+        const decadeCounts = {};
+        for (const [year, count] of Object.entries(yearCountsByAnnee)) {
+            const decade = Math.floor(parseInt(year) / 10) * 10;
+            decadeCounts[decade] = (decadeCounts[decade] || 0) + count;
+        }
+        
+        let topDecade = null;
+        let maxDecadeCount = 0;
+        for (const [decade, count] of Object.entries(decadeCounts)) {
+            if (count > maxDecadeCount) {
+                maxDecadeCount = count;
+                topDecade = parseInt(decade);
+            }
+        }
+        
+        const topDecadeLabel = topDecade !== null ? `${topDecade}s (${maxDecadeCount} films)` : '—';
+        
+        // Corrélation année de production vs awards - par type d'award
+        const decadeAwardsByType = {};
+        $('tbody tr').each(function() {
+            const anneeCell = $(this).find('td[annee]');
+            const awardCell = $(this).find('td[award][type$="-2025"]');
+            
+            if (anneeCell.length && awardCell.length) {
+                const anneeText = anneeCell.text().trim();
+                const yearNum = parseInt(anneeText, 10);
+                const awardType = awardCell.attr('type');
+                
+                if (!isNaN(yearNum) && awardType) {
+                    const decade = Math.floor(yearNum / 10) * 10;
+                    
+                    if (!decadeAwardsByType[decade]) {
+                        decadeAwardsByType[decade] = {};
+                    }
+                    
+                    decadeAwardsByType[decade][awardType] = (decadeAwardsByType[decade][awardType] || 0) + 1;
+                }
+            }
+        });
+        
+        const sortedDecades = Object.keys(decadeAwardsByType)
+            .map(d => parseInt(d, 10))
+            .filter(d => !isNaN(d))
+            .sort((a, b) => a - b);
+        
+        // Définition des couleurs par type d'award
+        const awardTypeColors = {
+            'or-2025': '#FFD700',
+            'cringe-2025': '#32CD32',
+            'kong-2025': '#FF69B4',
+            'jaquette-2025': '#00CED1',
+            'nanarvet-2025': '#DC143C'
+        };
+        
+        let decadeAwardsHtml = '';
+        if (sortedDecades.length > 0) {
+            // Calculer le maximum total par décennie
+            let maxDecadeTotal = 0;
+            for (const decade of sortedDecades) {
+                const total = Object.values(decadeAwardsByType[decade]).reduce((sum, count) => sum + count, 0);
+                if (total > maxDecadeTotal) maxDecadeTotal = total;
+            }
+            
+            decadeAwardsHtml = '<div class="decade-awards-bars">';
+            
+            for (const decade of sortedDecades) {
+                const awardsInDecade = decadeAwardsByType[decade];
+                const totalCount = Object.values(awardsInDecade).reduce((sum, count) => sum + count, 0);
+                const totalPercentage = maxDecadeTotal > 0 ? (totalCount / maxDecadeTotal * 100) : 0;
+                
+                decadeAwardsHtml += `<div class="award-bar-row">`;
+                decadeAwardsHtml += `<span class="award-bar-label">${decade}s</span>`;
+                decadeAwardsHtml += `<div class="award-bar-container">`;
+                decadeAwardsHtml += `<div class="decade-stacked-bar" style="width: ${totalPercentage}%;">`;
+                
+                // Créer les segments empilés proportionnellement
+                for (const [awardType, count] of Object.entries(awardsInDecade)) {
+                    const segmentPercentage = (count / totalCount * 100);
+                    const color = awardTypeColors[awardType] || '#6c757d';
+                    decadeAwardsHtml += `<div class="decade-bar-segment" style="width: ${segmentPercentage}%; background: ${color};" title="${awardType}: ${count}"></div>`;
+                }
+                
+                decadeAwardsHtml += `</div>`;
+                decadeAwardsHtml += `<span class="award-bar-value">${totalCount}</span>`;
+                decadeAwardsHtml += `</div>`;
+                decadeAwardsHtml += `</div>`;
+            }
+            
+            decadeAwardsHtml += '</div>';
+        } else {
+            decadeAwardsHtml = '<div style="padding: 8px; color: #6c757d; font-style: italic;">Aucun film primé</div>';
+        }
+        
+        const temporalStatsBlock = `<div class="stats-block">
+            <div style="padding: 8px 0;">
+                <div style="margin-bottom: 12px;">
+                    <strong>Décennie la plus représentée:</strong> ${topDecadeLabel}
+                </div>
+                <div>
+                    <strong>Awards par décennie (production):</strong>
+                </div>
+                ${decadeAwardsHtml}
+            </div>
+        </div>`;
+
+        // Préparer le contenu de la popin: stats multi-lignes (header) + awards + légendes + graphes, séparés par une ligne
+        const statsHtml = `<div class="stats-header">${statsTextModal}</div>${awardsBlock}<div class="stats-separator"></div>${graphDateBlock}<div class="stats-separator"></div>${graphAnneeBlock}<div class="stats-separator"></div>${temporalStatsBlock}`;
+        // Injecter dans la modal
+        $('#statsModalContent').html(statsHtml);
+        // Afficher les stats compactes en pied de page + lien vers popin
+        $('#movieStats').html(`${statsTextFooter} <br> <a href="#" class="link-light" data-bs-toggle="modal" data-bs-target="#statsModal">Statistiques</a>`);
+    }
+
+    // Crée un mini graphique en barres (SVG) des films par année
+    generateYearMiniGraph(yearCounts, years) {
+        if (!years || years.length === 0) return '';
+
+        const counts = years.map(y => yearCounts[y] || 0);
+        const max = Math.max(...counts);
+        if (max === 0) return '';
+
+        // Dimensions du sparkline (augmentées pour la popin)
+        const barWidth = 12; // px
+        const gap = 4;       // px
+        const height = 80;   // px 
+        const width = years.length * (barWidth + gap) + gap;
+
+        // Couleurs harmonisées pour la modal
+        const barStroke = '#495057';            // contour gris cohérent avec légendes
+        const baselineColor = '#dee2e6';        // ligne de base Bootstrap grey
+
+        // Couleur déterministe par année (HSL harmonisé)
+        const yearColor = (year) => {
+            const hue = (year * 29) % 360; // 29 pour une bonne dispersion
+            return `hsl(${hue}, 75%, 50%)`; // saturation réduite, luminosité ajustée
+        };
+
+        // Construire les <rect> pour chaque année
+        let rects = '';
+        for (let i = 0; i < years.length; i++) {
+            const y = years[i];
+            const c = counts[i];
+            const h = Math.max(1, Math.round((c / max) * height));
+            const x = i * (barWidth + gap) + gap;
+            const yPos = height - h;
+            const fill = yearColor(y);
+            rects += `<rect x="${x}" y="${yPos}" width="${barWidth}" height="${h}" rx="1" ry="1" fill="${fill}" stroke="${barStroke}" stroke-width="0.5"><title>${y}: ${c} film(s)</title></rect>`;
+        }
+
+        // Ajouter une ligne de base discrète
+        const baseline = `<line x1="0" y1="${height}" x2="${width}" y2="${height}" stroke="${baselineColor}" stroke-width="1" opacity="0.6" />`;
+
+        // Conteneur SVG inline
+        const svg = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" aria-label="Films par année (mini graphique)" role="img" class="stats-graph">${baseline}${rects}</svg>`;
+        return svg;
     }
 
     createStarRating(movieTitle, currentRating = 0, imdbId = null) {

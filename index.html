@@ -1053,13 +1053,11 @@
         </div>
     </main>
     <footer>
-        <p>&copy; 2024-2026 SebJDG</p>
-        <p>
-            Dernière mise à jour : <span id="updateDate"></span>
-        </p>
         <p>
             <span id="movieStats"></span>
         </p>
+        <p>Dernière mise à jour : <span id="updateDate"></span></p>
+        <p>&copy; 2024-2026 SebJDG</p>
     </footer>
 
     <!-- Modal pour afficher l'image de la nanardi-tierlistca en grand -->
@@ -1095,6 +1093,21 @@
                     <button id="nextImageBtn" class="btn btn-secondary image-nav-btn next-btn">
                         <span>❯</span>
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour afficher les statistiques et graphiques -->
+    <div class="modal fade" id="statsModal" tabindex="-1" aria-labelledby="statsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="statsModalLabel">Statistiques</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="statsModalContent"></div>
                 </div>
             </div>
         </div>

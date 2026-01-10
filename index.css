@@ -224,6 +224,150 @@ footer p {
     font-size: 14px;
 }
 
+/* Stats modal adjustments */
+#statsModal .modal-body {
+    padding: 1.25rem 1.5rem;
+}
+
+#statsModalContent {
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+#statsModalContent svg.stats-graph {
+    display: block;
+    margin: 12px auto 8px;
+    vertical-align: middle;
+}
+
+footer #movieStats a.link-primary {
+    text-decoration: underline;
+    color: #ffc107; /* ensure link matches footer stats color */
+}
+
+/* Stats blocks and legends */
+#statsModal .stats-block {
+    margin: 12px 0;
+    padding: 12px 16px;
+    background: #ffffff;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+    overflow-x: auto;
+}
+
+#statsModal .stats-legend {
+    font-size: 0.9rem;
+    color: #495057;
+    font-weight: 600;
+    margin-bottom: 10px;
+    letter-spacing: 0.3px;
+}
+
+#statsModal .stats-legend .legend-icon {
+    display: inline-block;
+    margin-right: 6px;
+}
+
+/* Awards bars styling */
+.awards-bars,
+.decade-awards-bars {
+    margin-top: 12px;
+}
+
+.award-bar-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 12px;
+}
+
+.award-bar-label {
+    min-width: 180px;
+    font-size: 0.9rem;
+    color: #495057;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.award-icon {
+    font-size: 1.1rem;
+}
+
+.award-bar-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+
+.award-bar {
+    height: 24px;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.award-bar-value {
+    min-width: 30px;
+    text-align: right;
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.9rem;
+}
+
+/* Decade stacked bars styling */
+.decade-stacked-bar {
+    display: flex;
+    height: 24px;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.decade-bar-segment {
+    height: 100%;
+    transition: opacity 0.2s ease;
+}
+
+.decade-bar-segment:hover {
+    opacity: 0.8;
+}
+
+#statsModal .stats-header {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 4px solid #495057;
+}
+
+#statsModal .stats-header .stats-line {
+    margin: 4px 0;
+    line-height: 1.8;
+}
+
+#statsModal .stats-header .stats-line:first-child {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+#statsModal .stats-header strong {
+    color: #495057;
+    font-weight: 700;
+}
+
+#statsModal .stats-separator {
+    height: 1px;
+    background-color: #dee2e6; /* Bootstrap border color */
+    margin: 16px 0;
+}
+
 a {
     color: black;
 }
