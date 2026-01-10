@@ -827,8 +827,46 @@ class MovieRating {
         } else {
             statsText += ` • Aucun film noté`;
         }
-        
-        $('#movieStats').text(statsText);
+        // Comptage des films par année basé sur la colonne Date
+        const yearCounts = {};
+        $('tbody tr').each(function() {
+            const dateCell = $(this).find('td[date]');
+            if (!dateCell.length) return;
+
+            // Priorité à data-sort-value (format YYYY-MM-DD)
+            const sortValue = dateCell.attr('data-sort-value');
+            let yearNum = NaN;
+            if (sortValue && /^\d{4}-\d{2}-\d{2}$/.test(sortValue)) {
+                yearNum = parseInt(sortValue.slice(0, 4), 10);
+            } else {
+                const txt = dateCell.text().trim();
+                // Essayer YYYY-MM-DD ou DD/MM/YYYY
+                const mUs = txt.match(/^(\d{4})-(\d{2})-(\d{2})/);
+                const mFr = txt.match(/^(\d{2})\/(\d{2})\/(\d{4})/);
+                if (mUs) {
+                    yearNum = parseInt(mUs[1], 10);
+                } else if (mFr) {
+                    yearNum = parseInt(mFr[3], 10);
+                }
+            }
+
+            if (!isNaN(yearNum)) {
+                yearCounts[yearNum] = (yearCounts[yearNum] || 0) + 1;
+            }
+        });
+
+        const sortedYears = Object.keys(yearCounts)
+            .map(y => parseInt(y, 10))
+            .filter(y => !isNaN(y))
+            .sort((a, b) => a - b);
+
+        const perYearLine = sortedYears.length
+            ? 'Par année de visionnage : ' + sortedYears.map(y => `${y} (${yearCounts[y]})`).join(', ')
+            : 'Par année de visionnage : —';
+
+        // Afficher les stats sur 2 lignes
+        const statsHtml = `${statsText}<br>${perYearLine}`;
+        $('#movieStats').html(statsHtml);
     }
 
     createStarRating(movieTitle, currentRating = 0, imdbId = null) {
