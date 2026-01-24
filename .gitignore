@@ -12,3 +12,4 @@ package-lock.json
 *.tmp
 *.old
 -archives-/*
+release_notes.json

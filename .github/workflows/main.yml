@@ -19,27 +19,36 @@ jobs:
       - name: Install Validation Tools
         run: npm install htmlhint eslint stylelint stylelint-config-standard
       - name: ✅ Validating HTML
-        run: npx htmlhint index.html
+        run: |
+          npx htmlhint index.html
+          npx htmlhint release_notes.html
       - name: ✅ Validating JavaScript
         run: npx eslint index.js
       - name: ✅ Validating CSS
         run: npx stylelint index.css
       - name: 📝 Minifying HTML
-        run: npx html-minifier --collapse-whitespace --remove-comments --minify-css true --minify-js true -o index.html index.html
+        run: |
+          npx html-minifier --collapse-whitespace --remove-comments --minify-css true --minify-js true -o index.html index.html
+          npx html-minifier --collapse-whitespace --remove-comments --minify-css true --minify-js true -o release_notes.html release_notes.html
       - name: 📝 Minifying JavaScript
         run: npx terser index.js -o index.js --compress --mangle --comments "/eslint/"
       - name: 📝 Minifying CSS
         run: npx csso-cli index.css --output index.css
       - name: ✅ Validate minified HTML
-        run: npx htmlhint index.html
+        run: |
+          npx htmlhint index.html
+          npx htmlhint release_notes.html
       - name: ✅ Validate minified JavaScript
         run: npx eslint index.js
       - name: ✅ Validate minified CSS
         run: npx stylelint index.css
+      - name: 📦 Build release notes JSON
+        run: python release_notes.py --num_commits 15 --output deploy/release_notes.json 
       - name: � Prepare deployment files
         run: |
           mkdir -p deploy
           cp index.html deploy/
+          cp release_notes.html deploy/
           cp index.js deploy/
           cp index.css deploy/
           cp nanardi.png deploy/
