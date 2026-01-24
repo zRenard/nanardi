@@ -51,12 +51,13 @@ jobs:
       - name: Install Python dependencies
         run: pip install GitPython
       - name: 📦 Build release notes JSON
-        run: python release_notes.py --num_commits 15 --output deploy/release_notes.json 
+        run: python release_notes.py --num_commits 15 --output release_notes.json 
       - name: � Prepare deployment files
         run: |
           mkdir -p deploy
           cp index.html deploy/
           cp release_notes.html deploy/
+          cp release_notes.json deploy/
           cp index.js deploy/
           cp index.css deploy/
           cp nanardi.png deploy/
