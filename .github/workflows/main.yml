@@ -25,25 +25,37 @@ jobs:
           npx htmlhint index.html
           npx htmlhint release_notes.html
       - name: ✅ Validating JavaScript
-        run: npx eslint index.js
+        run: |
+          npx eslint index.js
+          npx eslint release_notes.js
       - name: ✅ Validating CSS
-        run: npx stylelint index.css
+        run: |
+          npx stylelint index.css
+          npx stylelint release_notes.css
       - name: 📝 Minifying HTML
         run: |
           npx html-minifier --collapse-whitespace --remove-comments --minify-css true --minify-js true -o index.html index.html
           npx html-minifier --collapse-whitespace --remove-comments --minify-css true --minify-js true -o release_notes.html release_notes.html
       - name: 📝 Minifying JavaScript
-        run: npx terser index.js -o index.js --compress --mangle --comments "/eslint/"
+        run: |
+          npx terser index.js -o index.js --compress --mangle --comments "/eslint/"
+          npx terser release_notes.js -o release_notes.js --compress --mangle --comments "/eslint/"
       - name: 📝 Minifying CSS
-        run: npx csso-cli index.css --output index.css
+        run: |
+          npx csso-cli index.css --output index.css
+          npx csso-cli release_notes.css --output release_notes.css
       - name: ✅ Validate minified HTML
         run: |
           npx htmlhint index.html
           npx htmlhint release_notes.html
       - name: ✅ Validate minified JavaScript
-        run: npx eslint index.js
+        run: |
+          npx eslint index.js
+          npx eslint release_notes.js
       - name: ✅ Validate minified CSS
-        run: npx stylelint index.css
+        run: |
+          npx stylelint index.css
+          npx stylelint release_notes.css
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -58,6 +70,8 @@ jobs:
           cp index.html deploy/
           cp release_notes.html deploy/
           cp release_notes.json deploy/
+          cp release_notes.js deploy/
+          cp release_notes.css deploy/
           cp index.js deploy/
           cp index.css deploy/
           cp nanardi.png deploy/
