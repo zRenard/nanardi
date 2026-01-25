@@ -24,6 +24,9 @@ const mimeTypes = {
 };
 
 const server = createServer(async (req, res) => {
+    res.setHeader(
+    'Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; frame-src 'self'"
+  );
     try {
         let filePath = req.url === '/' ? '/index.html' : req.url;
         

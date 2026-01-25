@@ -1,3 +1,112 @@
+/* Style sécurisé pour le lien du dépôt dans release_notes.js */
+.repo-link {
+    color: #0366d6;
+    text-decoration: underline;
+}
+
+/* Positionnement horizontal pour timeline (0% à 100%) */
+.left-0   { left: 0%;   position: absolute; }
+.left-1   { left: 1%;   position: absolute; }
+.left-2   { left: 2%;   position: absolute; }
+.left-3   { left: 3%;   position: absolute; }
+.left-4   { left: 4%;   position: absolute; }
+.left-5   { left: 5%;   position: absolute; }
+.left-6   { left: 6%;   position: absolute; }
+.left-7   { left: 7%;   position: absolute; }
+.left-8   { left: 8%;   position: absolute; }
+.left-9   { left: 9%;   position: absolute; }
+.left-10  { left: 10%;  position: absolute; }
+.left-11  { left: 11%;  position: absolute; }
+.left-12  { left: 12%;  position: absolute; }
+.left-13  { left: 13%;  position: absolute; }
+.left-14  { left: 14%;  position: absolute; }
+.left-15  { left: 15%;  position: absolute; }
+.left-16  { left: 16%;  position: absolute; }
+.left-17  { left: 17%;  position: absolute; }
+.left-18  { left: 18%;  position: absolute; }
+.left-19  { left: 19%;  position: absolute; }
+.left-20  { left: 20%;  position: absolute; }
+.left-21  { left: 21%;  position: absolute; }
+.left-22  { left: 22%;  position: absolute; }
+.left-23  { left: 23%;  position: absolute; }
+.left-24  { left: 24%;  position: absolute; }
+.left-25  { left: 25%;  position: absolute; }
+.left-26  { left: 26%;  position: absolute; }
+.left-27  { left: 27%;  position: absolute; }
+.left-28  { left: 28%;  position: absolute; }
+.left-29  { left: 29%;  position: absolute; }
+.left-30  { left: 30%;  position: absolute; }
+.left-31  { left: 31%;  position: absolute; }
+.left-32  { left: 32%;  position: absolute; }
+.left-33  { left: 33%;  position: absolute; }
+.left-34  { left: 34%;  position: absolute; }
+.left-35  { left: 35%;  position: absolute; }
+.left-36  { left: 36%;  position: absolute; }
+.left-37  { left: 37%;  position: absolute; }
+.left-38  { left: 38%;  position: absolute; }
+.left-39  { left: 39%;  position: absolute; }
+.left-40  { left: 40%;  position: absolute; }
+.left-41  { left: 41%;  position: absolute; }
+.left-42  { left: 42%;  position: absolute; }
+.left-43  { left: 43%;  position: absolute; }
+.left-44  { left: 44%;  position: absolute; }
+.left-45  { left: 45%;  position: absolute; }
+.left-46  { left: 46%;  position: absolute; }
+.left-47  { left: 47%;  position: absolute; }
+.left-48  { left: 48%;  position: absolute; }
+.left-49  { left: 49%;  position: absolute; }
+.left-50  { left: 50%;  position: absolute; }
+.left-51  { left: 51%;  position: absolute; }
+.left-52  { left: 52%;  position: absolute; }
+.left-53  { left: 53%;  position: absolute; }
+.left-54  { left: 54%;  position: absolute; }
+.left-55  { left: 55%;  position: absolute; }
+.left-56  { left: 56%;  position: absolute; }
+.left-57  { left: 57%;  position: absolute; }
+.left-58  { left: 58%;  position: absolute; }
+.left-59  { left: 59%;  position: absolute; }
+.left-60  { left: 60%;  position: absolute; }
+.left-61  { left: 61%;  position: absolute; }
+.left-62  { left: 62%;  position: absolute; }
+.left-63  { left: 63%;  position: absolute; }
+.left-64  { left: 64%;  position: absolute; }
+.left-65  { left: 65%;  position: absolute; }
+.left-66  { left: 66%;  position: absolute; }
+.left-67  { left: 67%;  position: absolute; }
+.left-68  { left: 68%;  position: absolute; }
+.left-69  { left: 69%;  position: absolute; }
+.left-70  { left: 70%;  position: absolute; }
+.left-71  { left: 71%;  position: absolute; }
+.left-72  { left: 72%;  position: absolute; }
+.left-73  { left: 73%;  position: absolute; }
+.left-74  { left: 74%;  position: absolute; }
+.left-75  { left: 75%;  position: absolute; }
+.left-76  { left: 76%;  position: absolute; }
+.left-77  { left: 77%;  position: absolute; }
+.left-78  { left: 78%;  position: absolute; }
+.left-79  { left: 79%;  position: absolute; }
+.left-80  { left: 80%;  position: absolute; }
+.left-81  { left: 81%;  position: absolute; }
+.left-82  { left: 82%;  position: absolute; }
+.left-83  { left: 83%;  position: absolute; }
+.left-84  { left: 84%;  position: absolute; }
+.left-85  { left: 85%;  position: absolute; }
+.left-86  { left: 86%;  position: absolute; }
+.left-87  { left: 87%;  position: absolute; }
+.left-88  { left: 88%;  position: absolute; }
+.left-89  { left: 89%;  position: absolute; }
+.left-90  { left: 90%;  position: absolute; }
+.left-91  { left: 91%;  position: absolute; }
+.left-92  { left: 92%;  position: absolute; }
+.left-93  { left: 93%;  position: absolute; }
+.left-94  { left: 94%;  position: absolute; }
+.left-95  { left: 95%;  position: absolute; }
+.left-96  { left: 96%;  position: absolute; }
+.left-97  { left: 97%;  position: absolute; }
+.left-98  { left: 98%;  position: absolute; }
+.left-99  { left: 99%;  position: absolute; }
+.left-100 { left: 100%; position: absolute; }
+
 * {
     margin: 0;
     padding: 0;

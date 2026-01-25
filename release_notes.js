@@ -30,7 +30,7 @@ async function loadReleaseNotes() {
 
 function displayMetadata(data) {
     const repoUrl = data.repository.url;
-    const repoLink = repoUrl ? `<a href="${repoUrl}" target="_blank" style="color: #0366d6;">${data.repository.name}</a>` : data.repository.name;
+    const repoLink = repoUrl ? `<a href="${repoUrl}" target="_blank" class="repo-link">${data.repository.name}</a>` : data.repository.name;
     
     // Update page title with repository name
     document.getElementById('page-title').textContent = `${data.repository.name} - Release Notes`;
@@ -126,19 +126,21 @@ function buildTimeline(commits) {
     // Build commit markers
     const markers = commits.map(commit => {
         const position = ((commit.timestamp - firstTime) / timeRange) * 100;
+        const leftClass = 'left-' + Math.round(position);
         const typeKey = (commit.type || 'other').toLowerCase();
         const title = `${commit.message_short} (${commit.date})`;
-        return `<div class="timeline-commit type-${typeKey}" style="left: ${position}%" title="${title.replace(/"/g, '&quot;')}" data-commit-hash="${commit.hash}"></div>`;
+        return `<div class="timeline-commit type-${typeKey} ${leftClass}" title="${title.replace(/"/g, '&quot;')}" data-commit-hash="${commit.hash}"></div>`;
     }).join('');
     
     // Build graduation marks (10 marks across the timeline)
     const graduations = [];
     for (let i = 0; i <= 10; i++) {
         const position = (i / 10) * 100;
+        const leftClass = 'left-' + Math.round(position);
         const timestamp = firstTime + (timeRange / 10) * i;
         const date = new Date(timestamp * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
         graduations.push(`
-            <div class="timeline-graduation" style="left: ${position}%">
+            <div class="timeline-graduation ${leftClass}">
                 <div class="graduation-tick"></div>
                 <div class="graduation-label">${date}</div>
             </div>
