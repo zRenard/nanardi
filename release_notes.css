@@ -284,12 +284,39 @@ h1 {
     height: 24px;
     background: linear-gradient(90deg, #e1e4e8 0%, #747575 100%);
     border-radius: 3px;
-    width: 100%;
+    width: 100%; /* Valeur par défaut, remplacée par les classes zoom- */
     flex-shrink: 0;
     transition: width 0.3s ease;
     display: flex;
     align-items: center;
 }
+
+/* Zoom levels for timeline-track (1x to 10x) */
+.timeline-track.zoom-1 { width: 100%; }
+.timeline-track.zoom-1-5 { width: 150%; }
+.timeline-track.zoom-2 { width: 200%; }
+.timeline-track.zoom-2-5 { width: 250%; }
+.timeline-track.zoom-3 { width: 300%; }
+.timeline-track.zoom-3-5 { width: 350%; }
+.timeline-track.zoom-4 { width: 400%; }
+.timeline-track.zoom-4-5 { width: 450%; }
+.timeline-track.zoom-5 { width: 500%; }
+.timeline-track.zoom-5-5 { width: 550%; }
+.timeline-track.zoom-6 { width: 600%; }
+.timeline-track.zoom-6-5 { width: 650%; }
+.timeline-track.zoom-7 { width: 700%; }
+.timeline-track.zoom-7-5 { width: 750%; }
+.timeline-track.zoom-8 { width: 800%; }
+.timeline-track.zoom-8-5 { width: 850%; }
+.timeline-track.zoom-9 { width: 900%; }
+.timeline-track.zoom-9-5 { width: 950%; }
+.timeline-track.zoom-10 { width: 1000%; }
+
+/* Utilitaires pour display et opacity */
+.hidden { display: none !important; }
+.visible { display: block !important; }
+.opaque-0 { opacity: 0 !important; }
+.opaque-1 { opacity: 1 !important; }
 
 .timeline-graduations {
     position: absolute;

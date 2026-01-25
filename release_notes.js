@@ -24,7 +24,7 @@ async function loadReleaseNotes() {
                 <strong>Error loading release notes:</strong> ${error.message}
             </div>
         `;
-        document.getElementById('download-json').style.display = 'none';
+        document.getElementById('download-json').classList.add('hidden');
     }
 }
 
@@ -200,16 +200,26 @@ function setupTimelineHandlers() {
     const timelineTrack = document.getElementById('timeline-track');
     
     if (zoomSlider && zoomValue && timelineTrack) {
+        // Fonction utilitaire pour appliquer la classe de zoom
+        function setZoomClass(track, zoom) {
+            // Nettoie les anciennes classes zoom-*
+            Array.from(track.classList).forEach(c => {
+                if (c.startsWith('zoom-')) track.classList.remove(c);
+            });
+            // Ajoute la nouvelle classe (remplace '.' par '-')
+            let zoomClass = 'zoom-' + String(zoom).replace('.', '-');
+            track.classList.add(zoomClass);
+        }
+
         // Set initial zoom
         const initialZoom = parseFloat(zoomSlider.value);
-        timelineTrack.style.width = (initialZoom * 100) + '%';
+        setZoomClass(timelineTrack, initialZoom);
         zoomValue.textContent = initialZoom + 'x';
-        
+
         zoomSlider.addEventListener('input', (e) => {
             const zoom = parseFloat(e.target.value);
-            const newWidth = (zoom * 100) + '%';
+            setZoomClass(timelineTrack, zoom);
             zoomValue.textContent = zoom + 'x';
-            timelineTrack.style.width = newWidth;
         });
     }
 }
@@ -227,7 +237,7 @@ function filterByCommitHash(hash) {
     commits.forEach(commit => {
         const targetId = commit.getAttribute('data-target');
         if (targetId === `commit-${hash}`) {
-            commit.style.display = 'block';
+            commit.classList.remove('hidden');
             // Auto-expand the commit details
             const body = document.getElementById(targetId);
             if (body && body.classList.contains('collapsed')) {
@@ -239,7 +249,7 @@ function filterByCommitHash(hash) {
                 commit.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);
         } else {
-            commit.style.display = 'none';
+            commit.classList.add('hidden');
         }
     });
     
@@ -277,33 +287,30 @@ function filterCommitsByType(type) {
     
     commits.forEach(commit => {
         if (type === 'all') {
-            commit.style.display = 'block';
+            commit.classList.remove('hidden');
         } else {
             const commitType = commit.getAttribute('data-commit-type');
-            commit.style.display = (commitType === type) ? 'block' : 'none';
+            if (commitType === type) {
+                commit.classList.remove('hidden');
+            } else {
+                commit.classList.add('hidden');
+            }
         }
     });
-    
+
     // Also filter timeline dots based on their type class
     timelineDots.forEach(dot => {
-        dot.classList.remove('visible');
-        dot.style.opacity = '1';
-        
+        dot.classList.remove('visible', 'hidden', 'opaque-0', 'opaque-1');
         if (type === 'all') {
-            dot.style.display = 'block';
-            dot.style.opacity = '1';
+            dot.classList.add('visible');
         } else {
-            // Extract type from the dot's class (e.g., type-feat)
             const dotTypeClass = Array.from(dot.classList).find(c => c.startsWith('type-'));
             if (dotTypeClass) {
                 const dotType = dotTypeClass.replace('type-', '');
                 if (dotType === type) {
-                    dot.style.display = 'block';
-                    dot.style.opacity = '1';
                     dot.classList.add('visible');
                 } else {
-                    dot.style.opacity = '0.3';
-                    dot.style.display = 'block';
+                    dot.classList.add('hidden', 'opaque-0');
                 }
             }
         }
