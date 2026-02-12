@@ -48,7 +48,7 @@ jobs:
         run: |
           npx stylelint index.css
       - name: Download latest release of WebReleaseNotes
-        uses: robinraju/release-downloader@v1.11
+        uses: robinraju/release-downloader@v1.12
         with:
           repository: "zRenard/WebReleaseNotes"
           latest: true
