@@ -16,6 +16,10 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '24'  
+      - name: Mettre à jour la date de dernière mise à jour dans index.html
+        run: |
+          DATE_FR=$(date +"%d/%m/%Y")
+          sed -i 's|<span id="updateDate">.*</span>|<span id="updateDate">'$DATE_FR'</span>|' index.html
       - name: Install Minifier Tools
         run: npm install terser html-minifier csso-cli
       - name: Install Validation Tools

@@ -132,9 +132,7 @@ $(document).ready(function() {
     });
     
     movieRating = new MovieRating();
-    
-    document.getElementById('updateDate').textContent = new Date(document.lastModified).toLocaleString('fr-FR');
-    
+        
     // Apply award styling based on cell content
     $('td[award]').each(function() {
         const $cell = $(this);
