@@ -51,24 +51,21 @@ echo "==================================="
 echo "Preparing local deployment bundle (out/)..."
 
 # Clean previously copied deployment assets in out/
-rm -rf out/node_modules out/media
+rm -rf out/vendor out/media
 
 # Keep the same dependency layout expected by index.html
-mkdir -p out/node_modules/bootstrap/dist/css
-mkdir -p out/node_modules/bootstrap/dist/js
-mkdir -p out/node_modules/datatables.net/js
-mkdir -p out/node_modules/datatables.net-bs5/css
-mkdir -p out/node_modules/datatables.net-bs5/js
-mkdir -p out/node_modules/jquery/dist
-mkdir -p out/node_modules/moment/min
+mkdir -p out/vendor/bootstrap
+mkdir -p out/vendor/datatables
+mkdir -p out/vendor/jquery
+mkdir -p out/vendor/moment
 
-cp node_modules/bootstrap/dist/css/bootstrap.min.css out/node_modules/bootstrap/dist/css/
-cp node_modules/bootstrap/dist/js/bootstrap.bundle.min.js out/node_modules/bootstrap/dist/js/
-cp node_modules/datatables.net/js/dataTables.js out/node_modules/datatables.net/js/
-cp node_modules/datatables.net-bs5/css/dataTables.bootstrap5.css out/node_modules/datatables.net-bs5/css/
-cp node_modules/datatables.net-bs5/js/dataTables.bootstrap5.js out/node_modules/datatables.net-bs5/js/
-cp node_modules/jquery/dist/jquery.min.js out/node_modules/jquery/dist/
-cp node_modules/moment/min/moment.min.js out/node_modules/moment/min/
+cp node_modules/bootstrap/dist/css/bootstrap.min.css out/vendor/bootstrap/
+cp node_modules/bootstrap/dist/js/bootstrap.bundle.min.js out/vendor/bootstrap/
+cp node_modules/datatables.net/js/dataTables.js out/vendor/datatables/
+cp node_modules/datatables.net-bs5/css/dataTables.bootstrap5.css out/vendor/datatables/
+cp node_modules/datatables.net-bs5/js/dataTables.bootstrap5.js out/vendor/datatables/
+cp node_modules/jquery/dist/jquery.min.js out/vendor/jquery/
+cp node_modules/moment/min/moment.min.js out/vendor/moment/
 
 # Deploy app files (minified front core + static assets)
 for optional_file in release_notes.html release_notes.json release_notes.js release_notes.css; do

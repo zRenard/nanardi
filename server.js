@@ -212,6 +212,16 @@ const mimeTypes = {
     '.ico': 'image/x-icon'
 };
 
+const vendorAssetMap = new Map([
+    ['/vendor/bootstrap/bootstrap.min.css', 'node_modules/bootstrap/dist/css/bootstrap.min.css'],
+    ['/vendor/bootstrap/bootstrap.bundle.min.js', 'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'],
+    ['/vendor/datatables/dataTables.js', 'node_modules/datatables.net/js/dataTables.js'],
+    ['/vendor/datatables/dataTables.bootstrap5.css', 'node_modules/datatables.net-bs5/css/dataTables.bootstrap5.css'],
+    ['/vendor/datatables/dataTables.bootstrap5.js', 'node_modules/datatables.net-bs5/js/dataTables.bootstrap5.js'],
+    ['/vendor/jquery/jquery.min.js', 'node_modules/jquery/dist/jquery.min.js'],
+    ['/vendor/moment/moment.min.js', 'node_modules/moment/min/moment.min.js'],
+]);
+
 function buildCspHeaderValue(requestPath) {
     const isTestsRoute = isTestsMode || requestPath.startsWith('/tests/');
     const osmImgSrc = "https://*.tile.openstreetmap.org";
@@ -376,6 +386,36 @@ const server = createServer(async (req, res) => {
         } catch (err) {
             res.writeHead(404);
             res.end('Not found');
+            return;
+        }
+    }
+
+    if (req.method === 'GET' && requestPath.startsWith('/vendor/')) {
+        const vendorAssetRelativePath = vendorAssetMap.get(requestPath);
+
+        if (!vendorAssetRelativePath) {
+            res.writeHead(404, { 'Content-Type': 'text/plain' });
+            res.end('404 Not Found');
+            return;
+        }
+
+        try {
+            const fullVendorPath = resolve(join(__dirname, vendorAssetRelativePath));
+            const stats = await stat(fullVendorPath);
+            const content = await readFile(fullVendorPath);
+            const ext = extname(fullVendorPath);
+
+            res.writeHead(200, {
+                'Content-Type': mimeTypes[ext] || 'application/octet-stream',
+                ETag: `W/"${stats.size}-${Math.trunc(stats.mtimeMs).toString(16)}"`,
+                'Last-Modified': stats.mtime.toUTCString(),
+                'Cache-Control': buildCacheControlHeader(ext, requestPath),
+            });
+            res.end(content);
+            return;
+        } catch {
+            res.writeHead(404, { 'Content-Type': 'text/plain' });
+            res.end('404 Not Found');
             return;
         }
     }
