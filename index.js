@@ -483,6 +483,21 @@ async function getDirectoryListing(directoryPath) {
     }
 }
 
+function formatImageDisplayName(filename) {
+    if (!filename || typeof filename !== 'string') {
+        return 'Image';
+    }
+
+    // Remove extension, normalize separators, then uppercase first character.
+    const withoutExtension = filename.replace(/\.[^/.]+$/, '');
+    const normalized = withoutExtension.replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!normalized) {
+        return 'Image';
+    }
+
+    return normalized.charAt(0).toUpperCase() + normalized.slice(1);
+}
+
 // Initialize posters and images after IMDb IDs are set
 initializePostersAndImages();
 
@@ -579,7 +594,7 @@ function initializePostersAndImages() {
         thumbnail.on('click', async function() {
             const modalImg = $('#modalPosterImg');
             const currentSrc = $(this).attr('src') || posterCandidates[0];
-            const movieTitle = $(this).closest('tr').find('td[title]').text();
+            const movieTitle = $(this).closest('tr').find('td[title], td[titre]').first().text().trim() || 'Titre inconnu';
             currentMovieTitle = movieTitle;
 
             // Récupérer toutes les images du film
@@ -601,7 +616,7 @@ function initializePostersAndImages() {
             for (const imageName of imageFiles) {
                 currentMovieImages.push({
                     src: `${directoryPath}${imageName}`,
-                    name: imageName
+                    name: formatImageDisplayName(imageName)
                 });
             }
             
@@ -657,6 +672,7 @@ $('td[images]').each(async function () {
             if (imageCount >= maxImages) break;
             
             const imagePath = `${directoryPath}${imageName}`;
+            const displayImageName = formatImageDisplayName(imageName);
             
             // Use a Promise to handle image loading
             const loadImage = new Promise((resolve, reject) => {
@@ -671,15 +687,15 @@ $('td[images]').each(async function () {
                 
                 const thumbnail = $('<img>')
                     .attr('src', imagePath)
-                    .attr('alt', `${imageName}`)
-                    .attr('title', imageName)
+                    .attr('alt', `${displayImageName}`)
+                    .attr('title', displayImageName)
                     .addClass('additional-image-thumbnail')
             .on('click', async function() {
                 // Show modal with full size image
                 const modalImg = $('#modalPosterImg');
                 modalImg.attr('src', imagePath);
                 
-                const movieTitle = $row.find('td[title]').text();
+                const movieTitle = $row.find('td[title], td[titre]').first().text().trim() || 'Titre inconnu';
                 currentMovieTitle = movieTitle;
                 
                 // Récupérer toutes les images du film
@@ -699,7 +715,7 @@ $('td[images]').each(async function () {
                 for (const imgName of imageFiles) {
                     currentMovieImages.push({
                         src: `${directoryPath}${imgName}`,
-                        name: imgName
+                        name: formatImageDisplayName(imgName)
                     });
                 }
                 
@@ -712,7 +728,7 @@ $('td[images]').each(async function () {
                     $(this).attr('src', './goodenough.jpg');
                 });
                 
-                $('#posterModalLabel').text(`${movieTitle} - ${imageName}`);
+                $('#posterModalLabel').text(`${movieTitle} - ${displayImageName}`);
                 updateNavigationButtons();
                 $('#posterModal').modal('show');
             });
@@ -1048,7 +1064,9 @@ class MovieRating {
                 awardsBlock += `<div class="award-bar-row">`;
                 awardsBlock += `<span class="award-bar-label"><span class="award-icon">${data.icon}</span> ${data.label}</span>`;
                 awardsBlock += `<div class="award-bar-container">`;
-                awardsBlock += `<div class="award-bar" style="width: ${percentage}%; background: linear-gradient(90deg, ${data.color}, ${data.color}cc);"></div>`;
+                const widthClass = `w-pct-${Math.max(0, Math.min(100, Math.round(percentage)))}`;
+                const bgClass = `award-bg-${type}`;
+                awardsBlock += `<div class="award-bar ${widthClass} ${bgClass}"></div>`;
                 awardsBlock += `<span class="award-bar-value">${data.count}</span>`;
                 awardsBlock += `</div>`;
                 awardsBlock += `</div>`;
@@ -1201,13 +1219,15 @@ class MovieRating {
                 decadeAwardsHtml += `<div class="award-bar-row">`;
                 decadeAwardsHtml += `<span class="award-bar-label">${decade}s</span>`;
                 decadeAwardsHtml += `<div class="award-bar-container">`;
-                decadeAwardsHtml += `<div class="decade-stacked-bar" style="width: ${totalPercentage}%;">`;
+                const totalWidthClass = `w-pct-${Math.max(0, Math.min(100, Math.round(totalPercentage)))}`;
+                decadeAwardsHtml += `<div class="decade-stacked-bar ${totalWidthClass}">`;
                 
                 // Créer les segments empilés proportionnellement
                 for (const [awardType, count] of Object.entries(awardsInDecade)) {
                     const segmentPercentage = (count / totalCount * 100);
-                    const color = awardTypeColors[awardType] || '#6c757d';
-                    decadeAwardsHtml += `<div class="decade-bar-segment" style="width: ${segmentPercentage}%; background: ${color};" title="${awardType}: ${count}"></div>`;
+                    const segWidthClass = `w-pct-${Math.max(0, Math.min(100, Math.round(segmentPercentage)))}`;
+                    const segColorClass = `decade-seg-${awardType}`;
+                    decadeAwardsHtml += `<div class="decade-bar-segment ${segWidthClass} ${segColorClass}" title="${awardType}: ${count}"></div>`;
                 }
                 
                 decadeAwardsHtml += `</div>`;
@@ -1218,12 +1238,12 @@ class MovieRating {
             
             decadeAwardsHtml += '</div>';
         } else {
-            decadeAwardsHtml = '<div style="padding: 8px; color: #6c757d; font-style: italic;">Aucun film primé</div>';
+            decadeAwardsHtml = '<div class="no-awards">Aucun film primé</div>';
         }
         
         const temporalStatsBlock = `<div class="stats-block">
-            <div style="padding: 8px 0;">
-                <div style="margin-bottom: 12px;">
+            <div class="temporal-inner">
+                <div class="temporal-header">
                     <strong>Décennie la plus représentée:</strong> ${topDecadeLabel}
                 </div>
                 <div>

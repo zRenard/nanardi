@@ -234,7 +234,9 @@ function buildCspHeaderValue(requestPath) {
         return `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; style-src-attr 'unsafe-inline'; font-src 'self'; img-src 'self' data: ${osmImgSrc}; frame-src 'self'; report-uri /csp-report`;
     }
 
-    return `default-src 'self'; script-src 'self' 'sha256-BPfo8AlqKcpHrHgw86iS+3zmeiEyidPBzCRVDfmCeaM='; style-src 'self'; style-src-attr 'unsafe-inline'; font-src 'self'; img-src 'self' ${osmImgSrc}; frame-src 'self'; report-uri /csp-report`;
+    // Production: strict CSP — no 'unsafe-inline' for styles/scripts
+    // Scripts allowed by specific hash (build-time bundle). Images allow data: and OSM tiles.
+    return `default-src 'self'; script-src 'self' 'sha256-BPfo8AlqKcpHrHgw86iS+3zmeiEyidPBzCRVDfmCeaM='; style-src 'self'; font-src 'self'; img-src 'self' data: ${osmImgSrc}; frame-src 'self'; report-uri /csp-report`;
 }
 
 function resolveFilePathForRequest(filePath) {
@@ -420,10 +422,16 @@ const server = createServer(async (req, res) => {
         }
     }
 
-    res.setHeader(
-        'Content-Security-Policy',
-        buildCspHeaderValue(requestPath)
-    );
+    // Security headers (mimic production): CSP + Permissions-Policy + common security headers
+    res.setHeader('Content-Security-Policy', buildCspHeaderValue(requestPath));
+    res.setHeader('Permissions-Policy', 'geolocation=(), camera=(), microphone=()');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    // HSTS only when not in dev/tests (assume production uses HTTPS)
+    if (!isDevMode && !isTestsMode) {
+        res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
+    }
     try {
         let filePath = requestPath === '/' ? '/index.html' : requestPath;
         
