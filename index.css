@@ -8,6 +8,45 @@ body {
     flex-direction: column;
 }
 
+/* CSP-safe Bootstrap variable overrides: remove built-in data URI icons */
+:root {
+    --bs-btn-close-bg: none;
+    --bs-navbar-toggler-icon-bg: none;
+    --bs-accordion-btn-icon: none;
+    --bs-accordion-btn-active-icon: none;
+    --bs-form-select-bg-img: none;
+    --bs-form-select-bg-icon: none;
+}
+
+/* CSP-safe close button: avoid Bootstrap's default data URI background image */
+.btn-close {
+    background-image: none !important;
+    opacity: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-close::before {
+    content: "x";
+    font-size: 1.2rem;
+    line-height: 1;
+    color: #495057;
+    font-weight: 700;
+}
+
+.btn-close:hover::before,
+.btn-close:focus::before {
+    color: #111;
+}
+
+.navbar-toggler-icon,
+.accordion-button::after,
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-image: none !important;
+}
+
 header {
     background-color: #333;
     color: #fff;
@@ -22,8 +61,8 @@ header {
 
 main {
     padding: 20px;
-    height: 80vh;
-    flex: 0 0 80vh;
+    height: auto;
+    flex: 1 1 auto;
     overflow: auto;
     box-sizing: border-box;
 }
@@ -203,9 +242,9 @@ footer {
     background-color: #333;
     color: #fff; 
     text-align: center;
-    padding: 15px 0;
-    height: 10vh;
-    flex: 0 0 10vh;
+    padding: 10px 0 12px;
+    min-height: 10vh;
+    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -243,6 +282,65 @@ footer p {
 footer #movieStats a.link-primary {
     text-decoration: underline;
     color: #ffc107; /* ensure link matches footer stats color */
+}
+
+/* App dialog modal styling */
+#appDialogModal .modal-content {
+    border: 1px solid #d6d9de;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+}
+
+#appDialogModal .modal-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    background: linear-gradient(120deg, #eceff3 0%, #f7f8fa 100%);
+}
+
+#appDialogModal .modal-title {
+    font-weight: 700;
+    color: #1f2a35;
+}
+
+#appDialogModal .app-dialog-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.45rem;
+    height: 1.45rem;
+    margin-right: 0.45rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(31, 42, 53, 0.16);
+    font-size: 0.95rem;
+    line-height: 1;
+}
+
+#appDialogModal .modal-body {
+    background: #fff;
+}
+
+#appDialogMessage {
+    white-space: pre-line;
+    line-height: 1.55;
+    color: #2f3c48;
+}
+
+#appDialogModal .modal-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    background: #f9fafb;
+}
+
+#appDialogModal.app-dialog-info .modal-header {
+    background: linear-gradient(120deg, #dbeeff 0%, #f0f7ff 100%);
+}
+
+#appDialogModal.app-dialog-warning .modal-header {
+    background: linear-gradient(120deg, #ffe7b8 0%, #fff4df 100%);
+}
+
+#appDialogModal.app-dialog-danger .modal-header {
+    background: linear-gradient(120deg, #ffd8d8 0%, #ffecec 100%);
 }
 
 /* Stats blocks and legends */
@@ -540,8 +638,8 @@ a {
 
 .rating-controls {
     text-align: center;
-    padding-top: 10px;
-    border-top: 1px solid #dee2e6;
+    padding-top: 0;
+    margin-bottom: 8px;
 }
 
 .rating-actions {
@@ -559,10 +657,10 @@ a {
 #exportRatings,
 #importRatings,
 #clearRatings {
-    padding: 8px 20px;
-    font-size: 16px;
+    padding: 4px 10px;
+    font-size: 12px;
     font-weight: bold;
-    border-radius: 6px;
+    border-radius: 5px;
     transition: all 0.3s ease;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     border: none;
@@ -586,8 +684,8 @@ a {
 .export-icon,
 .import-icon,
 .clear-icon {
-    margin-right: 8px;
-    font-size: 18px;
+    margin-right: 5px;
+    font-size: 14px;
 }
 
 /* YouTube replay icon styling */

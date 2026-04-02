@@ -6,11 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Les films du Nanardi</title>
     <link rel="icon" href="fav.png" type="image/png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.8/css/bootstrap.min.css"
-        integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA=="
-        crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.bootstrap5.css"
-        integrity="sha384-jL+8qa11q0sNp6WjCTNtQHQea/pJOmdt+2wumoR9vdEZs8FeP4+Ew9Q+FEI5Wp4z" crossorigin="anonymous">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/datatables.net-bs5/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="index.css">
 </head>
 
@@ -1165,6 +1162,8 @@
                 </tr>
             </tbody>
         </table>
+    </main>
+    <footer>
         <div class="rating-controls">
             <div class="rating-actions">
                 <button id="exportRatings" class="btn btn-success">
@@ -1183,8 +1182,6 @@
             <input type="file" id="importFile" accept=".json" class="hidden-file-input"
                 aria-label="Import ratings file">
         </div>
-    </main>
-    <footer>
         <p>
             <span id="movieStats"></span>
         </p>
@@ -1219,9 +1216,7 @@
                     <button id="prevImageBtn" class="btn btn-secondary image-nav-btn prev-btn">
                         <span>❮</span>
                     </button>
-                    <img id="modalPosterImg"
-                        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlPC90ZXh0Pjwvc3ZnPg=="
-                        alt="Poster du film" class="img-fluid">
+                    <img id="modalPosterImg" src="goodenough.jpg" alt="Poster du film" class="img-fluid">
                     <button id="nextImageBtn" class="btn btn-secondary image-nav-btn next-btn">
                         <span>❯</span>
                     </button>
@@ -1245,21 +1240,30 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha384-wsqsSADZR1YRBEZ4/kKHNSmU+aX8ojbnKUMN4RyD3jDkxw5mHtoe2z/T/n4l56U/"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"
-        integrity="sha512-QoJS4DOhdmG8kbbHkxmB/rtPdN62cGWXAdAFWWJPvUFF1/zxcPSdAnn4HhYZSIlVoLVEJ0LesfNlusgm2bPfnA=="
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.8/js/bootstrap.bundle.min.js"
-        integrity="sha512-HvOjJrdwNpDbkGJIG2ZNqDlVqMo77qbs4Me4cah0HoDrfhrbA+8SBlZn1KrvAQw7cILLPFJvdwIgphzQmMm+Pw=="
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"
-        integrity="sha384-dWDeSUS/x3YBumNL+qrop/a/OA9OxCfrWrTx5Nfdho3Z+gQ6E+3uMrRCU602g8TL"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/2.2.1/js/dataTables.bootstrap5.js"
-        integrity="sha384-2IrcDZstSOMFTMxGhnJHQtNpSfUopdFXCOaDviGVHw/kuF34fSSaVqL20jnkJctu"
-        crossorigin="anonymous"></script>
+    <!-- Modal de dialogue applicatif (remplace alert/confirm natifs) -->
+    <div class="modal fade" id="appDialogModal" tabindex="-1" aria-labelledby="appDialogTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="appDialogTitle"><span id="appDialogIcon" class="app-dialog-icon" aria-hidden="true">ℹ️</span>Information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="appDialogMessage" class="mb-0"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="appDialogCancel" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="appDialogConfirm">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/moment/min/moment.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="node_modules/datatables.net/js/dataTables.js"></script>
+    <script src="node_modules/datatables.net-bs5/js/dataTables.bootstrap5.js"></script>
     <script src="index.js"></script>
 </body>
 

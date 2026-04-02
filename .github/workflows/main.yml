@@ -20,10 +20,8 @@ jobs:
         run: |
           DATE_FR=$(date +"%d/%m/%Y %H:%M")
           sed -i "s#<span id=\"updateDate\">.*</span>#<span id=\"updateDate\">$DATE_FR</span>#" index.html
-      - name: Install Minifier Tools
-        run: npm install terser html-minifier csso-cli
-      - name: Install Validation Tools
-        run: npm install htmlhint eslint stylelint stylelint-config-standard
+      - name: Install project dependencies
+        run: npm ci
       - name: ✅ Validating HTML
         run: |
           npx htmlhint index.html
@@ -69,6 +67,22 @@ jobs:
       - name: � Prepare deployment files
         run: |
           mkdir -p deploy
+          mkdir -p deploy/node_modules/bootstrap/dist/css
+          mkdir -p deploy/node_modules/bootstrap/dist/js
+          mkdir -p deploy/node_modules/datatables.net/js
+          mkdir -p deploy/node_modules/datatables.net-bs5/css
+          mkdir -p deploy/node_modules/datatables.net-bs5/js
+          mkdir -p deploy/node_modules/jquery/dist
+          mkdir -p deploy/node_modules/moment/min
+
+          cp node_modules/bootstrap/dist/css/bootstrap.min.css deploy/node_modules/bootstrap/dist/css/
+          cp node_modules/bootstrap/dist/js/bootstrap.bundle.min.js deploy/node_modules/bootstrap/dist/js/
+          cp node_modules/datatables.net/js/dataTables.js deploy/node_modules/datatables.net/js/
+          cp node_modules/datatables.net-bs5/css/dataTables.bootstrap5.css deploy/node_modules/datatables.net-bs5/css/
+          cp node_modules/datatables.net-bs5/js/dataTables.bootstrap5.js deploy/node_modules/datatables.net-bs5/js/
+          cp node_modules/jquery/dist/jquery.min.js deploy/node_modules/jquery/dist/
+          cp node_modules/moment/min/moment.min.js deploy/node_modules/moment/min/
+
           cp index.html deploy/
           cp release_notes.html deploy/
           cp release_notes.json deploy/

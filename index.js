@@ -62,8 +62,13 @@ $(document).ready(function() {
     
     table = new DataTable('#liste', {
         paging: false,
-        scrollCollapse: true,
-        scrollY: '50vh',
+        search: {
+            caseInsensitive: true,
+            regex: false,
+            smart: true,
+            return: false
+        },
+        searchDelay: 0,
         order: [[3, 'desc']],
         language: {
             info: '_TOTAL_ films',
@@ -124,12 +129,68 @@ $(document).ready(function() {
                         }
                     }
 
+                    // For filtering, return only semantic text (avoid matching HTML class names like "star").
+                    if (type === 'filter') {
+                        try {
+                            if (typeof data === 'string') {
+                                const $tmp = $('<div>').html(data);
+                                const score = ($tmp.find('.rating-sort').text() || '').replace('/', '').trim();
+                                return score ? `${score}/5` : '';
+                            }
+                            return '';
+                        } catch (err) {
+                            return '';
+                        }
+                    }
+
                     // For display and other types, return original data
                     return data;
                 }
             }
         ],
     });
+
+    // Place "info" on the same top row as search (Bootstrap layout compatibility).
+    const moveInfoToTopRow = () => {
+        const $dtContainer = $(table.table().container());
+        const $dtRows = $dtContainer.find('> .row');
+        const $topRow = $dtRows.eq(0);
+        const $bottomRow = $dtRows.eq(2);
+        const $topStart = $topRow.find('.dt-layout-start');
+        const $info = $dtContainer.find('.dt-info').first();
+
+        if ($topStart.length && $info.length) {
+            $topStart.empty().append($info);
+            if ($bottomRow.length && $bottomRow.find('.dt-info').length === 0 && !$bottomRow.text().trim()) {
+                $bottomRow.remove();
+            }
+        }
+    };
+
+    setTimeout(moveInfoToTopRow, 0);
+    setTimeout(moveInfoToTopRow, 100);
+    setTimeout(moveInfoToTopRow, 300);
+    table.on('draw.nanardiInfoPlacement', moveInfoToTopRow);
+
+    const moveInfoRetry = setInterval(() => {
+        moveInfoToTopRow();
+        const hasMoved = $(table.table().container()).find('> .row').eq(0).find('.dt-info').length > 0;
+        if (hasMoved) {
+            clearInterval(moveInfoRetry);
+        }
+    }, 75);
+    setTimeout(() => clearInterval(moveInfoRetry), 2000);
+
+    // Force instant filtering on each typed character.
+    $(document)
+        .off('input.nanardiInstantSearch', 'div.dt-search input, div.dataTables_filter input')
+        .on('input.nanardiInstantSearch', 'div.dt-search input, div.dataTables_filter input', function () {
+            table.search(this.value, {
+                caseInsensitive: true,
+                regex: false,
+                smart: true
+            }).draw();
+        });
     
     movieRating = new MovieRating();
         
@@ -328,24 +389,49 @@ $('tbody tr').each(function() {
 });
 
 // Function to get directory listing via fetch
-async function getDirectoryListing(directoryPath) {
+const directoryListingCache = new Map();
+
+async function getAllDirectoryFiles(directoryPath) {
+    if (directoryListingCache.has(directoryPath)) {
+        return directoryListingCache.get(directoryPath);
+    }
+
     try {
         const response = await fetch(directoryPath);
         const text = await response.text();
-        
-        // Parse the HTML directory listing to extract image files
         const parser = new DOMParser();
         const doc = parser.parseFromString(text, 'text/html');
         const links = doc.querySelectorAll('a[href]');
+
+        const files = [];
+        for (const link of links) {
+            const href = link.getAttribute('href');
+            if (!href) continue;
+
+            const filename = href.split(/[/\\]/).pop();
+            if (!filename || filename === '.' || filename === '..') continue;
+            if (!files.includes(filename)) {
+                files.push(filename);
+            }
+        }
+
+        directoryListingCache.set(directoryPath, files);
+        return files;
+    } catch (error) {
+        console.log(`Could not list directory ${directoryPath}:`, error);
+        directoryListingCache.set(directoryPath, []);
+        return [];
+    }
+}
+
+async function getDirectoryListing(directoryPath) {
+    try {
+        const files = await getAllDirectoryFiles(directoryPath);
         
         const imageFiles = [];
-        for(const link of links) {
-            const href = link.getAttribute('href');
+        for (const filename of files) {
             // Check if it's an image file and not poster.jpg
-            if (href && href.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
-                // Extract just the filename (in case href contains a path)
-                const filename = href.split(/[/\\]/).pop();
-                
+            if (filename.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
                 // Exclude poster.* and goodenough.* files from the additional images listing
                 if (filename.match(/^poster\.(jpg|jpeg|png)$/i) || filename.match(/^goodenough\.(jpg|jpeg|png)$/i)) {
                     continue;
@@ -403,11 +489,14 @@ initializePostersAndImages();
 // Function to initialize posters and images after IMDb IDs are set
 function initializePostersAndImages() {
     // Handle poster thumbnails
-    $('td[poster]').each(function () {
+    $('td[poster]').each(async function () {
         const imdbId = $(this).data('imdb-id');
         
         if (imdbId) {
             const $this = $(this);
+            const directoryPath = `media/${imdbId}/`;
+            const filesInDirectory = await getAllDirectoryFiles(directoryPath);
+            const hasFile = (name) => filesInDirectory.some((f) => f.toLowerCase() === name.toLowerCase());
 
             // Utility to try multiple image sources in order
             function trySources(sources, finalHandler) {
@@ -462,15 +551,15 @@ function initializePostersAndImages() {
             }
 
             // Candidate poster sources (try jpg then png, then goodenough variants)
-            const posterCandidates = [
-                `media/${imdbId}/poster.jpg`,
-                `media/${imdbId}/poster.png`,
-                // Prefer per-movie goodenough, then global fallback at project root
-                `media/${imdbId}/goodenough.jpg`,
-                `media/${imdbId}/goodenough.png`,
-                `./goodenough.jpg`,
-                `./goodenough.png`
-            ];
+            const posterCandidates = [];
+
+            if (hasFile('poster.jpg')) posterCandidates.push(`media/${imdbId}/poster.jpg`);
+            if (hasFile('poster.png')) posterCandidates.push(`media/${imdbId}/poster.png`);
+            if (hasFile('goodenough.jpg')) posterCandidates.push(`media/${imdbId}/goodenough.jpg`);
+            if (hasFile('goodenough.png')) posterCandidates.push(`media/${imdbId}/goodenough.png`);
+
+            // Always keep a local fallback to avoid broken image states.
+            posterCandidates.push('./goodenough.jpg', './goodenough.png');
 
         // Create thumbnail image
         const thumbnail = $('<img>')
@@ -494,7 +583,6 @@ function initializePostersAndImages() {
             currentMovieTitle = movieTitle;
 
             // Récupérer toutes les images du film
-            const directoryPath = `media/${imdbId}/`;
             const imageFiles = await getDirectoryListing(directoryPath);
             
             // Créer la liste des images (poster + images additionnelles)
@@ -527,17 +615,12 @@ function initializePostersAndImages() {
 
             // If modal image fails, try the remaining candidates and finally show a placeholder
             const modalCandidates = [
-                `media/${imdbId}/poster.jpg`,
-                `media/${imdbId}/poster.png`,
-                `media/${imdbId}/goodenough.jpg`,
-                `media/${imdbId}/goodenough.png`,
-                `./goodenough.jpg`,
-                `./goodenough.png`
+                ...posterCandidates
             ];
 
             trySources(modalCandidates, (workingSrc) => {
                 if (!workingSrc) {
-                    modalImg.attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIiBzdHJva2U9IiNkZWUyZTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmM3NTdkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgaW5kaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==');
+                    modalImg.attr('src', './goodenough.jpg');
                 } else {
                     modalImg.attr('src', workingSrc);
                 }
@@ -626,7 +709,7 @@ $('td[images]').each(async function () {
                 
                 // Handle image load error in modal
                 modalImg.off('error').on('error', function() {
-                    $(this).attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIiBzdHJva2U9IiNkZWUyZTYiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNmM3NTdkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+SW1hZ2UgaW5kaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==');
+                    $(this).attr('src', './goodenough.jpg');
                 });
                 
                 $('#posterModalLabel').text(`${movieTitle} - ${imageName}`);
@@ -710,6 +793,10 @@ $(document).on('keydown', function(e) {
 // Rating System
 class MovieRating {
     storageKey = 'movieRatings';
+    dialogModal = null;
+    dialogModalElement = null;
+    dialogPendingResult = null;
+    dialogResolve = null;
 
     constructor() {
         this.init();
@@ -717,10 +804,112 @@ class MovieRating {
 
     init() {
         this.loadRatings();
+        this.initDialogModal();
         this.setupRatingCells();
         this.setupClearButton();
         this.setupExportImportButtons();
         this.updateMovieStats();
+    }
+
+    initDialogModal() {
+        this.dialogModalElement = document.getElementById('appDialogModal');
+        if (!this.dialogModalElement || typeof bootstrap === 'undefined') {
+            return;
+        }
+
+        this.dialogModal = new bootstrap.Modal(this.dialogModalElement);
+
+        $('#appDialogConfirm').on('click', () => {
+            this.dialogPendingResult = true;
+            this.dialogModal.hide();
+        });
+
+        $('#appDialogCancel').on('click', () => {
+            this.dialogPendingResult = false;
+            this.dialogModal.hide();
+        });
+
+        $('#appDialogModal').on('hidden.bs.modal', () => {
+            const result = this.dialogPendingResult === true;
+            this.dialogPendingResult = null;
+
+            if (this.dialogResolve) {
+                const resolve = this.dialogResolve;
+                this.dialogResolve = null;
+                resolve(result);
+            }
+        });
+    }
+
+    showDialog(message, {
+        title = 'Information',
+        confirmText = 'OK',
+        confirmClass = 'btn-primary',
+        showCancel = false,
+        cancelText = 'Annuler',
+        dialogType = 'info'
+    } = {}) {
+        if (!this.dialogModal || !this.dialogModalElement) {
+            return Promise.resolve(!showCancel);
+        }
+
+        // If a dialog is already pending, close it before opening another one.
+        if (this.dialogResolve) {
+            const previousResolve = this.dialogResolve;
+            this.dialogResolve = null;
+            previousResolve(false);
+        }
+
+        this.dialogPendingResult = null;
+        const iconByType = {
+            info: 'ℹ️',
+            warning: '⚠️',
+            danger: '🗑️'
+        };
+        const dialogIcon = iconByType[dialogType] || iconByType.info;
+        $('#appDialogIcon').text(dialogIcon);
+        $('#appDialogTitle').contents().filter(function() {
+            return this.nodeType === Node.TEXT_NODE;
+        }).remove();
+        $('#appDialogTitle').append(document.createTextNode(title));
+        $('#appDialogMessage').text(message);
+        this.dialogModalElement.classList.remove('app-dialog-info', 'app-dialog-warning', 'app-dialog-danger');
+        this.dialogModalElement.classList.add(`app-dialog-${dialogType}`);
+
+        const $confirm = $('#appDialogConfirm');
+        $confirm.text(confirmText);
+        $confirm.removeClass('btn-primary btn-danger btn-success btn-warning btn-info btn-dark');
+        $confirm.addClass(confirmClass);
+
+        const $cancel = $('#appDialogCancel');
+        $cancel.text(cancelText);
+        $cancel.toggleClass('d-none', !showCancel);
+
+        return new Promise((resolve) => {
+            this.dialogResolve = resolve;
+            this.dialogModal.show();
+        });
+    }
+
+    showInfoDialog(message, title = 'Information') {
+        return this.showDialog(message, {
+            title,
+            showCancel: false,
+            confirmText: 'OK',
+            confirmClass: 'btn-primary',
+            dialogType: 'info'
+        });
+    }
+
+    showConfirmDialog(message, title = 'Confirmation', confirmText = 'Confirmer', confirmClass = 'btn-danger', dialogType = 'danger') {
+        return this.showDialog(message, {
+            title,
+            showCancel: true,
+            confirmText,
+            confirmClass,
+            cancelText: 'Annuler',
+            dialogType
+        });
     }
 
     loadRatings() {
@@ -1228,8 +1417,14 @@ class MovieRating {
     }
 
     setupClearButton() {
-        $('#clearRatings').on('click', () => {
-            if (confirm('Êtes-vous sûr de vouloir effacer toutes les notes ?')) {
+        $('#clearRatings').on('click', async () => {
+            const confirmed = await this.showConfirmDialog(
+                'Êtes-vous sûr de vouloir effacer toutes les notes ?',
+                'Confirmer la suppression',
+                'Effacer'
+            );
+
+            if (confirmed) {
                 this.clearAllRatings();
             }
         });
@@ -1357,28 +1552,28 @@ class MovieRating {
             // Clean up URL object
             URL.revokeObjectURL(url);
 
-            alert(`Export réussi ! ${ratedCount} notes exportées.`);
+            this.showInfoDialog(`Export réussi ! ${ratedCount} notes exportées.`, 'Export terminé');
 
         } catch (error) {
             console.error('Export failed:', error);
-            alert('Erreur lors de l\'export. Veuillez réessayer.');
+            this.showInfoDialog('Erreur lors de l\'export. Veuillez réessayer.', 'Erreur d\'export');
         }
     }
 
     importRatings(file) {
         // Validate file type and size
         if (!file.type.includes('json')) {
-            alert('Veuillez sélectionner un fichier JSON valide.');
+            this.showInfoDialog('Veuillez sélectionner un fichier JSON valide.', 'Import impossible');
             return;
         }
 
         if (file.size > 1024 * 1024) { // 1MB limit
-            alert('Le fichier est trop volumineux (limite: 1MB).');
+            this.showInfoDialog('Le fichier est trop volumineux (limite: 1MB).', 'Import impossible');
             return;
         }
 
         file.text()
-            .then((text) => {
+            .then(async (text) => {
                 try {
                     const importData = JSON.parse(text);
                     
@@ -1395,7 +1590,15 @@ class MovieRating {
                         `Films notés: ${ratedMovies}\n\n` +
                         `⚠️ Cela remplacera vos notes actuelles !`;
 
-                    if (confirm(message)) {
+                    const confirmed = await this.showConfirmDialog(
+                        message,
+                        'Confirmer l\'import',
+                        'Importer',
+                        'btn-primary',
+                        'warning'
+                    );
+
+                    if (confirmed) {
                         // Save the imported ratings
                         localStorage.setItem(this.storageKey, JSON.stringify(importData.ratings));
                         
@@ -1412,16 +1615,19 @@ class MovieRating {
                         }
                         const ratedCount = this.getRatedMovieCount();
                         
-                        alert(`Import réussi ! ${ratedCount} notes importées.`);
+                        this.showInfoDialog(`Import réussi ! ${ratedCount} notes importées.`, 'Import terminé');
                     }
 
                 } catch (error) {
                     console.error('Import failed:', error);
-                    alert('Erreur lors de l\'import. Le fichier est peut-être corrompu ou invalide.');
+                    this.showInfoDialog(
+                        'Erreur lors de l\'import. Le fichier est peut-être corrompu ou invalide.',
+                        'Erreur d\'import'
+                    );
                 }
             })
             .catch(() => {
-                alert('Erreur lors de la lecture du fichier.');
+                this.showInfoDialog('Erreur lors de la lecture du fichier.', 'Erreur de lecture');
             });
     }
 }
