@@ -92,7 +92,7 @@ jobs:
           cp fav.png deploy/
           cp -r media deploy/
       - name: 📂 Sync files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.ftp_server }}
           username: ${{ secrets.ftp_username }}
