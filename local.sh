@@ -23,7 +23,7 @@ echo "Output will be in the 'out' directory."
 mkdir -p out
 echo "-----------------------------------"
 echo "Minifying HTML"
-npx html-minifier --collapse-whitespace --remove-comments --minify-css true --minify-js true -o ./out/index.html index.html
+npx html-minifier-terser --collapse-whitespace --remove-comments --minify-css true --minify-js true -o ./out/index.html index.html
 echo "-----------------------------------"
 echo "Minifying JavaScript"
 npx terser index.js -o ./out/index.js --compress --mangle --comments "/eslint/"

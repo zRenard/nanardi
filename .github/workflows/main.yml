@@ -33,7 +33,7 @@ jobs:
           npx stylelint index.css
       - name: 📝 Minifying HTML
         run: |
-          npx html-minifier --collapse-whitespace --remove-comments --minify-css true --minify-js true -o index.html index.html
+          npx html-minifier-terser --collapse-whitespace --remove-comments --minify-css true --minify-js true -o index.html index.html
       - name: 📝 Minifying JavaScript
         run: |
           npx terser index.js -o index.js --compress --mangle --comments "/eslint/"

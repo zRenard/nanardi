@@ -10,7 +10,7 @@
     "csso-cli": "^4.0.2",
     "datatables.net": "^2.3.7",
     "datatables.net-bs5": "^2.3.7",
-    "html-minifier": "^4.0.0",
+    "html-minifier-terser": "^7.2.0",
     "htmlhint": "^1.8.0",
     "jquery": "^4.0.0",
     "moment": "^2.30.1",
