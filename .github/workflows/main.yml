@@ -63,7 +63,7 @@ jobs:
       - name: Install Python dependencies
         run: pip install GitPython
       - name: 📦 Build release notes JSON
-        run: python release_notes.py --num_commits 15 --output release_notes.json 
+        run: python release_notes.py --num_commits 50 --output release_notes.json 
       - name: � Prepare deployment files
         run: |
           mkdir -p deploy
