@@ -167,19 +167,27 @@ $(document).ready(function() {
         }
     };
 
-    setTimeout(moveInfoToTopRow, 0);
-    setTimeout(moveInfoToTopRow, 100);
-    setTimeout(moveInfoToTopRow, 300);
-    table.on('draw.nanardiInfoPlacement', moveInfoToTopRow);
+    // Try immediately, then watch the container for the async DOM insertion instead of polling.
+    const $dtContainer = $(table.table().container());
+    const dtContainerEl = $dtContainer.get(0);
 
-    const moveInfoRetry = setInterval(() => {
+    const tryMoveAndDisconnect = (observer) => {
         moveInfoToTopRow();
-        const hasMoved = $(table.table().container()).find('> .row').eq(0).find('.dt-info').length > 0;
-        if (hasMoved) {
-            clearInterval(moveInfoRetry);
+        const hasMoved = $dtContainer.find('> .row').eq(0).find('.dt-info').length > 0;
+        if (hasMoved && observer) {
+            observer.disconnect();
         }
-    }, 75);
-    setTimeout(() => clearInterval(moveInfoRetry), 2000);
+        return hasMoved;
+    };
+
+    if (dtContainerEl && !tryMoveAndDisconnect()) {
+        const infoObserver = new MutationObserver(() => tryMoveAndDisconnect(infoObserver));
+        infoObserver.observe(dtContainerEl, { childList: true, subtree: true });
+        // Safety cutoff in case the info element never appears.
+        setTimeout(() => infoObserver.disconnect(), 2000);
+    }
+
+    table.on('draw.nanardiInfoPlacement', moveInfoToTopRow);
 
     // Force instant filtering on each typed character.
     $(document)
@@ -501,206 +509,152 @@ function formatImageDisplayName(filename) {
 // Initialize posters and images after IMDb IDs are set
 initializePostersAndImages();
 
-// Function to initialize posters and images after IMDb IDs are set
-function initializePostersAndImages() {
-    // Handle poster thumbnails
-    $('td[poster]').each(async function () {
-        const imdbId = $(this).data('imdb-id');
-        
-        if (imdbId) {
-            const $this = $(this);
-            const directoryPath = `media/${imdbId}/`;
-            const filesInDirectory = await getAllDirectoryFiles(directoryPath);
-            const hasFile = (name) => filesInDirectory.some((f) => f.toLowerCase() === name.toLowerCase());
-
-            // Utility to try multiple image sources in order
-            function trySources(sources, finalHandler) {
-                // Try sources sequentially using an off-DOM Image tester.
-                // Calls finalHandler(src) with the first working src, or null if none work.
-                if (!Array.isArray(sources) || sources.length === 0) {
-                    if (finalHandler) finalHandler(null);
-                    return;
-                }
-
-                let idx = 0;
-
-                const tryNext = () => {
-                    if (idx >= sources.length) {
-                        if (finalHandler) finalHandler(null);
-                        return;
-                    }
-
-                    const candidate = sources[idx++];
-                    const tester = new Image();
-                    let settled = false;
-
-                    // Safety timeout in case load/error never fire
-                    const to = setTimeout(() => {
-                        if (settled) return;
-                        settled = true;
-                        tester.onload = tester.onerror = null;
-                        tryNext();
-                    }, 5000);
-
-                    tester.onload = () => {
-                        if (settled) return;
-                        settled = true;
-                        clearTimeout(to);
-                        tester.onload = tester.onerror = null;
-                        if (finalHandler) finalHandler(candidate);
-                    };
-
-                    tester.onerror = () => {
-                        if (settled) return;
-                        settled = true;
-                        clearTimeout(to);
-                        tester.onload = tester.onerror = null;
-                        tryNext();
-                    };
-
-                    // Start the request
-                    tester.src = candidate;
-                };
-
-                tryNext();
-            }
-
-            // Candidate poster sources (try jpg then png, then goodenough variants)
-            const posterCandidates = [];
-
-            if (hasFile('poster.jpg')) posterCandidates.push(`media/${imdbId}/poster.jpg`);
-            if (hasFile('poster.png')) posterCandidates.push(`media/${imdbId}/poster.png`);
-            if (hasFile('goodenough.jpg')) posterCandidates.push(`media/${imdbId}/goodenough.jpg`);
-            if (hasFile('goodenough.png')) posterCandidates.push(`media/${imdbId}/goodenough.png`);
-
-            // Always keep a local fallback to avoid broken image states.
-            posterCandidates.push('./goodenough.jpg', './goodenough.png');
-
-        // Create thumbnail image
-        const thumbnail = $('<img>')
-            .attr('alt', 'Poster')
-            .addClass('poster-thumbnail-large');
-
-        // Try poster candidates and hide if none work
-        trySources(posterCandidates, (workingSrc) => {
-            if (workingSrc) {
-                thumbnail.attr('src', workingSrc);
-            } else {
-                thumbnail.hide();
-            }
+// Caps how many rows load their media concurrently, even if several become visible at once.
+function createLimiter(maxConcurrent) {
+    let active = 0;
+    const queue = [];
+    const runNext = () => {
+        if (active >= maxConcurrent || queue.length === 0) return;
+        active++;
+        const { fn, resolve, reject } = queue.shift();
+        Promise.resolve().then(fn).then(resolve, reject).finally(() => {
+            active--;
+            runNext();
         });
+    };
+    return (fn) => new Promise((resolve, reject) => {
+        queue.push({ fn, resolve, reject });
+        runNext();
+    });
+}
 
-        // Click handler shows modal with same source resolution strategy for modal
-        thumbnail.on('click', async function() {
-            const modalImg = $('#modalPosterImg');
-            const currentSrc = $(this).attr('src') || posterCandidates[0];
-            const movieTitle = $(this).closest('tr').find('td[title], td[titre]').first().text().trim() || 'Titre inconnu';
-            currentMovieTitle = movieTitle;
+const mediaLoadLimiter = createLimiter(4);
 
-            // Récupérer toutes les images du film
-            const imageFiles = await getDirectoryListing(directoryPath);
-            
-            // Créer la liste des images (poster + images additionnelles)
-            currentMovieImages = [];
-            
-            // Ajouter le poster d'abord
-            const posterSrc = currentSrc;
-            if (posterSrc) {
-                currentMovieImages.push({
-                    src: posterSrc,
-                    name: 'Poster'
-                });
-            }
-            
-            // Ajouter les images additionnelles
-            for (const imageName of imageFiles) {
-                currentMovieImages.push({
-                    src: `${directoryPath}${imageName}`,
-                    name: formatImageDisplayName(imageName)
-                });
-            }
-            
-            // Définir l'index courant à 0 (le poster)
-            currentImageIndex = 0;
+// Assigns candidates directly to the real <img>, falling back to the next one on error.
+// Unlike a separate "tester" Image, this never downloads the winning candidate twice.
+function attachImageWithFallback($img, candidates, onExhausted) {
+    let idx = 0;
+    const tryNext = () => {
+        if (idx >= candidates.length) {
+            $img.off('error.imgFallback');
+            if (onExhausted) onExhausted();
+            return;
+        }
+        $img.attr('src', candidates[idx++]);
+    };
+    $img.off('error.imgFallback').on('error.imgFallback', tryNext);
+    tryNext();
+}
 
-            // If the thumbnail ended up using a good alternative, show that; otherwise try candidates for modal
-            if (currentSrc) {
-                modalImg.attr('src', currentSrc);
-            }
+async function loadPosterCell(cellEl) {
+    const $this = $(cellEl);
+    const imdbId = $this.data('imdb-id');
+    if (!imdbId) return;
 
-            // If modal image fails, try the remaining candidates and finally show a placeholder
-            const modalCandidates = [
-                ...posterCandidates
-            ];
+    const directoryPath = `media/${imdbId}/`;
+    const filesInDirectory = await getAllDirectoryFiles(directoryPath);
+    const hasFile = (name) => filesInDirectory.some((f) => f.toLowerCase() === name.toLowerCase());
 
-            trySources(modalCandidates, (workingSrc) => {
-                if (!workingSrc) {
-                    modalImg.attr('src', './goodenough.jpg');
-                } else {
-                    modalImg.attr('src', workingSrc);
-                }
-            });
+    // Candidate poster sources (try jpg then png, then goodenough variants)
+    const posterCandidates = [];
+    if (hasFile('poster.jpg')) posterCandidates.push(`media/${imdbId}/poster.jpg`);
+    if (hasFile('poster.png')) posterCandidates.push(`media/${imdbId}/poster.png`);
+    if (hasFile('goodenough.jpg')) posterCandidates.push(`media/${imdbId}/goodenough.jpg`);
+    if (hasFile('goodenough.png')) posterCandidates.push(`media/${imdbId}/goodenough.png`);
+    // Always keep a local fallback to avoid broken image states.
+    posterCandidates.push('./goodenough.jpg', './goodenough.png');
 
-            $('#posterModalLabel').text('Poster - ' + movieTitle);
-            updateNavigationButtons();
-            $('#posterModal').modal('show');
-        });
+    const thumbnail = $('<img>')
+        .attr('alt', 'Poster')
+        .attr('loading', 'lazy')
+        .attr('decoding', 'async')
+        .addClass('poster-thumbnail-large');
 
-        $this.html(thumbnail);
-    }
-});
+    attachImageWithFallback(thumbnail, posterCandidates, () => thumbnail.hide());
 
+    // Click handler shows modal with same source resolution strategy for modal
+    thumbnail.on('click', async function() {
+        const modalImg = $('#modalPosterImg');
+        const currentSrc = $(this).attr('src') || posterCandidates[0];
+        const movieTitle = $(this).closest('tr').find('td[title], td[titre]').first().text().trim() || 'Titre inconnu';
+        currentMovieTitle = movieTitle;
 
-// Handle additional movie images
-$('td[images]').each(async function () {
-    const $row = $(this).closest('tr');
-    const imdbId = $row.find('td[poster]').data('imdb-id');
-    
-    if (imdbId) {
-        const $this = $(this);
-        const imagesContainer = $('<div>').addClass('images-container');
-        
-        // Dynamically get all image files from the directory (excluding poster.jpg)
-        const directoryPath = `media/${imdbId}/`;
+        // Récupérer toutes les images du film (déclenché seulement à l'ouverture de la modale)
         const imageFiles = await getDirectoryListing(directoryPath);
-        
-        let imageCount = 0;
-        const maxImages = 50; // Increased limit since we're being dynamic
-        
-        // Process each image file found
+
+        // Créer la liste des images (poster + images additionnelles)
+        currentMovieImages = [];
+        if (currentSrc) {
+            currentMovieImages.push({ src: currentSrc, name: 'Poster' });
+        }
         for (const imageName of imageFiles) {
-            if (imageCount >= maxImages) break;
-            
-            const imagePath = `${directoryPath}${imageName}`;
-            const displayImageName = formatImageDisplayName(imageName);
-            
-            // Use a Promise to handle image loading
-            const loadImage = new Promise((resolve, reject) => {
-                const testImg = new Image();
-                testImg.onload = () => resolve(imagePath);
-                testImg.onerror = () => reject();
-                testImg.src = imagePath;
+            currentMovieImages.push({
+                src: `${directoryPath}${imageName}`,
+                name: formatImageDisplayName(imageName)
             });
-            
-            try {
-                await loadImage;
-                
-                const thumbnail = $('<img>')
-                    .attr('src', imagePath)
-                    .attr('alt', `${displayImageName}`)
-                    .attr('title', displayImageName)
-                    .addClass('additional-image-thumbnail')
+        }
+
+        currentImageIndex = 0;
+
+        const modalCandidates = currentSrc ? [currentSrc, ...posterCandidates] : posterCandidates;
+        attachImageWithFallback(modalImg, modalCandidates, () => modalImg.attr('src', './goodenough.jpg'));
+
+        $('#posterModalLabel').text('Poster - ' + movieTitle);
+        updateNavigationButtons();
+        $('#posterModal').modal('show');
+    });
+
+    $this.html(thumbnail);
+}
+
+async function loadImagesCell(cellEl) {
+    const $this = $(cellEl);
+    const $row = $this.closest('tr');
+    const imdbId = $row.find('td[poster]').data('imdb-id');
+    if (!imdbId) return;
+
+    const imagesContainer = $('<div>').addClass('images-container');
+    const directoryPath = `media/${imdbId}/`;
+    const imageFiles = await getDirectoryListing(directoryPath);
+
+    let imageCount = 0;
+    const maxImages = 50; // Increased limit since we're being dynamic
+
+    for (const imageName of imageFiles) {
+        if (imageCount >= maxImages) break;
+
+        const imagePath = `${directoryPath}${imageName}`;
+        const displayImageName = formatImageDisplayName(imageName);
+
+        // Load directly into the element that will be displayed (no separate "tester" fetch).
+        const loadedImg = await new Promise((resolve) => {
+            const img = new Image();
+            img.decoding = 'async';
+            img.addEventListener('load', () => resolve(img), { once: true });
+            img.addEventListener('error', () => resolve(null), { once: true });
+            img.src = imagePath;
+        });
+
+        if (!loadedImg) {
+            console.log(`Failed to load image: ${imagePath}`);
+            continue;
+        }
+
+        const thumbnail = $(loadedImg)
+            .attr('alt', displayImageName)
+            .attr('title', displayImageName)
+            .addClass('additional-image-thumbnail')
             .on('click', async function() {
                 // Show modal with full size image
                 const modalImg = $('#modalPosterImg');
                 modalImg.attr('src', imagePath);
-                
+
                 const movieTitle = $row.find('td[title], td[titre]').first().text().trim() || 'Titre inconnu';
                 currentMovieTitle = movieTitle;
-                
+
                 // Récupérer toutes les images du film
                 currentMovieImages = [];
-                
+
                 // Ajouter le poster d'abord (s'il existe)
                 const posterCell = $row.find('td[poster]');
                 const posterImg = posterCell.find('img');
@@ -710,7 +664,7 @@ $('td[images]').each(async function () {
                         name: 'Poster'
                     });
                 }
-                
+
                 // Ajouter toutes les images additionnelles
                 for (const imgName of imageFiles) {
                     currentMovieImages.push({
@@ -718,32 +672,49 @@ $('td[images]').each(async function () {
                         name: formatImageDisplayName(imgName)
                     });
                 }
-                
+
                 // Trouver l'index de l'image cliquée
                 currentImageIndex = currentMovieImages.findIndex(img => img.src === imagePath);
                 if (currentImageIndex === -1) currentImageIndex = 0;
-                
+
                 // Handle image load error in modal
                 modalImg.off('error').on('error', function() {
                     $(this).attr('src', './goodenough.jpg');
                 });
-                
+
                 $('#posterModalLabel').text(`${movieTitle} - ${displayImageName}`);
                 updateNavigationButtons();
                 $('#posterModal').modal('show');
             });
-            
-            imagesContainer.append(thumbnail);
-                imageCount++;
-            } catch (error) {
-                // Image failed to load, skip it
-                console.log(`Failed to load image: ${imagePath}`);
-            }
-        }
-        
-        $this.html(imagesContainer);
+
+        imagesContainer.append(thumbnail);
+        imageCount++;
     }
-});
+
+    $this.html(imagesContainer);
+}
+
+// Only fetch/build media for a row once it scrolls near the viewport, instead of for all rows at load.
+function initializePostersAndImages() {
+    const lazyOptions = { rootMargin: '300px 0px' };
+
+    const posterObserver = new IntersectionObserver((entries, observer) => {
+        for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            observer.unobserve(entry.target);
+            mediaLoadLimiter(() => loadPosterCell(entry.target));
+        }
+    }, lazyOptions);
+    $('td[poster]').each(function () { posterObserver.observe(this); });
+
+    const imagesObserver = new IntersectionObserver((entries, observer) => {
+        for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            observer.unobserve(entry.target);
+            mediaLoadLimiter(() => loadImagesCell(entry.target));
+        }
+    }, lazyOptions);
+    $('td[images]').each(function () { imagesObserver.observe(this); });
 }
 
 // Fonction pour mettre à jour la visibilité des boutons de navigation
@@ -821,10 +792,39 @@ class MovieRating {
     init() {
         this.loadRatings();
         this.initDialogModal();
+        this.setupStarInteractions();
         this.setupRatingCells();
         this.setupClearButton();
         this.setupExportImportButtons();
         this.updateMovieStats();
+    }
+
+    // Single delegated listener instead of binding click/mouseenter/mouseleave on every star of every row.
+    setupStarInteractions() {
+        const $tbody = $('#liste tbody');
+        $tbody.off('.starRating');
+
+        $tbody.on('click.starRating', '.star-rating .star', (event) => {
+            const $star = $(event.currentTarget);
+            const $container = $star.closest('.star-rating');
+            const movieTitle = $container.attr('data-movie-title');
+            const imdbId = $container.attr('data-imdb-id') || null;
+            const rating = Number.parseInt($star.attr('data-rating'), 10);
+            this.setRating(movieTitle, rating, imdbId);
+        });
+
+        $tbody.on('mouseenter.starRating', '.star-rating .star', (event) => {
+            const $star = $(event.currentTarget);
+            const $container = $star.closest('.star-rating');
+            const rating = Number.parseInt($star.attr('data-rating'), 10);
+            this.highlightStars($container, rating);
+        });
+
+        $tbody.on('mouseleave.starRating', '.star-rating .star', (event) => {
+            const $container = $(event.currentTarget).closest('.star-rating');
+            const currentRating = Number.parseInt($container.attr('data-current-rating'), 10) || 0;
+            this.highlightStars($container, currentRating);
+        });
     }
 
     initDialogModal() {
@@ -1306,23 +1306,18 @@ class MovieRating {
     }
 
     createStarRating(movieTitle, currentRating = 0, imdbId = null) {
-        const container = $('<div>').addClass('star-rating');
+        const container = $('<div>')
+            .addClass('star-rating')
+            .attr('data-movie-title', movieTitle)
+            .attr('data-current-rating', currentRating)
+            .attr('data-imdb-id', imdbId || '');
         
-        // Create 10 stars (for 1-10 rating)
+        // Create 10 stars (for 1-10 rating). Click/hover are handled by a single delegated listener.
         for (let i = 1; i <= 10; i++) {
             const star = $('<span>')
                 .addClass('star')
                 .attr('data-rating', i)
-                .html('★')
-                .on('click', () => {
-                    this.setRating(movieTitle, i, imdbId);
-                })
-                .on('mouseenter', () => {
-                    this.highlightStars(container, i);
-                })
-                .on('mouseleave', () => {
-                    this.highlightStars(container, currentRating);
-                });
+                .html('★');
             
             if (i <= currentRating) {
                 star.addClass('filled');
