@@ -234,14 +234,19 @@ $(document).ready(function() {
     const kongCount = $('td[award][type="kong-2025"]').length;
     const jaquetteCount = $('td[award][type="jaquette-2025"]').length;
     const nanarvetCount = $('td[award][type="nanarvet-2025"]').length;
-    const totalAward2025 = orCount + cringeCount + kongCount + jaquetteCount + nanarvetCount;
+    const nominated2025Count = $('td[award][type$="-2025"]').length;
     
-    $('#award2025Count').text(totalAward2025);
     $('#orCount').text(orCount);
     $('#cringeCount').text(cringeCount);
     $('#kongCount').text(kongCount);
     $('#jaquetteCount').text(jaquetteCount);
     $('#nanarvetCount').text(nanarvetCount);
+    $('#nominated2025Count').text(nominated2025Count);
+
+    const unawarded2026Count = $('td[award]').filter(function() {
+        return !$(this).attr('type');
+    }).length;
+    $('#unawarded2026Count').text(unawarded2026Count);
     
     // Award filter functionality
     let currentAwardFilter = null;
@@ -259,7 +264,14 @@ $(document).ready(function() {
             const awardCell = $(row).find('td[award]');
             const awardType = awardCell.attr('type');
             
-            // Show row if award type matches filter
+            if (currentAwardFilter === 'unawarded-2026') {
+                return !awardType;
+            }
+
+            if (currentAwardFilter === 'nominated-2025') {
+                return Boolean(awardType && awardType.endsWith('-2025'));
+            }
+
             return awardType === currentAwardFilter;
         }
     );
@@ -271,15 +283,27 @@ $(document).ready(function() {
         // Toggle filter: if clicking the same badge, remove filter
         if (currentAwardFilter === awardType) {
             currentAwardFilter = null;
-            $('.award-badge').removeClass('active');
+            $('.award-badge')
+                .removeClass('active')
+                .attr('aria-pressed', 'false');
         } else {
             currentAwardFilter = awardType;
-            $('.award-badge').removeClass('active');
+            $('.award-badge')
+                .removeClass('active')
+                .attr('aria-pressed', 'false');
             $(this).addClass('active');
+            $(this).attr('aria-pressed', 'true');
         }
         
         // Redraw table with filter
         table.draw();
+    });
+
+    $('.award-badge[role="button"]').on('keydown', function(event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            $(this).trigger('click');
+        }
     });
     
     // Populate date cells AFTER DataTables initialization

@@ -194,6 +194,39 @@ main {
     color: #000;
 }
 
+.award-nominated-2025-badge {
+    background: linear-gradient(135deg, #d6e8ff 0%, #87b9f4 100%);
+    border: 2px solid #4f83c2;
+}
+
+.nominated-2025-details {
+    margin-bottom: 12px;
+}
+
+.award-nominated-2025-badge:focus-visible {
+    outline: 3px solid rgba(33, 150, 243, 0.5);
+    outline-offset: 2px;
+}
+
+.nanardor-2025 h2,
+.nanardor-2026 h2 {
+    margin-bottom: 10px;
+}
+
+.nanardor-2026 p {
+    margin-bottom: 15px;
+}
+
+.award-2026-badge {
+    background: linear-gradient(135deg, #d8c6ff 0%, #a88beb 100%);
+    border: 2px solid #7952b3;
+}
+
+.award-2026-badge:focus-visible {
+    outline: 3px solid rgba(33, 150, 243, 0.5);
+    outline-offset: 2px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;

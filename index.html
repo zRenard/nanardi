@@ -17,13 +17,18 @@
     </header>
     <main>
         <div class="title-section">
-            <h1>La nanardlist/Nanardaward/Les Seb d'Or/#🄽🄰🄽🄰🅁🄳🄸 de 2025</h1><br>
-            <img src="media/nanard-tier-20025-thumb.png" alt="Nanard Tier 20025" id="tierImage" class="clickable-image">
-            <div class="award-stats-container">
+            <section class="award-stats-container nanardor-2025" aria-labelledby="nanardor2025Title">
+                <h2 id="nanardor2025Title">La nanardlist/Nanardaward/Les Seb d'Or/#🄽🄰🄽🄰🅁🄳🄸 de 2025</h2>
+                <img src="media/nanard-tier-20025-thumb.png" alt="Nanard Tier 20025" id="tierImage" class="clickable-image">
                 <div class="award-stats-total">
-                    <span class="stats-label">Tier list de <span id="award2025Count">0</span> films</span>
-                    <span class="stats-separator">|</span>
                     <span class="stats-value">Décernés lors de la soirée du 30 décembre 2025</span>
+                </div>
+                <div class="award-stats-details nominated-2025-details">
+                    <span class="award-badge award-nominated-2025-badge" data-award-type="nominated-2025" role="button" tabindex="0" aria-pressed="false">
+                        <span class="badge-icon">🏅</span>
+                        <span class="badge-label">Les nominés 2025</span>
+                        <span class="badge-count" id="nominated2025Count">0</span>
+                    </span>
                 </div>
                 <div class="award-stats-details">
                     <span class="award-badge award-or" data-award-type="or-2025">
@@ -52,7 +57,18 @@
                         <span class="badge-count" id="nanarvetCount">0</span>
                     </span>
                 </div>
-            </div>
+            </section>
+            <section class="award-stats-container nanardor-2026" aria-labelledby="nanardor2026Title">
+                <h2 id="nanardor2026Title">Nanardor 2026</h2>
+                <p>Les awards des films ci-dessous seront choisis lors d'une soirée dont la date reste à définir.</p>
+                <div class="award-stats-details">
+                    <span class="award-badge award-2026-badge" data-award-type="unawarded-2026" role="button" tabindex="0" aria-pressed="false">
+                        <span class="badge-icon">🍿</span>
+                        <span class="badge-label">Afficher les films sans award</span>
+                        <span class="badge-count" id="unawarded2026Count">0</span>
+                    </span>
+                </div>
+            </section>
         </div>
         <div class="controls-section">
             <div class="column-controls">
@@ -1572,7 +1588,7 @@
     <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="vendor/datatables/dataTables.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap5.js"></script>
-    <script src="index.js"></script>
+    <script src="index.js?v=2026-11-17"></script>
 </body>
 
 </html>
